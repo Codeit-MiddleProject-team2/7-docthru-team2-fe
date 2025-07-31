@@ -1,0 +1,32 @@
+.whiteBtn {
+  width: fit-content;
+  height: fit-content;
+  padding: 2px 16px 3px 16px;
+
+  color: var(--gray-gray800, #262626);
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+
+  border-radius: 12px;
+  border: 1px solid var(--gray-gray800, #262626);
+  background: #fff;
+}
+
+.blackBtn {
+  width: fit-content;
+  height: fit-content;
+  padding: 2px 16px 3px 16px;
+
+  color: var(--white-white_FFFFFF, #fff);
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+
+  border-radius: 12px;
+  background: var(--brand-black, #262626);
+}
