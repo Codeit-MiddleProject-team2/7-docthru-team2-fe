@@ -1,0 +1,44 @@
+.background {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: fixed;
+  top: 0;
+}
+
+.navbar {
+  width: 1200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  flex-direction: row;
+  gap: 5.4px;
+  align-items: center;
+}
+
+.title {
+  color: var(--gray-gray600, #525252);
+  text-align: justify;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: Quantico;
+  font-size: 21.6px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.39px;
+}
+
+.user {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+}
