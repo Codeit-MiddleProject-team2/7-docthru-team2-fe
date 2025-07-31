@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./card.module.css";
 import iconChallenger from "../../public/icons/ic_challenger.svg";
 import iconDeadline from "../../public/icons/ic_deadline.svg";
@@ -38,10 +39,10 @@ export default function ChallengeCard() {
             </p>
           </div>
           <div>
-            <a href="#" className={``}>
+            <Link href="#" className={``}>
               도전 계속하기{" "}
               <Image src={iconArrowRight} width={24} height={24} />
-            </a>
+            </Link>
           </div>
         </div>
       </div>
