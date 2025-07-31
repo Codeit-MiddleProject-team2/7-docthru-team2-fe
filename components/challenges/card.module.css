@@ -1,0 +1,65 @@
+.item {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  border: 2px solid #262626;
+  border-radius: 12px;
+  gap: 16px;
+}
+.itemTopArea {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.title {
+  font-size: 22px;
+  color: #404040;
+  font-weight: 600;
+}
+.docTypeInfo {
+  display: flex;
+  gap: 8px;
+}
+.itemBottomArea {
+  display: flex;
+  border-top: 1px solid #ddd;
+  padding-top: 16px;
+}
+.challengeInfo {
+  display: flex;
+  flex: 1;
+  gap: 8px;
+}
+.challengeInfo p {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.chip {
+  display: inline-flex;
+  height: 26px;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px;
+  box-sizing: border-box;
+  gap: 2px;
+}
+.chip.category {
+  color: #525252;
+  border: 1px solid #d4d4d4;
+}
+.chip.type {
+  color: #fff;
+  background: #525252;
+  font-weight: 600;
+}
+.chip.cardStatus {
+  display: inline-flex;
+  height: 32px;
+  align-items: center;
+  padding: 0 12px;
+  background: #e5e5e5;
+  border-radius: 16px;
+}
