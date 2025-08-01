@@ -8,7 +8,7 @@ export default function SearchBar() {
 
   return (
     <>
-      <form>
+      <form className={styles.searchBar}>
         <div className={`${styles.searchBox}`}>
           <Image src={iconSearch} width={24} height={24} />
           <input
