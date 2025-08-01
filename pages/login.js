@@ -46,6 +46,6 @@ function LoginPage() {
   );
 }
 
-// LoginPage.useLayout = false;
+LoginPage.useLayout = false;
 
 export default LoginPage;
