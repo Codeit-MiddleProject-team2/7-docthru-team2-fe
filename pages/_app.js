@@ -2,9 +2,10 @@ import "@/styles/globals.css";
 import Navbar from "@/components/Navbar";
 
 export default function App({ Component, pageProps }) {
+  const useLayout = Component.useLayout ?? true;
   return (
     <>
-      <Navbar />
+      {useLayout && <Navbar />}
       <Component {...pageProps} />
     </>
   );
