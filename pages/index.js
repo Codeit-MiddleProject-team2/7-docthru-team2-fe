@@ -1,6 +1,5 @@
 import Image from "next/image";
 import styles from "@/styles/Home.module.css";
-import Navbar from "@/components/Navbar";
 import CustomBtnMini from "@/components/CustomBtnMini";
 import { useRouter } from "next/router";
 
@@ -16,8 +15,8 @@ export default function Home() {
           height={22}
           alt="독스루 로고 아이콘"
         />
-        <div>Docthru</div>
-        <div>
+        <div className={styles.docthru}>Docthru</div>
+        <div className={styles.topTitle}>
           함께 번역하며 성장하는
           <br />
           개발자의 새로운 영어 습관
