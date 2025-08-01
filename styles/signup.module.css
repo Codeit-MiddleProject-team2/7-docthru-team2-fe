@@ -1,4 +1,4 @@
-.login {
+.signup {
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -24,7 +24,7 @@
   align-items: center;
 }
 
-.toSignup {
+.toLogin {
   color: var(--gray-gray600, #525252);
   text-align: center;
   font-family: Pretendard;

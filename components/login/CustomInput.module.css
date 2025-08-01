@@ -2,7 +2,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
 
   position: relative;
 }
@@ -45,7 +45,7 @@
 .icVisible {
   position: absolute;
 
-  top: 48px;
+  top: 41px;
   right: 20px;
 }
 
