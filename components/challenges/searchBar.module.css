@@ -1,3 +1,6 @@
+.searchBar {
+  flex: 1;
+}
 .searchBox {
   position: relative;
 }
