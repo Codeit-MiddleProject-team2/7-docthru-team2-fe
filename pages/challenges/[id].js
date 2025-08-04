@@ -18,39 +18,41 @@ export default function ChallengesIdPage() {
     maximum: 5,
     createdAt: "2025-06-12T09:00:00Z",
     updatedAt: "2025-06-13T11:00:00Z",
+    deletedAt: "2025-08-01T13:24:00Z",
     userId: 5, //소유자(만든 사람)
     isAdmitted: "deleted", // 승인 대기(pending), 승인 거절(rejected), 삭제(deleted), 승인_상태 값
   };
 
+  let notice = null;
   if (challenge.isAdmitted === "deleted") {
-    return (
-      <div>
+    notice = (
+      <div className={styles.DeletedChallengeNotice}>
         <DeletedChallengeNotice date={challenge.deletedAt} />
-        <ChallengeDetail challenge={challenge} />
       </div>
     );
-  }
-
-  if (challenge.isAdmitted === "rejected") {
-    return (
-      <div>
+  } else if (challenge.isAdmitted === "rejected") {
+    notice = (
+      <div className={styles.RejectedChallengeNotice}>
         <RejectedChallengeNotice
           reason={challenge.rejectedReason}
           date={challenge.rejectedAt}
         />
-        <ChallengeDetail challenge={challenge} />
+      </div>
+    );
+  } else if (challenge.isAdmitted === "pending") {
+    notice = (
+      <div className={styles.PendingChallengeNotice}>
+        <PendingChallengeNotice />
       </div>
     );
   }
 
-  if (challenge.isAdmitted === "pending") {
-    return (
-      <div>
-        <PendingChallengeNotice />;
+  return (
+    <div className={styles.PageWrapper}>
+      {notice}
+      <div className={styles.ChallengeDetail}>
         <ChallengeDetail challenge={challenge} />
       </div>
-    );
-  }
-
-  return <ChallengeDetail challege={challenge} />;
+    </div>
+  );
 }
