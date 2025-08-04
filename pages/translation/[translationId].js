@@ -9,13 +9,14 @@ export default function TranslationDetailPage() {
   const { translationId } = router.query;
   const [work, setWork] = useState(null);
 
-  // 임시 유저 정보 (로그인 중이라고 가정)
+  // 임시 유저 정보 (로그인 중이라고 가정) user, admin 둘 다 버튼 보임
   const currentUserId = 3;
   const currentUserRole = "user"; // 또는 "admin"
 
   useEffect(() => {
     if (!router.isReady) return;
 
+    // 여기서 실제 API 호출로 작업물 데이터를 가져오는 로직을 구현해야 함.
     const mockWork = {
       id: translationId,
       userId: 3, // 작성자 id
@@ -41,7 +42,7 @@ export default function TranslationDetailPage() {
         },
       ],
     };
-
+    // 실제 API 호출 대신 mock 데이터로 설정
     setWork(mockWork);
   }, [router.isReady, translationId]);
 
