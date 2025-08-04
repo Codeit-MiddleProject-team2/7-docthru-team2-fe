@@ -30,10 +30,10 @@ export default function TableRow({ challenge }) {
           {challenge.people}
         </div>
         <div className={`${styles.column} ${styles.applyDate}`}>
-          {challenge.people}
+          {challenge.createdAt}
         </div>
         <div className={`${styles.column} ${styles.dueDate}`}>
-          {challenge.people}
+          {challenge.dueDate}
         </div>
         <div className={`${styles.column} ${styles.status}`}>
           <span className={`${styles.chip} ${styles[challenge.isAdmitted]}`}>

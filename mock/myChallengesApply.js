@@ -7,7 +7,6 @@ export function getMyChallengesApply() {
           type: "블로그",
           category: "Next.js",
           title: "Next.js - App Router?",
-          link: "/challenges/1023",
           people: 10,
           createdAt: "24/01/16",
           dueDate: "24/01/16",
@@ -18,7 +17,6 @@ export function getMyChallengesApply() {
           type: "공식문서",
           category: "Next.js",
           title: "Next.js - App Router?",
-          link: "/challenges/1023",
           people: 10,
           createdAt: "24/01/16",
           dueDate: "24/01/16",
@@ -29,7 +27,6 @@ export function getMyChallengesApply() {
           type: "공식문서",
           category: "Next.js",
           title: "Next.js - App Router?",
-          link: "/challenges/1023",
           people: 10,
           createdAt: "24/01/16",
           dueDate: "24/01/16",
@@ -40,7 +37,6 @@ export function getMyChallengesApply() {
           type: "공식문서",
           category: "Next.js",
           title: "Next.js - App Router: Routing Fundamentals",
-          link: "/challenges/1023",
           people: 10,
           createdAt: "24/01/16",
           dueDate: "24/01/16",
@@ -51,7 +47,6 @@ export function getMyChallengesApply() {
           type: "블로그",
           category: "React",
           title: "React Hooks 완전 정복",
-          link: "/challenges/1024",
           people: 12,
           createdAt: "24/02/01",
           dueDate: "24/02/28",
@@ -60,4 +55,21 @@ export function getMyChallengesApply() {
       ]);
     }, 500); // 지연 시뮬레이션
   });
+}
+
+export async function rejectChallenge(challengeId, reason) {
+  // mock delay
+  await new Promise((res) => setTimeout(res, 500));
+
+  // 목 데이터 로직
+  if (!challengeId || !reason) {
+    throw new Error("challengeId와 reason은 필수입니다.");
+  }
+
+  return {
+    challengeId,
+    status: "rejected",
+    reason,
+    updatedAt: new Date().toISOString(),
+  };
 }
