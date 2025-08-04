@@ -1,0 +1,20 @@
+.deletedNotice {
+  display: flex;
+  color: #fafafa;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #737373;
+  width: 890px;
+  height: 35px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 17.5px;
+  margin-bottom: 16px;
+}
+
+.deletedReasonBox {
+  display: flex;
+  flex-direction: column;
+  background-color: #fafafa;
+  border: 1px solid #e5e5e5;
+}
