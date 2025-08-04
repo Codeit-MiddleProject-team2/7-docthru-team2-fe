@@ -5,6 +5,7 @@ import iconChallenger from "../../public/icons/ic_challenger.svg";
 import iconDeadline from "../../public/icons/ic_deadline.svg";
 import iconFilled from "../../public/icons/ic_filled.svg";
 import iconArrowRight from "../../public/icons/ic_arrow_right.svg";
+import BtnOptions from "./btnOptions.js";
 
 export default function ChallengeCard() {
   return (
@@ -16,10 +17,12 @@ export default function ChallengeCard() {
               <Image src={iconFilled} width={16} height={16} />
               모집이 완료된 상태에요
             </span>
+            <p className={styles.title}>
+              <a href="#">개발자로써 자신만의 브랜드를 구축하는 방법</a>
+            </p>
+            <BtnOptions />
           </div>
-          <p className={styles.title}>
-            <a href="#">개발자로써 자신만의 브랜드를 구축하는 방법</a>
-          </p>
+
           <div className={styles.docTypeInfo}>
             <span className={`${styles.chip} ${styles.type}`}>Next.js</span>
             <span className={`${styles.chip} ${styles.category}`}>
