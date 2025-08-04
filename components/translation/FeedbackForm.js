@@ -1,26 +1,28 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-export default function FeedbackForm({ workId }) {
-  const [content, setContent] = useState("");
+export default function FeedbackForm({ translationId }) {
+  const [text, setText] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!content.trim()) return;
+    if (!text.trim()) return;
 
-    // 실제 API 요청은 추후 연결 예정
-    alert(`POST /feedback\n작업물 ID: ${workId}\n내용: ${content}`);
-    setContent("");
+    console.log("POST 피드백:", text);
+    setText("");
+    // TODO: 서버에 POST 요청
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginTop: "30px" }}>
+    <form onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
       <textarea
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
         placeholder="피드백을 입력하세요"
-        style={{ width: "100%", height: "80px", padding: "10px" }}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        rows={3}
+        style={{ width: "100%", borderRadius: "5px", padding: "10px", background: "var(--background)",
+          color: "var(--foreground)", border: "1px solid #ccc" }}
       />
-      <button type="submit" disabled={!content.trim()} style={{ marginTop: "10px" }}>
+      <button type="submit" disabled={!text.trim()}>
         등록
       </button>
     </form>
