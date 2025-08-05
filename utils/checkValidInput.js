@@ -29,12 +29,25 @@ export function checkEmail(value) {
   return emailRegex.test(value.trim());
 }
 
-// 8글자 이상인지 확인 (8글자 이상이면 true)
-export function checkLength(value) {
-  return value.trim().length >= 8;
+// n글자 이상인지 확인 (n글자 이상이면 true. n은 기본값 8.)
+export function checkLength(value, n = 8) {
+  return value.trim().length >= n;
 }
 
 //두 값이 일치하는지 확인 (일치하면 true)
 export function checkMismatch(value, standard) {
   return value === standard;
+}
+
+// 숫자만 입력된 건지 확인. 문자가 없는가? 그리고 정수인가? 1 이상인가?
+export function checkNumber(value) {
+  return Number(value) > 0 && Number.isInteger(Number(value));
+}
+
+// 유효한 날짜인지 확인 (게시물을 작성하는 시점보다 미래의 날짜를 선택했는지 확인)
+export function checkDate(value) {
+  const selectedDate = new Date(value);
+  const now = new Date();
+
+  return now < selectedDate;
 }

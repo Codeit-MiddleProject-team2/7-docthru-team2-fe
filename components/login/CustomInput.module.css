@@ -42,6 +42,12 @@
   border: 1px solid var(--error-red, #f74747);
 }
 
+.long {
+  height: 219px;
+  padding: 16px 20px;
+  resize: none;
+}
+
 .icVisible {
   position: absolute;
 
