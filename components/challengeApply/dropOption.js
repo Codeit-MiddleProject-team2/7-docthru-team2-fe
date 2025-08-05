@@ -9,12 +9,11 @@ function Option({ text, setValue, setOpen }) {
   return <div onClick={handleOption}>{text}</div>;
 }
 
-export default function DropOption() {
-  const [value, setValue] = useState("카테고리");
+export default function DropOption({ value, setValue }) {
   const [isDropOpen, setIsDropOpen] = useState(false);
 
   return (
-    <>
+    <div style={{ backgroundColor: "gray", padding: "20px", color: "white" }}>
       <div>문서 타입</div>
       <div>
         <div
@@ -36,6 +35,6 @@ export default function DropOption() {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
