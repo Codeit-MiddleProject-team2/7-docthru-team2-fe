@@ -1,40 +1,56 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-const MOCK_FEEDBACKS = [
-  {
-    id: 1,
-    user: { id: 100, nickname: "피드백유저1" },
-    content: "좋은 번역이네요!",
-    createdAt: "2025-07-31T10:00:00Z",
-  },
-  {
-    id: 2,
-    user: { id: 101, nickname: "유저3" },
-    content: "제가 작성한 피드백입니다.",
-    createdAt: "2025-08-01T12:00:00Z",
-  },
-];
+export default function FeedbackList({ feedbacks, currentUserId, currentUserRole }) {
+  const [visibleCount, setVisibleCount] = useState(3);
 
-export default function FeedbackList({ translationId, user }) {
-  const [feedbacks, setFeedbacks] = useState(MOCK_FEEDBACKS);
+  // 배열 안전 처리
+  const safeFeedbacks = Array.isArray(feedbacks) ? feedbacks : [];
+  const visibleFeedbacks = safeFeedbacks.slice(0, visibleCount);
+  const hasMore = safeFeedbacks.length > visibleCount;
 
   return (
     <div style={{ marginTop: "40px" }}>
-      <h4>피드백 목록</h4>
-      {feedbacks.map((fb) => (
-        <div key={fb.id} style={{ marginBottom: "20px" }}>
-          <strong>{fb.user.nickname}</strong> (
-          {new Date(fb.createdAt).toLocaleDateString()})
-          <p>{fb.content}</p>
+      <h3>피드백</h3>
 
-          {(user?.id === fb.user.id || user?.isAdmin) && (
-            <>
-              <button>수정</button>
-              <button>삭제</button>
-            </>
+      {safeFeedbacks.length === 0 ? (
+        <p style={{ color: "#888", marginTop: "12px" }}>아직 피드백이 없습니다.</p>
+      ) : (
+        <>
+          {visibleFeedbacks.map((fb) => (
+            <div
+              key={fb.id}
+              style={{
+                border: "1px solid #ddd",
+                borderRadius: "6px",
+                padding: "12px",
+                marginBottom: "10px",
+              }}
+            >
+              <p>
+                <strong>{fb.nickname}</strong> ·{" "}
+                {new Date(fb.createdAt).toLocaleDateString()}
+              </p>
+              <p>{fb.content}</p>
+
+              {(fb.userId === currentUserId || currentUserRole === "admin") && (
+                <div style={{ marginTop: "10px" }}>
+                  <button style={{ marginRight: "10px" }}>수정</button>
+                  <button>삭제</button>
+                </div>
+              )}
+            </div>
+          ))}
+
+          {hasMore && (
+            <button
+              onClick={() => setVisibleCount((prev) => prev + 3)}
+              style={{ marginTop: "10px" }}
+            >
+              더보기
+            </button>
           )}
-        </div>
-      ))}
+        </>
+      )}
     </div>
   );
 }

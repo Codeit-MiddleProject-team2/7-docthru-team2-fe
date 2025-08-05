@@ -51,7 +51,6 @@ export default function TranslationDetail({ translation, user }) {
 
       <div style={{ marginTop: "40px" }}>
         <FeedbackList translationId={translation.id} user={user} />
-        <FeedbackForm translationId={translation.id} />
       </div>
     </div>
   );
