@@ -1,0 +1,13 @@
+.background {
+  display: flex;
+  justify-content: center;
+}
+
+.main {
+  margin-top: 84px;
+  width: 590px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
