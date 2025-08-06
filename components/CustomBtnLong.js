@@ -19,3 +19,5 @@ export default function CustomBtnLong({ text, onClick, valid = false }) {
     </button>
   );
 }
+
+// 비활성화 되면 스타일 변화

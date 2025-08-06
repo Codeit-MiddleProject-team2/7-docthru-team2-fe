@@ -81,6 +81,7 @@ export default function Category({ category, setCategory }) {
         <div className={styles.input}>
           <CategoryTag
             text={category}
+            key={"selected"}
             onDelete={handleCategoryDelete}
             style="delete"
           />
@@ -108,7 +109,11 @@ export default function Category({ category, setCategory }) {
               );
             })) ||
             (!categorys.length && (
-              <CategoryTag text={value} onPlus={handleCategoryClick} />
+              <CategoryTag
+                text={value}
+                key={"new"}
+                onPlus={handleCategoryClick}
+              />
             ))}
         </div>
       </div>
