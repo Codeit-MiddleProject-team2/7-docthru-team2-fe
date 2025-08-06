@@ -24,5 +24,5 @@ export function formatDate(dateString) {
 export function formatDateDeadline(dateString) {
   if (!dateString) return "";
   const d = new Date(dateString);
-  return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일`;
+  return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일 마감`;
 }
