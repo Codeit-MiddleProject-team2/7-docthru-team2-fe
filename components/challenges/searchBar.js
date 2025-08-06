@@ -1,15 +1,19 @@
 import Image from "next/image";
 import styles from "./searchBar.module.css";
 import iconSearch from "../../public/icons/ic_search.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function SearchBar({ value, onChange }) {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(value || "");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onChange(inputValue);
   };
+
+  useEffect(() => {
+    setInputValue(value || "");
+  }, [value]);
   return (
     <>
       <form className={styles.searchBar} onSubmit={handleSubmit}>
