@@ -7,18 +7,56 @@ import Sort from "@/components/challenges/sort";
 import Link from "next/link";
 import TableRow from "@/components/challenges/tableRow";
 import { getMyChallengesApply } from "@/mock/myChallengesApply.js";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import MyChallengeTabs from "@/components/challenges/myChallengeTabs";
+
+const statusOptions = [
+  { value: "", label: "전체" },
+  { value: "pending", label: "승인 대기" },
+  { value: "approved", label: "신청 승인" },
+  { value: "rejected", label: "신청 거절" },
+  { value: "deleted", label: "챌린지 삭제" },
+];
 
 export default function MyChallengesApplyPage() {
+  const router = useRouter();
+  const { status = "", keyword = "", page: pageNum = 1 } = router.query;
+  const page = Number(pageNum);
+
   const [challenges, setChallenges] = useState([]);
+  const [total, setTotal] = useState(0);
+  //const [status, setStatus] = useState("");
+  //const [keyword, setKeyword] = useState("");
+  //const [page, setPage] = useState(1);
+  const limit = 10;
+
   const handleMyChallenges = async () => {
-    const data = await getMyChallengesApply();
-    console.log(data);
-    setChallenges(data);
+    const res = await getMyChallengesApply({
+      status,
+      keyword,
+      page,
+      limit,
+    });
+
+    setChallenges(res.data);
+    setTotal(res.total);
   };
+
+  const updateQuery = (params) => {
+    router.push(
+      {
+        pathname: router.pathname,
+        query: { ...router.query, ...params },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
   useEffect(() => {
-    handleMyChallenges();
-  }, []);
+    handleMyChallenges({ status, keyword, page, limit });
+  }, [status, keyword, page]);
   return (
     <>
       <div className={styles.contaniner}>
@@ -32,28 +70,23 @@ export default function MyChallengesApplyPage() {
               </Link>
             </div>
           </div>
-          <div>
-            <ul className={styles.tabMenuEl}>
-              <li>
-                <Link href={`/`}>참여중인 챌린지</Link>
-              </li>
-              <li>
-                <Link href={`/`}>완료한 챌린지</Link>
-              </li>
-              <li className={styles.active}>
-                <Link href={`/`}>개설한 챌린지</Link>
-              </li>
-            </ul>
-          </div>
+          <MyChallengeTabs />
         </div>
         <div className={styles.challengeArea}>
           <div className={styles.dataOptionsArea}>
-            <Sort />
-            <SearchBar />
+            <Sort
+              options={statusOptions}
+              selected={status}
+              onChange={(value) => updateQuery({ status: value, page: 1 })}
+            />
+            <SearchBar
+              value={keyword}
+              onChange={(value) => updateQuery({ keyword: value, page: 1 })}
+            />
           </div>
-          <div className={styles.challengeTable}>
-            {challenges.length > 0 ? (
-              <>
+          {challenges.length > 0 ? (
+            <>
+              <div className={styles.challengeTable}>
                 <div className={styles.tableHead}>
                   <div className={styles.row}>
                     <div className={`${styles.column} ${styles.no}`}>No.</div>
@@ -82,19 +115,24 @@ export default function MyChallengesApplyPage() {
                     </div>
                   </div>
                 </div>
-                <div>
+                <div className={styles.tableBody}>
                   {challenges.map((challenge) => {
                     return (
                       <TableRow key={challenge.no} challenge={challenge} />
                     );
                   })}
                 </div>
-              </>
-            ) : (
-              <p>데이터가 없습니다</p>
-            )}
-          </div>
-          <Pagination pages={[1, 2, 3]} />
+              </div>
+              <Pagination
+                currentPage={page}
+                total={total}
+                limit={limit}
+                onPageChange={(page) => updateQuery({ page })}
+              />
+            </>
+          ) : (
+            <p className={styles.nodata}>개설한 챌린지가 없어요 :(</p>
+          )}
         </div>
       </div>
     </>

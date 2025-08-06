@@ -11,14 +11,19 @@
   width: 40px;
   height: 40px;
   border: none;
-  background-color: #fff;
+  background: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  border-radius: 4px;
 }
 
-.pageNumberActive {
+.pageNumber.active {
   background: #262626;
   color: #ffc117;
+  font-weight: 500;
+}
+.pageArrow:disabled {
+  opacity: 0.3;
 }

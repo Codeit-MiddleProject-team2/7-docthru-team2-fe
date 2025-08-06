@@ -8,6 +8,19 @@ const statusTexts = {
   approved: "신청 승인",
 };
 
+const formatDate = (isoString) => {
+  const date = new Date(isoString);
+  return date
+    .toLocaleDateString("ko-KR", {
+      year: "2-digit",
+      month: "2-digit",
+      day: "2-digit",
+    })
+    .replace(/\./g, "/")
+    .replace(/\/$/, "")
+    .replace(/\s/g, "");
+};
+
 export default function TableRow({ challenge }) {
   return (
     <>
@@ -30,14 +43,14 @@ export default function TableRow({ challenge }) {
           {challenge.people}
         </div>
         <div className={`${styles.column} ${styles.applyDate}`}>
-          {challenge.createdAt}
+          {formatDate(challenge.createdAt)}
         </div>
         <div className={`${styles.column} ${styles.dueDate}`}>
-          {challenge.dueDate}
+          {formatDate(challenge.dueDate)}
         </div>
         <div className={`${styles.column} ${styles.status}`}>
           <span className={`${styles.chip} ${styles[challenge.isAdmitted]}`}>
-            {statusTexts[challenge.isAdmitted] || "알 수 없음"}
+            {statusTexts[challenge.isAdmitted] || "-"}
           </span>
         </div>
       </div>
