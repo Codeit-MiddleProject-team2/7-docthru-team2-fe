@@ -1,15 +1,14 @@
 .PageWrapper {
   padding-top: 100px;
   max-width: 890px;
+  min-height: 100vh;
   margin: 0 auto;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
 }
 
-.DeletedChallengeNotice,
-.RejectedChallengeNotice,
-.PendingChallengeNotice {
+.ChallengeNotice {
   text-align: center;
 }
 
