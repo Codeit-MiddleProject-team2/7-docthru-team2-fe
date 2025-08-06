@@ -8,6 +8,23 @@ import Sort from "@/components/challenges/sort";
 import Link from "next/link";
 
 export default function MyChallengesPage() {
+  const sample = {
+    id: 2,
+    title: "React 상태 관리 완전 정복",
+    description: "React의 다양한 상태 관리 방법을 실습하고 비교합니다.",
+    url: `http://localhost:3000/challenges/2`,
+    category: "React",
+    type: "블로그",
+    dueDate: "2025-08-10T18:00:00Z",
+    maximum: 8,
+    createdAt: "2025-07-01T09:00:00Z",
+    updatedAt: "2025-07-02T11:00:00Z",
+    deletedAt: "2025-08-11T13:24:00Z",
+    rejectedAt: "2025-08-12T15:35:00Z",
+    userId: 5,
+    isAdmitted: "accepted",
+  };
+
   return (
     <>
       <div className={styles.contaniner}>
@@ -41,10 +58,10 @@ export default function MyChallengesPage() {
             <SearchBar />
           </div>
           <div className={styles.challengeCardList}>
-            <ChallengeCard />
-            <ChallengeCard />
-            <ChallengeCard />
-            <ChallengeCard />
+            <ChallengeCard data={sample} />
+            <ChallengeCard data={sample} />
+            <ChallengeCard data={sample} />
+            <ChallengeCard data={sample} />
           </div>
           <Pagination pages={[1, 2, 3]} />
         </div>

@@ -12,7 +12,7 @@ export default function BtnOptions() {
     <>
       <div className={styles.btnEl}>
         <div className={styles.btnShowoptions} onClick={handleOpen}>
-          <Image src={iconVerticalDot} width={24} height={24} />
+          <Image src={iconVerticalDot} width={24} height={24} alt="버튼 옵션" />
         </div>
         {isOpen && (
           <div className={styles.btnOptions}>
