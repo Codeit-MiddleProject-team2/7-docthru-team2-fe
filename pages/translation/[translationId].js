@@ -7,61 +7,71 @@ import FeedbackForm from "@/components/translation/FeedbackForm";
 export default function TranslationDetailPage() {
   const router = useRouter();
   const { translationId } = router.query;
-  const [work, setWork] = useState(null);
+  const [translation, setTranslation] = useState(null);
+  const [feedbacks, setFeedbacks] = useState([]);
 
-  // 임시 유저 정보 (로그인 중이라고 가정) user, admin 둘 다 버튼 보임
   const currentUserId = 3;
   const currentUserRole = "user"; // 또는 "admin"
 
   useEffect(() => {
     if (!router.isReady) return;
 
-    // 여기서 실제 API 호출로 작업물 데이터를 가져오는 로직을 구현해야 함.
-    const mockWork = {
+    // ✅ translation이라는 이름으로 목 데이터 정의
+    const mockTranslation = {
       id: translationId,
-      userId: 3, // 작성자 id
+      userId: 3,
       title: "React Server Components",
       author: "유저3",
       submittedAt: "2025-07-30T13:00:00Z",
       likes: 12,
-      content: `React Server Components는 서버에서 렌더링되는 컴포넌트입니다.`,
-      feedbacks: [
-        {
-          id: 1,
-          userId: 2,
-          nickname: "피드백유저1",
-          content: "좋은 번역이네요!",
-          createdAt: "2025-07-31T12:00:00Z",
-        },
-        {
-          id: 2,
-          userId: 3,
-          nickname: "유저3",
-          content: "제가 작성한 피드백입니다.",
-          createdAt: "2025-08-01T09:00:00Z",
-        },
-      ],
+      content: "React Server Components는 서버에서 렌더링되는 컴포넌트입니다.",
     };
-    // 실제 API 호출 대신 mock 데이터로 설정
-    setWork(mockWork);
+
+    const mockFeedbacks = [
+      {
+        id: 1,
+        userId: 5,
+        nickname: "유저5",
+        content: "좋은 번역이네요!",
+        createdAt: "2025-08-01T10:00:00Z",
+      },
+      {
+        id: 2,
+        userId: 3,
+        nickname: "유저3",
+        content: "수정이 필요할 수도 있어요.",
+        createdAt: "2025-08-02T12:30:00Z",
+      },
+    ];
+
+    setTranslation(mockTranslation);
+    setFeedbacks(mockFeedbacks);
   }, [router.isReady, translationId]);
 
-  if (!work) return <p>Loading...</p>;
+  const handleAddFeedback = (newFeedback) => {
+    setFeedbacks((prev) => [newFeedback, ...prev]);
+  };
+
+  if (!translation) return <p>Loading...</p>;
 
   return (
     <div style={{ padding: "40px", maxWidth: "800px", margin: "0 auto" }}>
-      <h1>{work.title}</h1>
+      <h1>{translation.title}</h1>
       <TranslationDetail
-        work={work}
+        translation={translation}
         currentUserId={currentUserId}
         currentUserRole={currentUserRole}
+      />
+      <FeedbackForm
+        translationId={translation.id}
+        currentUserId={currentUserId}
+        onAddFeedback={handleAddFeedback}
       />
       <FeedbackList
-        feedbacks={work.feedbacks}
+        feedbacks={feedbacks}
         currentUserId={currentUserId}
         currentUserRole={currentUserRole}
       />
-      <FeedbackForm workId={work.id} />
     </div>
   );
 }

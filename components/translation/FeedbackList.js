@@ -1,30 +1,56 @@
+import { useState } from "react";
+
 export default function FeedbackList({ feedbacks, currentUserId, currentUserRole }) {
-  if (!feedbacks || feedbacks.length === 0) {
-    return <p style={{ marginTop: "30px" }}>아직 피드백이 없습니다.</p>;
-  }
+  const [visibleCount, setVisibleCount] = useState(3);
+
+  // 배열 안전 처리
+  const safeFeedbacks = Array.isArray(feedbacks) ? feedbacks : [];
+  const visibleFeedbacks = safeFeedbacks.slice(0, visibleCount);
+  const hasMore = safeFeedbacks.length > visibleCount;
 
   return (
-    <section style={{ marginTop: "30px" }}>
-      <h3>피드백 목록</h3>
-      <ul style={{ paddingLeft: "0" }}>
-        {feedbacks.map((fb) => {
-          const isAuthor = fb.userId === currentUserId;
-          const isAdmin = currentUserRole === "admin";
+    <div style={{ marginTop: "40px" }}>
+      <h3>피드백</h3>
 
-          return (
-            <li key={fb.id} style={{ marginBottom: "15px", listStyle: "none", borderBottom: "1px solid #eee", paddingBottom: "10px" }}>
-              <p><strong>{fb.nickname}</strong> ({new Date(fb.createdAt).toLocaleDateString()})</p>
+      {safeFeedbacks.length === 0 ? (
+        <p style={{ color: "#888", marginTop: "12px" }}>아직 피드백이 없습니다.</p>
+      ) : (
+        <>
+          {visibleFeedbacks.map((fb) => (
+            <div
+              key={fb.id}
+              style={{
+                border: "1px solid #ddd",
+                borderRadius: "6px",
+                padding: "12px",
+                marginBottom: "10px",
+              }}
+            >
+              <p>
+                <strong>{fb.nickname}</strong> ·{" "}
+                {new Date(fb.createdAt).toLocaleDateString()}
+              </p>
               <p>{fb.content}</p>
-              {(isAuthor || isAdmin) && (
-                <div style={{ marginTop: "5px", display: "flex", gap: "5px" }}>
-                  <button>수정</button>
+
+              {(fb.userId === currentUserId || currentUserRole === "admin") && (
+                <div style={{ marginTop: "10px" }}>
+                  <button style={{ marginRight: "10px" }}>수정</button>
                   <button>삭제</button>
                 </div>
               )}
-            </li>
-          );
-        })}
-      </ul>
-    </section>
+            </div>
+          ))}
+
+          {hasMore && (
+            <button
+              onClick={() => setVisibleCount((prev) => prev + 3)}
+              style={{ marginTop: "10px" }}
+            >
+              더보기
+            </button>
+          )}
+        </>
+      )}
+    </div>
   );
 }
