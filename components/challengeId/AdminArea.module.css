@@ -1,0 +1,25 @@
+.adminArea {
+  margin-top: 24px;
+  padding-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  border-top: 1px solid #e5e5e5;
+}
+.adminArea button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 153px;
+  height: 48px;
+  border: none;
+  border-radius: 12px;
+}
+.btnReject {
+  background: #ffe7e7;
+  color: #f24744;
+}
+.btnApprove {
+  background: #262626;
+  color: #fff;
+}

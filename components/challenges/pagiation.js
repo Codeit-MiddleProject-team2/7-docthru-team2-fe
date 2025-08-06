@@ -3,10 +3,29 @@ import styles from "./pagination.module.css";
 import iconArrowLeft from "../../public/icons/ic_pagenaiton_arrow_left.svg";
 import iconArrowRight from "../../public/icons/ic_pagenaiton_arrow_right.svg";
 
-export const Pagination = ({ pages = [] }) => {
-  const handlePageClick = () => {
-    console.log("누르면 반응하는지 테스트");
-    return;
+export const Pagination = ({ currentPage, total, limit, onPageChange }) => {
+  const totalPages = Math.ceil(total / limit);
+  const pages = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pages.push(i);
+  }
+
+  const handlePrev = () => {
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
+  const handlePageClick = (pageNum) => {
+    if (pageNum !== currentPage) {
+      onPageChange(pageNum);
+    }
   };
 
   return (
@@ -15,8 +34,9 @@ export const Pagination = ({ pages = [] }) => {
         <li>
           <button
             type="button"
-            onClick={handlePageClick}
+            onClick={handlePrev}
             className={styles.pageArrow}
+            disabled={currentPage === 1}
           >
             <Image
               src={iconArrowLeft}
@@ -31,8 +51,10 @@ export const Pagination = ({ pages = [] }) => {
             <li key={page}>
               <button
                 type="button"
-                onClick={handlePageClick}
-                className={`${styles.pageNumber}`}
+                onClick={() => handlePageClick(page)}
+                className={`${styles.pageNumber} ${
+                  page === currentPage ? styles.active : ""
+                }`}
               >
                 {page}
               </button>
@@ -42,8 +64,9 @@ export const Pagination = ({ pages = [] }) => {
         <li>
           <button
             type="button"
-            onClick={handlePageClick}
+            onClick={handleNext}
             className={styles.pageArrow}
+            disabled={currentPage === totalPages}
           >
             <Image
               src={iconArrowRight}
