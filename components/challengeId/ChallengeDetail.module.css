@@ -1,0 +1,115 @@
+/* h2 */
+
+.detailArea {
+  display: flex;
+  flex-direction: column;
+  margin: 16px 0 16px;
+  padding: 16px 0 16px;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.titleArea {
+  margin-bottom: 16px;
+}
+
+.docTypeInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.titleArea h2 {
+  color: #262626;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.challengeInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  color: #525252;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.deadline {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+}
+
+.challenger {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+}
+
+.description {
+  color: #404040;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.chip {
+  display: inline-flex;
+  height: 26px;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px;
+  box-sizing: border-box;
+  gap: 2px;
+}
+
+.cardChip {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.chip.type {
+  color: #525252;
+  border: 1px solid #d4d4d4;
+}
+
+.chip.category {
+  color: #fff;
+  background: #525252;
+  font-weight: 600;
+}
+
+.cancelBt {
+  display: flex;
+  align-items: center;
+  color: #737373;
+  background-color: #fff;
+  border: 1px solid #d4d4d4;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 12px 39px;
+  width: 139px;
+  height: 43px;
+}
+
+.docLink h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.docLinkBt {
+  font-size: 14px;
+  font-weight: 700;
+  padding: 6px 9px;
+  border-radius: 10px;
+  /* background: rgba(246, 248, 250, 0.8); */
+  background: grey;
+}
