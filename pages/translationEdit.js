@@ -3,7 +3,7 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
-import Color from '@tiptap/extension-color';
+import { TextStyle, Color } from '@tiptap/extension-text-style'
 import { useState } from 'react';
 
 // 작업 메모
@@ -16,7 +16,8 @@ import { useState } from 'react';
 // temporaryStorage : 임시저장 
 // temporaryStorageList : 임시저장글 
 // originSidebar : 원문 사이드 바
-// 툴바 컴포먼트 이름은 텍스트에디터툴바...?  
+// 툴바 컴포먼트 이름은 텍스트에디터툴바
+// 하단 에디터 기능 간략 마크업 구성 
 
 
 const COLORS = [
@@ -29,26 +30,28 @@ const COLORS = [
   '#9575CD', // 보라 
 ];
 
-export default function TranslationPage() {
+function TranslationEditPage() {
   const editor = useEditor({
     extensions: [
       StarterKit,
       Underline,
       Color,
+      TextStyle,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
     content: '<p>번역 내용을 적어주세요</p>',
     immediatelyRender: false,
   });
-
+/* 인풋 형태로 바꾸거나 해야할 듯, '텍스트를 입력하세요' 클릭 시 해당 글자가 지워지며 안 떠야함. 
+현재는 단순히 작성과 편집만 가능하게 되어있어서 해당 글자도 지울 수 있는 상태 (수정 예정) */
   const [selectedColor, setSelectedColor] = useState('#000000');
 
   if (!editor) return null;
 
   return (
-    <div className="p-4 border rounded">
+    <div>
       {/* 툴바 <역시 따로 분리해서 컴포먼트로 나눌 예정 */}
-      <div className="flex items-center gap-2 border-b pb-2 mb-2">
+      <div>
         {/* 텍스트 스타일 버튼 */}
         <button onClick={() => editor.chain().focus().toggleBold().run()}
                 className={editor.isActive('bold') ? 'font-bold text-black' : ''}>
@@ -75,7 +78,7 @@ export default function TranslationPage() {
         {/* 색상 버튼 팔레트 */}
         {/* 컬러 파레트 부분 따로 모달로 분리해서 
         페인트 아이콘 클릭 시 나타나도록 컴포먼트 분리 예정  */}
-        <div className="flex gap-1 ml-4">
+        <div>
           {COLORS.map((color) => (
             <button
               key={color}
@@ -99,3 +102,7 @@ export default function TranslationPage() {
     </div>
   );
 }
+
+TranslationEditPage.useLayout = false;
+
+export default TranslationEditPage;
