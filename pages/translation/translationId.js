@@ -16,7 +16,7 @@ export default function TranslationDetailPage() {
   useEffect(() => {
     if (!router.isReady) return;
 
-    // ✅ translation이라는 이름으로 목 데이터 정의
+    // translation이라는 이름으로 목 데이터 정의
     const mockTranslation = {
       id: translationId,
       userId: 3,
