@@ -20,7 +20,7 @@ const statusOptions = [
   { value: "deleted", label: "챌린지 삭제" },
 ];
 
-export default function MyChallengesApplyPage() {
+export default function AdminChallengesApplyPage() {
   const router = useRouter();
   const { status = "", keyword = "", page: pageNum = 1 } = router.query;
   const page = Number(pageNum);
@@ -63,26 +63,19 @@ export default function MyChallengesApplyPage() {
       <div className={styles.contaniner}>
         <div className={styles.pageTopArea}>
           <div className={styles.titleArea}>
-            <h2>나의 챌린지</h2>
-            <div>
-              <Link href={"/"} className={styles.btn}>
-                신규 챌린지 신청
-                <Image src={iconPlus} width={16} height={16} />
-              </Link>
-            </div>
+            <h2>챌린지 신청 관리</h2>
           </div>
-          <MyChallengeTabs />
         </div>
         <div className={styles.challengeArea}>
           <div className={styles.dataOptionsArea}>
+            <SearchBar
+              value={keyword}
+              onChange={(value) => updateQuery({ keyword: value, page: 1 })}
+            />
             <Sort
               options={statusOptions}
               selected={status}
               onChange={(value) => updateQuery({ status: value, page: 1 })}
-            />
-            <SearchBar
-              value={keyword}
-              onChange={(value) => updateQuery({ keyword: value, page: 1 })}
             />
           </div>
           {challenges.length > 0 ? (
@@ -105,7 +98,7 @@ export default function MyChallengesApplyPage() {
               />
             </>
           ) : (
-            <p className={styles.nodata}>개설한 챌린지가 없어요 :(</p>
+            <p className={styles.nodata}>신청한 챌린지가 없어요 :(</p>
           )}
         </div>
       </div>

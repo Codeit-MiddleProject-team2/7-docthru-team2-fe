@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "./tableRow.module.css";
+import styles from "./table.module.css";
 
 const statusTexts = {
   deleted: "챌린지 삭제",
