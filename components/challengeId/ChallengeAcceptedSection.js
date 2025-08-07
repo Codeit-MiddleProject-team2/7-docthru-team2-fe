@@ -7,6 +7,7 @@ import { formatDateDeadline } from "@/utils/formatDate";
 
 export default function ChallengeAcceptedSection({ data }) {
   const isFull = data.maximum > data._count.translation;
+  const toTranslation = "작업 도전하기";
 
   return (
     <div>
@@ -49,7 +50,7 @@ export default function ChallengeAcceptedSection({ data }) {
           size="small"
           valid={true}
         />
-        <CustomBtnLong text="작업 도전하기" size={"small"} valid={isFull} />
+        <CustomBtnLong text={toTranslation} size={"small"} valid={isFull} />
       </div>
     </div>
   );

@@ -36,6 +36,10 @@ function ParticipationListItem({ participation, rank }) {
 // 당장은 임시로 id를 표기 중. 이후 수정 예정.
 
 export default function ParticipationList({ data }) {
+  if (data.length === 0) {
+    return <div>아직 참여한 도전자가 없어요, 지금 바로 도전해보세요!</div>;
+  }
+
   return data.map((participation) => {
     return (
       <ParticipationListItem

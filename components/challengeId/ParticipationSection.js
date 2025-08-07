@@ -44,7 +44,7 @@ export default function ParticipationSection() {
   return (
     <div>
       <div>참여 현황</div>
-      <ParticipationList data={data} />
+      <ParticipationList data={[]} />
     </div>
   );
 }
