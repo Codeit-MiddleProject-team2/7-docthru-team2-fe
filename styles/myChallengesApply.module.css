@@ -37,40 +37,6 @@
   flex-direction: column;
   gap: 12px;
 }
-.tableHead .row {
-  background: #262626;
-  border-radius: 8px;
-}
-.tableHead .column {
-  color: #fff;
-  height: 36px;
-}
-.row {
-  display: flex;
-}
-.column {
-  display: flex;
-  padding: 8px 16px;
-  height: 48px;
-  align-items: center;
-  flex: 0 0 94px;
-  box-sizing: border-box;
-  font-size: 13px;
-  color: #737373;
-}
-.column.no {
-  flex: 0 0 68px;
-}
-.column.category,
-.column.type {
-  flex: 0 0 84px;
-}
-.column.title {
-  flex: 1;
-}
-.column.status {
-  flex: 0 0 120px;
-}
 .nodata {
   display: flex;
   align-items: center;
