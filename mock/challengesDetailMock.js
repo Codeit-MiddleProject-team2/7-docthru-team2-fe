@@ -1,3 +1,5 @@
+import userImg from "@/public/icons/ic_profile.svg";
+
 const challenges = [
   {
     id: 999,
@@ -47,6 +49,31 @@ const challenges = [
     rejectedAt: "2025-09-03T15:35:00Z",
     userId: 8,
     isAdmitted: "rejected",
+  },
+  {
+    id: 500,
+    title: "PRISMA 공식 문서 번역",
+    description: "PRISMA 이용 실력을 길러봅시다",
+    url: "https://www.prisma.io/docs/orm",
+    category: "prisma",
+    type: "공식문서",
+    dueDate: "2025-09-01T14:00:00Z",
+    maximum: 15,
+    createdAt: "2025-08-01T09:00:00Z",
+    updatedAt: "2025-08-02T11:00:00Z",
+    deletedAt: "2025-09-02T13:24:00Z",
+    rejectedAt: "2025-09-03T15:35:00Z",
+    userId: "yewon",
+    user: {
+      id: "yewon",
+      nickname: "yewon",
+      img: userImg,
+    },
+    isAdmitted: "accepted",
+    isClosed: false,
+    _count: {
+      translation: 15,
+    },
   },
 ];
 
