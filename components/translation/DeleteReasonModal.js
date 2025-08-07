@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import closeIcon from "../..//public/icons/ic_close.svg";
+import Image from "next/image";
 
 export default function DeleteReasonModal({ isOpen, onClose, onConfirm }) {
   const [reason, setReason] = useState("");
@@ -37,24 +39,25 @@ export default function DeleteReasonModal({ isOpen, onClose, onConfirm }) {
           onClick={onClose}
           style={{
             position: "absolute",
-            top: "10px",
-            right: "10px",
+            top: "12px",
+            right: "12px",
             background: "none",
             border: "none",
-            fontSize: "18px",
             cursor: "pointer",
           }}
+          aria-label="닫기"
         >
-          &times;
+          <Image src={closeIcon} alt="닫기" width={24} height={24} />
         </button>
 
-        <h3 style={{ marginBottom: "10px" }}>삭제 사유</h3>
-        <p style={{ marginBottom: "8px" }}>내용</p>
+        <h3 style={{ marginBottom: "10px", color: "#111" }}>삭제 사유</h3>
+        <p style={{ marginBottom: "8px", color: "#111" }}>내용</p>
         <textarea
           value={reason}
           onChange={(e) => setReason(e.target.value)}
           placeholder="삭제 사유를 입력해주세요"
           style={{
+            color: "#fff",
             width: "100%",
             minHeight: "120px",
             padding: "10px",
