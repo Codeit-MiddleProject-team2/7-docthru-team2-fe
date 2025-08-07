@@ -9,11 +9,13 @@ export default function RejectModal() {
   const router = useRouter();
   const { id } = router.query;
   const [reason, setReason] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!reason.trim()) {
+      setError("거절 사유를 입력해주세요.");
       return;
     }
 
@@ -42,13 +44,23 @@ export default function RejectModal() {
                 <span>내용</span>
               </dt>
               <dd>
-                <div className={styles.textArea}>
+                <div
+                  className={`${styles.textArea} ${
+                    error && styles.errorTextArea
+                  }`}
+                >
                   <textarea
                     placeholder="거절 사유를 입력해주세요"
                     value={reason}
-                    onChange={(e) => setReason(e.target.value)}
+                    onChange={(e) => {
+                      setReason(e.target.value);
+                      if (e.target.value.trim()) {
+                        setError("");
+                      }
+                    }}
                   ></textarea>
                 </div>
+                {error && <p className={styles.errorText}>{error}</p>}
               </dd>
             </dl>
             <div className={styles.btnArea}>
