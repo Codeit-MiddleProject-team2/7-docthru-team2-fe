@@ -21,14 +21,17 @@ export default function ChallengeDetail({ challenge }) {
           color="white"
         />
       </div>
-      <div className={styles.docLink}>
+      <div className={styles.docLinkView}>
         <iframe
           src={challenge.link}
           width="100%"
           height="400px"
           title="문서 미리보기"
           style={{ border: "none" }}
+          tabIndex={-1}
+          scrolling="no"
         />
+        <div className={styles.overlay} />
       </div>
     </div>
   );
