@@ -83,3 +83,11 @@
   box-sizing: border-box;
   resize: none;
 }
+.errorTextArea textarea {
+  border-color: #f74747;
+}
+.errorText {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #f74747;
+}
