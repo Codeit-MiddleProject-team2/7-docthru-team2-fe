@@ -1,6 +1,12 @@
 import styles from "./CustomBtnLong.module.css";
 
-export default function CustomBtnLong({ text, onClick, valid = false }) {
+export default function CustomBtnLong({
+  text,
+  onClick,
+  color,
+  size,
+  valid = false,
+}) {
   const handleButtonClick = (e) => {
     e.preventDefault();
     if (valid) {
@@ -9,10 +15,12 @@ export default function CustomBtnLong({ text, onClick, valid = false }) {
   };
 
   const stylesOption = valid ? "" : styles.invalid;
+  const colorOption = color === "yellow" ? styles.yellow : "";
+  const sizeOption = size === "small" ? styles.small : "";
 
   return (
     <button
-      className={`${stylesOption} ${styles.btn}`}
+      className={`${styles.btn} ${colorOption} ${sizeOption} ${stylesOption}`}
       onClick={handleButtonClick}
     >
       {text}

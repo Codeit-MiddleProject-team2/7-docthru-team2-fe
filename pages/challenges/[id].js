@@ -4,6 +4,8 @@ import ChallengeDetail from "../../components/challengeId/ChallengeDetail";
 import { getChallengesDetail } from "@/mock/challengesDetailMock";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import ChallengeAcceptedSection from "@/components/challengeId/ChallengeAcceptedSection";
+import ParticipationSection from "@/components/challengeId/ParticipationSection";
 
 export default function ChallengesIdPage() {
   const router = useRouter();
@@ -38,7 +40,14 @@ export default function ChallengesIdPage() {
 
   // 진행 중인 챌린지일 때의 페이지 렌더링
   if (challenge.isAdmitted === "accepted") {
-    return <div>진행중</div>;
+    return (
+      <div>
+        <div className={styles.PageWrapper}>
+          <ChallengeAcceptedSection data={challenge} />
+          <ParticipationSection />
+        </div>
+      </div>
+    );
   }
 
   // 거절, 삭제, 승인 대기 중인 챌린지 일 때의 페이지 렌더링
