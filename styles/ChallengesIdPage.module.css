@@ -8,6 +8,19 @@
   flex-direction: column;
 }
 
+.background {
+  display: flex;
+  padding-top: 84px;
+  justify-content: center;
+}
+
+.content {
+  width: 890px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .ChallengeNotice {
   text-align: center;
 }

@@ -1,0 +1,12 @@
+.noParticipation {
+  color: var(--gray-gray500, #737373);
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  padding-top: 16px;
+  padding-bottom: 40px;
+}

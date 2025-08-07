@@ -72,7 +72,7 @@ const challenges = [
     isAdmitted: "accepted",
     isClosed: false,
     _count: {
-      translation: 15,
+      translation: 0,
     },
   },
 ];

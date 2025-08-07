@@ -41,8 +41,8 @@ export default function ChallengesIdPage() {
   // 진행 중인 챌린지일 때의 페이지 렌더링
   if (challenge.isAdmitted === "accepted") {
     return (
-      <div>
-        <div className={styles.PageWrapper}>
+      <div className={styles.background}>
+        <div className={styles.content}>
           <ChallengeAcceptedSection data={challenge} />
           <ParticipationSection />
         </div>
