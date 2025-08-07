@@ -11,8 +11,11 @@ export default function RejectModal() {
   const [reason, setReason] = useState("");
 
   const handleSubmit = async (e) => {
-    console.log(id);
     e.preventDefault();
+
+    if (!reason.trim()) {
+      return;
+    }
 
     try {
       const response = await rejectChallenge(id, reason);
