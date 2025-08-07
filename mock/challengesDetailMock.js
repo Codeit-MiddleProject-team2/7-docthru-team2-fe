@@ -9,6 +9,7 @@ const challenges = [
     url: `http://localhost:3000/challenges/999`,
     category: "Next.js",
     type: "공식문서",
+    link: "https://nextjs.org/docs/app",
     dueDate: "2025-07-31T14:00:00Z",
     maximum: 5,
     createdAt: "2025-06-12T09:00:00Z",
@@ -25,6 +26,7 @@ const challenges = [
     url: `http://localhost:3000/challenges/1000`,
     category: "React",
     type: "블로그",
+    link: "https://jlee0505.tistory.com/113",
     dueDate: "2025-08-10T18:00:00Z",
     maximum: 8,
     createdAt: "2025-07-01T09:00:00Z",
@@ -41,6 +43,7 @@ const challenges = [
     url: `http://localhost:3000/challenges/1001`,
     category: "Vue.js",
     type: "공식문서",
+    link: "https://v2.ko.vuejs.org/v2/guide/components.html",
     dueDate: "2025-09-01T14:00:00Z",
     maximum: 6,
     createdAt: "2025-08-01T09:00:00Z",
@@ -80,9 +83,7 @@ const challenges = [
 export function getChallengesDetail(challengeId) {
   return new Promise((resolve) => {
     setTimeout(() => {
-      const challenge = challenges.find(
-        (challenge) => challenge.id === Number(challengeId)
-      );
+      const challenge = challenges.find((challenge) => challenge.id === Number(challengeId));
       resolve(challenge);
     }, 500);
   });
