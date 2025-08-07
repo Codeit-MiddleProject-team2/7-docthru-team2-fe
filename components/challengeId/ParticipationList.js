@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
+import styles from "./ParticipationList.module.css";
 
 function ParticipationListItem({ participation, rank }) {
   const router = useRouter();
@@ -37,7 +38,12 @@ function ParticipationListItem({ participation, rank }) {
 
 export default function ParticipationList({ data }) {
   if (data.length === 0) {
-    return <div>아직 참여한 도전자가 없어요, 지금 바로 도전해보세요!</div>;
+    return (
+      <div className={styles.noParticipation}>
+        아직 참여한 도전자가 없어요, <br />
+        지금 바로 도전해보세요!
+      </div>
+    );
   }
 
   return data.map((participation) => {

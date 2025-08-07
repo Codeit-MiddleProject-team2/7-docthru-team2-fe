@@ -1,0 +1,18 @@
+.box {
+  width: 100%;
+  border-radius: 16px;
+  border: 2px solid var(--gray-gray800, #262626);
+  background: #fff;
+  padding: 16px 23px 24px 24px;
+}
+
+.current {
+  width: fit-content;
+  height: fit-content;
+  color: var(--gray-gray800, #262626);
+  font-family: Pretendard;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
