@@ -4,7 +4,7 @@ import CustomInput from "@/components/login/CustomInput";
 import { useEffect, useState } from "react";
 import CustomBtnLong from "@/components/CustomBtnLong";
 import Link from "next/link";
-import axios from "axios";
+// import axios from "axios";
 import { useRouter } from "next/router";
 import useAuth from "@/lib/useAuth";
 import { useEmail, usePassword } from "@/lib/useEmailPassword";
