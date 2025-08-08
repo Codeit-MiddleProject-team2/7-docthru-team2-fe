@@ -1,0 +1,25 @@
+.sidebar {
+  position: fixed; /* 화면에 고정 */
+  top: 0;
+  right: -300px; /* 초기에는 화면 바깥에 숨겨둡니다. */
+  width: 300px;
+  height: 100%;
+  background-color: #f0f0f0;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  transition: right 0.3s ease-in-out; /* 부드러운 트랜지션 효과 */
+  z-index: 1000;
+}
+
+.open {
+  right: 0; /* 'open' 클래스가 추가되면 화면 안으로 들어옵니다. */
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
