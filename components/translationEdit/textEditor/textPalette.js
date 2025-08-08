@@ -14,18 +14,15 @@ function TextPalette({ editor, onClose }) {
   return (
     <div
       style={{
-      position: 'fixed', 
-      top: '50px',
-      left: '50%',
-      transform: 'translateX(-95%)', 
+      position: 'fixed',
       zIndex: 9999, 
       background: '#fff',
-      border: '1px solid #ccc',
+      border: '1px solid',
       padding: '8px',
       display: 'flex',
       gap: '4px',
-      boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-        width:'200px',
+      width:'200px',
+      margin:'0px 20px',
       }}
     >
       {COLORS.map((color) => (

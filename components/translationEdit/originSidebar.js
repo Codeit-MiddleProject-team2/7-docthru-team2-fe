@@ -1,10 +1,16 @@
-// 사이드바 컴포먼트
-/* 사이드 바의 경우 원 주소로 이동할 수 있게 하는 기능과 별개로 원주소의 페이지를 렌더링해서 보여줘야 하는데
-예상 컨데 CORS 오류나 리소스 불러오는데에 문제가 이래저래 많을 수 있을 것이라고 작업자가 개인 판단함. 
-그래서 백엔드 파트 때 프록시 서버를 따로 만들든 해서 우회하는 방안으로 원 페이지의 HTML 을 받아 
-프론트에서 전달받아 해당 페이지를 렌더링하는 방식을 차용해 구현하는 건 어떨까 고민중. 
+import styles from './originSidbar.module.css';
 
-프론트 단계에서는 간략하게 페이지 마크업 구조화를 우선적으로 하고 연동 때 완성될 예정 */
+const Sidebar = ({ isOpen, onClose }) => {
+  return (
+    <div className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
+      <button className={styles.closeButton} onClick={onClose}>
+        X
+      </button>
+      <nav>
+          <p>여기에 사이드바 아이프레임이 구현됩니다</p>
+      </nav>
+    </div>
+  );
+};
 
-/* 강사님과 해당 방안에서 논의 완료, 해당 방법으로 접근할 시 복잡하고 난이도가 굉장히 높을 수 있음 
-아이프레임(inline frame) 을 통해 구현해서 페이지 내에 적용하는 것을 추천한다고 함*/ 
+export default Sidebar;
