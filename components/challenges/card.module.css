@@ -65,3 +65,21 @@
   background: #e5e5e5;
   border-radius: 16px;
 }
+
+/* ChallengeDetail.js 적용 스타일 */
+.docTypeInfoArea {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.itemDetail {
+  border: none;
+  border-bottom: 1px solid #e5e5e5;
+  border-radius: 0;
+}
+
+.itemBtnAreaDetail {
+  border-top: none;
+  padding-top: 0px;
+}

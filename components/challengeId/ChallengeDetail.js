@@ -8,20 +8,24 @@ export default function ChallengeDetail({ challenge }) {
 
   if (!challenge) return "챌린지가 없습니다.";
   return (
-    <div>
-      <ChallengeCard
-        data={challenge}
-        type="detail"
-      />
-      <div className={styles.docLink}>
-        <h3>원문 링크</h3>
-        <CustomBtnMini
-          text="링크 열기↗"
-          onClick={() => router.push(challenge.link)}
-          color="white"
+    <>
+      <div className={styles.challengeCard}>
+        <ChallengeCard
+          data={challenge}
+          type="detail"
         />
       </div>
+      <div className={styles.docLink}>
+        <h3>원문 링크</h3>
+      </div>
       <div className={styles.docLinkView}>
+        <div className={styles.linkBtn}>
+          <CustomBtnMini
+            text="링크 열기↗"
+            onClick={() => router.push(challenge.link)}
+            color="white"
+          />
+        </div>
         <iframe
           src={challenge.link}
           width="100%"
@@ -33,6 +37,6 @@ export default function ChallengeDetail({ challenge }) {
         />
         <div className={styles.overlay} />
       </div>
-    </div>
+    </>
   );
 }

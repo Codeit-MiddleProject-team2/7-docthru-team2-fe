@@ -4,15 +4,23 @@ import iconVerticalDot from "../../public/icons/ic_vertical_dot.svg";
 import { useState } from "react";
 
 export default function BtnOptions() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => {
     setIsOpen((prev) => !prev);
   };
   return (
     <>
       <div className={styles.btnEl}>
-        <div className={styles.btnShowoptions} onClick={handleOpen}>
-          <Image src={iconVerticalDot} width={24} height={24} alt="버튼 옵션" />
+        <div
+          className={styles.btnShowoptions}
+          onClick={handleOpen}
+        >
+          <Image
+            src={iconVerticalDot}
+            width={24}
+            height={24}
+            alt="버튼 옵션"
+          />
         </div>
         {isOpen && (
           <div className={styles.btnOptions}>
