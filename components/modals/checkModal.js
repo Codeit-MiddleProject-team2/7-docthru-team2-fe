@@ -1,11 +1,7 @@
 import styles from "./checkModal.module.css";
 import Image from "next/image";
 
-export default function CheckModal() {
-  const handleCloseModal = () => {
-    console.log("모달 닫기");
-  };
-
+export default function CheckModal({ onClose }) {
   const handleCancel = () => {
     console.log("취소 확인");
   };
@@ -27,7 +23,7 @@ export default function CheckModal() {
             <button
               className={styles.checkNo}
               type="button"
-              onClick={handleCloseModal}
+              onClick={onClose}
             >
               아니요
             </button>
