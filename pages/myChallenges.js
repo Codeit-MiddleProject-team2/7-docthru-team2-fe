@@ -99,7 +99,7 @@ export default function MyChallengesPage() {
   
           <div className={styles.challengeCardList}>
               <ChallengeCard
-                challenge={challenge}
+                data={challenge}
               />
           </div>
   

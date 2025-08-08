@@ -37,7 +37,7 @@ export default function ChallengeCard({ data, type = "default" }) {
               </span>
             )}
             <p className={styles.title}>
-              <a href="#">{challenge.title}</a>
+              <a href="#">{data.title}</a>
             </p>
             {/* ChallengeDetail.js 적용 */}
             {(type !== "detail" || (type === "detail" && data.isAdmitted === "pending")) && <BtnOptions />}
@@ -67,7 +67,7 @@ export default function ChallengeCard({ data, type = "default" }) {
                 height={24}
                 alt="마감 기한"
               />
-              {formatDateDeadline(challenge.dueDate)}
+              {formatDateDeadline(data.dueDate)}
             </p>
             <p>
               <Image
@@ -76,7 +76,7 @@ export default function ChallengeCard({ data, type = "default" }) {
                 height={24}
                 alt="인원 수"
               />
-              {challenge.maximum}
+              {data.maximum}
             </p>
           </div>
           {/* ChallengeDetail.js 적용 제외 */}
