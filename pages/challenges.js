@@ -40,7 +40,7 @@ export async function getStaticProps() {
     const currentChallenges = challenges.slice(indexOfFirstItem, indexOfLastItem);
 
     //검색 핸들러 : 검색어 상태 업데이트, 페이지는 1로 리셋
-    const hadleSearch = (querry) => {
+    const handleSearch = (querry) => {
       setSearchQuery(querry);
       setCurrentPage(1);
     }
@@ -59,7 +59,7 @@ export async function getStaticProps() {
         <header className={styles.header}>
           <span className={styles.title}>챌린지 목록</span>
           <div className={styles.headerControls}>
-            <SearchBar onSearch={hanleSearch} />
+            <SearchBar onSearch={handleSearch} />
             <Link href="/challengeApply">
               <button className={styles.applyButton}>
                 신규 챌린지 신청
@@ -100,9 +100,11 @@ export async function getStaticProps() {
         <footer className={styles.footer}>
           {filteredChallenges.length > 0 && (
             <Pagination 
-              pages={pageNumber}
+              limit={itemsPerPage}
               currentPage={currentPage}
-              onPageClick={handlePageClick}
+              onPageChange={handlePageClick}
+              total={challenges.length }
+         
             />
           )}
         </footer>

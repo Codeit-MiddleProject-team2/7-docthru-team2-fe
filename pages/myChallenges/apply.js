@@ -1,7 +1,7 @@
 import styles from "@/styles/myChallengesApply.module.css";
 import Image from "next/image";
 import iconPlus from "@/public/icons/ic_plus.svg";
-import { Pagination } from "@/components/challenges/pagiation";
+import { Pagination } from "@/components/challenges/pagination";
 import SearchBar from "@/components/challenges/searchBar";
 import Sort from "@/components/challenges/sort";
 import Link from "next/link";
