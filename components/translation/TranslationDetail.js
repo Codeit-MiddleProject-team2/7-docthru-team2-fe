@@ -6,12 +6,12 @@ import FeedbackList from "./FeedbackList";
 
 export default function TranslationDetail() {
   //  로그인 사용자 mock
-  // 일반 사용자	  { id: 99, isAdmin: false }	  피드백 작성만 가능, 수정/삭제 버튼 없음
-  // 글 작성자	   { id: 2, isAdmin: false }	   수정/삭제 버튼 표시됨
+  // 일반 사용자	  { id: 99, isAdmin: false }	  피드백 작성만 가능, 작업물 수정/삭제 버튼 없음
+  // 글 작성자	   { id: 2, isAdmin: false }	   작업물 수정/삭제 버튼 표시됨
   // 관리자(어드민)	{ id: 999, isAdmin: true }	  모든 작업물에 삭제 버튼 표시됨
   const currentUser = {
-    id: 2,
-    isAdmin: false, // 어드민 테스트 true, 나머지는 false
+    id: 999,
+    isAdmin: true, // 어드민 테스트 true, 나머지는 false
   };
 
   // 번역 데이터 mock

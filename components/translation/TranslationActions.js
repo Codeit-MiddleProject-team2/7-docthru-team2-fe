@@ -61,7 +61,7 @@ export default function TranslationActions({ translation, currentUser }) {
             boxShadow: "0 0 6px rgba(0,0,0,0.2)",
           }}
         >
-          {(isOwner || isAdmin) && (
+          {isOwner && (
             <div style={{ padding: "8px 12px", cursor: "pointer" }}>
               수정하기
             </div>
