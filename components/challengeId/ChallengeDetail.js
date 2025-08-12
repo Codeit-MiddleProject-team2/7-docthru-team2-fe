@@ -22,7 +22,7 @@ export default function ChallengeDetail({ challenge }) {
         <div className={styles.linkBtn}>
           <CustomBtnMini
             text="링크 열기↗"
-            onClick={() => router.push(challenge.link)}
+            onClick={() => window.open(challenge.link, "_blank", "noopener,noreferrer")}
             color="white"
           />
         </div>
