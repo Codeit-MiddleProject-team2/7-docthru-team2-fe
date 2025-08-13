@@ -1,0 +1,58 @@
+.wrap {
+  display: block;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title {
+  flex: 1;
+  min-width: 0; /* 긴 제목 줄바꿈 안정성 */
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 12px 0;
+}
+
+.badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.line {
+  height: 1px;
+  background: #eee;
+  margin: 12px 0;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.authorLike {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+}
+
+.name {
+  font-size: 14px;
+  color: #5e5e5e;
+}
+
+.date {
+  font-size: 14px;
+  color: #5e5e5e;
+}

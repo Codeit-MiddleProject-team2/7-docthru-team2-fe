@@ -1,23 +1,42 @@
 import React, { useState, useRef, useEffect } from "react";
 import DeleteReasonModal from "./DeleteReasonModal";
 import Image from "next/image";
-import moreIcon from "../../public/icons/ic_more.svg"; //  next/image용 import 경로 정리
+import moreIcon from "@/public/icons/ic_more.svg";
+import styles from "./TranslationActions.module.css";
 
 export default function TranslationActions({ translation, currentUser }) {
-  const isOwner = currentUser?.id === translation.userId;
-  const isAdmin = currentUser?.isAdmin;
+  const isOwner = currentUser?.id === translation?.userId;
+  const isAdmin = !!currentUser?.isAdmin;
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+
   const menuRef = useRef(null);
+  const triggerRef = useRef(null);
 
   useEffect(() => {
-    function handleClickOutside(e) {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
+    function onDocClick(e) {
+      if (!menuRef.current) return;
+      if (
+        !menuRef.current.contains(e.target) &&
+        !triggerRef.current?.contains(e.target)
+      ) {
         setMenuOpen(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, []);
+
+  useEffect(() => {
+    function onKeyDown(e) {
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+        setModalOpen(false);
+      }
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
   }, []);
 
   const handleDelete = (reason) => {
@@ -25,56 +44,54 @@ export default function TranslationActions({ translation, currentUser }) {
     alert(`삭제 요청됨: 사유 - ${reason}`);
   };
 
-  // currentUser가 제대로 전달되지 않으면 아무것도 렌더링하지 않도록 안전 처리
   if (!currentUser || (!isOwner && !isAdmin)) return null;
 
   return (
-    <div
-      style={{ position: "relative", display: "inline-block", float: "right" }}
-      ref={menuRef}
-    >
+    <div className={styles.ta} aria-live="polite">
       <button
-        onClick={() => setMenuOpen(!menuOpen)}
-        style={{
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          padding: 0,
-        }}
+        ref={triggerRef}
+        type="button"
+        className={styles.ta__trigger}
+        aria-haspopup="menu"
+        aria-expanded={menuOpen}
+        aria-label="더보기 메뉴 열기"
+        onClick={() => setMenuOpen((v) => !v)}
       >
         <Image src={moreIcon} alt="더보기" width={24} height={24} />
       </button>
 
       {menuOpen && (
         <div
-          style={{
-            color: "#111",
-            position: "absolute",
-            top: "30px",
-            right: 0,
-            background: "#fff",
-            border: "1px solid #ccc",
-            borderRadius: "6px",
-            zIndex: 1000,
-            padding: "4px 0",
-            minWidth: "100px",
-            boxShadow: "0 0 6px rgba(0,0,0,0.2)",
-          }}
+          ref={menuRef}
+          className={styles.ta__menu}
+          role="menu"
+          aria-label="번역 작업 액션 메뉴"
         >
           {isOwner && (
-            <div style={{ padding: "8px 12px", cursor: "pointer" }}>
+            <button
+              type="button"
+              role="menuitem"
+              className={styles.ta__item}
+              onClick={() => {
+                setMenuOpen(false);
+                alert("수정하기 클릭");
+              }}
+            >
               수정하기
-            </div>
+            </button>
           )}
-          <div
-            style={{ padding: "8px 12px", cursor: "pointer" }}
+
+          <button
+            type="button"
+            role="menuitem"
+            className={`${styles.ta__item} ${styles["ta__item--danger"]}`}
             onClick={() => {
-              setModalOpen(true);
               setMenuOpen(false);
+              setModalOpen(true);
             }}
           >
             삭제하기
-          </div>
+          </button>
         </div>
       )}
 

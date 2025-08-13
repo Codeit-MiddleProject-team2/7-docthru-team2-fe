@@ -1,0 +1,55 @@
+.ta {
+  position: relative;
+  display: inline-block;
+  margin-left: auto;
+}
+
+.ta__trigger {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 0;
+}
+
+.ta__trigger:hover {
+  background: #f7f7f7;
+}
+
+.ta__menu {
+  position: absolute;
+  top: 36px;
+  right: 0;
+  min-width: 140px;
+  padding: 8px 0;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+}
+
+.ta__item {
+  width: 100%;
+  display: block;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #5e5e5e;
+  text-align: left;
+  cursor: pointer;
+  background: #fff;
+  border: 0;
+}
+
+.ta__item:hover {
+  background: #f7f7f7;
+}
+
+.ta__item--danger {
+  color: #e53935;
+}
