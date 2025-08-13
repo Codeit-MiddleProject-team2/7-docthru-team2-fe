@@ -2,10 +2,10 @@ import Link from "next/link";
 import styles from "./table.module.css";
 
 const statusTexts = {
-  deleted: "챌린지 삭제",
-  rejected: "신청 거절",
-  pending: "승인 대기",
-  approved: "신청 승인",
+  DELETED: "챌린지 삭제",
+  REJECTED: "신청 거절",
+  PENDING: "승인 대기",
+  ACCEPTED: "신청 승인",
 };
 
 const formatDate = (isoString) => {
@@ -49,8 +49,12 @@ export default function TableRow({ challenge }) {
           {formatDate(challenge.dueDate)}
         </div>
         <div className={`${styles.column} ${styles.status}`}>
-          <span className={`${styles.chip} ${styles[challenge.isAdmitted]}`}>
-            {statusTexts[challenge.isAdmitted] || "-"}
+          <span
+            className={`${styles.chip} ${
+              styles[challenge.ChallengeStatusManage.state.toLowerCase()]
+            }`}
+          >
+            {statusTexts[challenge.ChallengeStatusManage.state] || "-"}
           </span>
         </div>
       </div>
