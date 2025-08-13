@@ -6,7 +6,7 @@ import SearchBar from "@/components/challenges/searchBar";
 import Sort from "@/components/challenges/sort";
 import Link from "next/link";
 import TableRow from "@/components/challenges/tableRow";
-import { getMyChallengesApply } from "@/mock/myChallengesApply.js";
+import { getMyChallengesApply } from "@/api/myChallenges";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import MyChallengeTabs from "@/components/challenges/myChallengeTabs";
@@ -33,15 +33,15 @@ export default function MyChallengesApplyPage() {
   const limit = 10;
 
   const handleMyChallenges = async () => {
-    const res = await getMyChallengesApply({
+    const challenges = await getMyChallengesApply({
       status,
       keyword,
       page,
       limit,
     });
 
-    setChallenges(res.data);
-    setTotal(res.total);
+    setChallenges(challenges);
+    setTotal(challenges.length);
   };
 
   const updateQuery = (params) => {
@@ -75,7 +75,7 @@ export default function MyChallengesApplyPage() {
         </div>
         <div className={styles.challengeArea}>
           <div className={styles.dataOptionsArea}>
-            <Sort
+            {/* <Sort
               options={statusOptions}
               selected={status}
               onChange={(value) => updateQuery({ status: value, page: 1 })}
@@ -83,7 +83,7 @@ export default function MyChallengesApplyPage() {
             <SearchBar
               value={keyword}
               onChange={(value) => updateQuery({ keyword: value, page: 1 })}
-            />
+            /> */}
           </div>
           {challenges.length > 0 ? (
             <>
@@ -97,12 +97,12 @@ export default function MyChallengesApplyPage() {
                   })}
                 </div>
               </div>
-              <Pagination
+              {/* <Pagination
                 currentPage={page}
                 total={total}
                 limit={limit}
                 onPageChange={(page) => updateQuery({ page })}
-              />
+              /> */}
             </>
           ) : (
             <p className={styles.nodata}>개설한 챌린지가 없어요 :(</p>
