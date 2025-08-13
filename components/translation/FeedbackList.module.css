@@ -1,0 +1,183 @@
+.section {
+  position: relative;
+}
+
+/* 리스트 */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 카드 */
+.card {
+  width: 826px;
+  position: relative; /* 컨트롤/메뉴 기준 */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #fafafa;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+}
+
+.card--editing {
+  background: #fff;
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  padding-top: 56px; /* 우상단 컨트롤 자리 */
+}
+
+/* 카드 우상단 컨트롤(편집 중에만 보임) */
+.cardControls {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+}
+.ctrlBtn {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e5e5;
+  background: #fff;
+  color: #333;
+  cursor: pointer;
+  font-size: 14px;
+}
+.ctrlBtn--primary {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+.ctrlBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 헤더 */
+.header {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.badge {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+}
+.name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111;
+}
+.dot {
+  color: #c6c6c6;
+  margin: 0 2px;
+  line-height: 1;
+}
+.date {
+  font-size: 14px;
+  color: #8e8e8e;
+}
+
+/* 본문/편집 */
+.body {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #111;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.editArea {
+  width: 100%;
+  min-height: 92px;
+  padding: 12px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #111;
+  background: #f7f7f7;
+  resize: vertical;
+}
+.editArea:focus {
+  border-color: #59739c;
+  box-shadow: 0 0 0 3px rgba(89, 115, 156, 0.15);
+  outline: none;
+}
+
+/* ⋮ 더보기 버튼 + 메뉴 */
+.moreWrap {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+.moreBtn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.moreBtn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.menu {
+  position: absolute;
+  top: 28px;
+  right: 0;
+  min-width: 120px;
+  padding: 6px 0;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+}
+.menuItem {
+  width: 100%;
+  display: block;
+  padding: 9px 12px;
+  text-align: left;
+  font-size: 14px;
+  color: #5e5e5e;
+  background: #fff;
+  border: 0;
+  cursor: pointer;
+}
+.menuItem:hover {
+  background: #f7f7f7;
+}
+.menuItem--danger {
+  color: #e53935;
+}
+
+/* 리스트 하단 더보기 */
+.moreListWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 4px;
+}
+.moreListBtn {
+  min-width: 140px;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  cursor: pointer;
+  font-size: 15px;
+  color: #444;
+}

@@ -1,0 +1,48 @@
+.container {
+  background-color: #ffffff !important;
+}
+
+.translationDetail__container {
+  max-width: 890px;
+  margin: 0 auto; /* 가운데 정렬 */
+  padding: 80px 0;
+  background-color: #fff;
+}
+
+/* 본문 카드 */
+.paper {
+  margin-top: 30px;
+  background: #fff;
+  border-radius: 12px;
+}
+
+/* 본문 텍스트 */
+.content {
+  white-space: pre-line;
+  color: #111;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* 섹션 간격 */
+.section {
+  margin-top: 40px;
+}
+.sectionSmall {
+  margin-top: 20px;
+}
+
+/* 반응형(선택): 화면이 좁아지면 좌우 패딩만 주고 폭은 100% */
+@media (max-width: 1024px) {
+  .translationDetail__container {
+    max-width: 100%;
+    padding: 40px 24px; /* 태블릿/모바일 내부 패딩 */
+  }
+}
+
+.line {
+  height: 1px;
+  background: #eee;
+  margin: 12px 0;
+}

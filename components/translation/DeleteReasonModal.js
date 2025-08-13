@@ -1,86 +1,82 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import closeIcon from "@/public/icons/ic_close.svg";
+import styles from "./DeleteReasonModal.module.css";
 
 export default function DeleteReasonModal({ isOpen, onClose, onConfirm }) {
   const [reason, setReason] = useState("");
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => textareaRef.current?.focus(), 0);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    function onKey(e) {
+      if (e.key === "Escape") onClose?.();
+    }
+    if (isOpen) document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
+  const submit = () => {
+    const v = reason.trim();
+    if (!v) return;
+    onConfirm?.(v);
+    setReason("");
+  };
+
   return (
     <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        zIndex: 9999,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-      onClick={onClose} // 바깥 영역 클릭 시 닫기
+      className={styles.drm}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="drm-title"
+      onClick={onClose}
     >
-      <div
-        style={{
-          width: "400px",
-          background: "#fff",
-          borderRadius: "8px",
-          padding: "20px",
-          boxShadow: "0 0 10px rgba(0,0,0,0.2)",
-          position: "relative",
-        }}
-        onClick={(e) => e.stopPropagation()} //  내부 클릭 시 닫힘 방지
-      >
-        {/* X 닫기 버튼 */}
+      <div className={styles.drm__panel} onClick={(e) => e.stopPropagation()}>
         <button
+          type="button"
+          className={styles.drm__close}
+          aria-label="닫기"
           onClick={onClose}
-          style={{
-            position: "absolute",
-            top: "10px",
-            right: "10px",
-            background: "none",
-            border: "none",
-            fontSize: "18px",
-            cursor: "pointer",
-          }}
         >
-          &times;
+          <Image src={closeIcon} alt="닫기" width={24} height={24} />
         </button>
 
-        <h3 style={{ marginBottom: "10px" }}>삭제 사유</h3>
-        <p style={{ marginBottom: "8px" }}>내용</p>
+        <h3 id="drm-title" className={styles.drm__title}>
+          삭제 사유
+        </h3>
+
+        <label className={styles.drm__label} htmlFor="drm-reason">
+          내용
+        </label>
         <textarea
+          id="drm-reason"
+          ref={textareaRef}
+          className={styles.drm__textarea}
+          placeholder="삭제 사유를 입력해주세요"
           value={reason}
           onChange={(e) => setReason(e.target.value)}
-          placeholder="삭제 사유를 입력해주세요"
-          style={{
-            width: "100%",
-            minHeight: "120px",
-            padding: "10px",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-          }}
         />
-        <button
-          onClick={() => {
-            onConfirm(reason);
-            setReason("");
-          }}
-          disabled={!reason.trim()}
-          style={{
-            marginTop: "12px",
-            width: "100%",
-            padding: "10px",
-            border: "none",
-            borderRadius: "6px",
-            backgroundColor: "#000",
-            color: "#fff",
-            cursor: reason.trim() ? "pointer" : "not-allowed",
-          }}
-        >
-          전송
-        </button>
+
+        <div className={styles.drm__footer}>
+          <button type="button" className={styles.drm__btn} onClick={onClose}>
+            취소
+          </button>
+          <button
+            type="button"
+            className={`${styles.drm__btn} ${styles["drm__btn--primary"]}`}
+            disabled={!reason.trim()}
+            onClick={submit}
+          >
+            전송
+          </button>
+        </div>
       </div>
     </div>
   );

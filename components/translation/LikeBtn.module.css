@@ -1,0 +1,47 @@
+/* Block */
+.likeButton {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Element */
+.likeButton__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.likeButton__count {
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 500;
+  color: #5e5e5e;
+}
+
+/* Modifier */
+.likeButton--liked .likeButton__count {
+  color: #59739c; /* 필요 시 피그마 색으로 조정 */
+}
+
+/* States */
+.likeButton:hover {
+  opacity: 0.9;
+}
+.likeButton:active {
+  transform: translateY(1px);
+}
+.likeButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
