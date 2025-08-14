@@ -37,7 +37,7 @@ export default function TableRow({ challenge }) {
           {challenge.type}
         </div>
         <div className={`${styles.column} ${styles.title}`}>
-          <Link href={``}>{challenge.title}</Link>
+          <Link href={`/challenges/${challenge.id}`}>{challenge.title}</Link>
         </div>
         <div className={`${styles.column} ${styles.numberOfPeople}`}>
           {challenge.people}
