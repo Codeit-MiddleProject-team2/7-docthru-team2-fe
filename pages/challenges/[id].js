@@ -1,11 +1,11 @@
 import styles from "@/styles/ChallengesIdPage.module.css";
 import ChallengeNotice from "../../components/challengeId/ChallengeNotice";
 import ChallengeDetail from "../../components/challengeId/ChallengeDetail";
-import { getChallengesDetail } from "@/mock/challengesDetailMock";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ChallengeAcceptedSection from "@/components/challengeId/ChallengeAcceptedSection";
 import ParticipationSection from "@/components/challengeId/ParticipationSection";
+import { getChallengeView } from "@/api/challengeId";
 
 export default function ChallengesIdPage() {
   const router = useRouter();
@@ -13,14 +13,15 @@ export default function ChallengesIdPage() {
   const [challenge, setChallenge] = useState({});
   const getChallengeById = async () => {
     try {
-      const res = await getChallengesDetail(challengeId);
-      setChallenge(res);
+      const res = await getChallengeView(challengeId);
+      setChallenge(res.data);
     } catch (e) {
       console.error(e);
     }
   };
 
   useEffect(() => {
+    if (!challengeId) return;
     getChallengeById(challengeId);
   }, [challengeId]);
 
@@ -53,7 +54,10 @@ export default function ChallengesIdPage() {
   // 거절, 삭제, 승인 대기 중인 챌린지 일 때의 페이지 렌더링
   return (
     <div className={styles.PageWrapper}>
-      <ChallengeNotice type={challenge.isAdmitted} date={date} />
+      <ChallengeNotice
+        type={challenge.isAdmitted}
+        date={date}
+      />
       <ChallengeDetail challenge={challenge} />
     </div>
   );
