@@ -19,10 +19,8 @@
 - `immediatelyRender: false` 옵션은 초기 렌더링 시점 지연을 방지하기 위해 추가되어있습니다. 
 해당 줄을 지울 시 렌더링이 되지 않으니 주의해주세요
 
-리스트 시 - 이나 글머리 기호 등이 되지 않는 현상을 늦었지만 확인했습니다 
-가능한 8.14내로 수정 예정이나 작업자가 수정하지 못하는 경우 
-텝탭 extension(확장프로그램)의 nodes>bulletlist 를 확인 해주세요
-문서 내에도 적혀있으나 npm install @tiptap/extension-list 를 통해 적용 가능합니다.
+리스트 시 - 이나 글머리 기호 등이 되지 않는 현상을 늦었지만 확인했습니다.
+위 경우 css 작성을 하지 않아 나타나는 오류로 css 적용을 해야 공백이나 목록기호가 정상적으로 작동합니다.
 
 공식 문서 참조:https://tiptap.dev/docs/editor/extensions/  */
 
@@ -31,17 +29,28 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
-import {TextStyle} from '@tiptap/extension-text-style';
-import Color from '@tiptap/extension-color';
+import { Color } from '@tiptap/extension-color'
+import { TextStyle } from '@tiptap/extension-text-style'
 import ToolBar from './toolBar';
+import Document from '@tiptap/extension-document';
+import Text from '@tiptap/extension-text';
+import { BulletList, ListItem, OrderedList } from '@tiptap/extension-list'
+import styles from './EditorTool.module.css';
+
+
 
 function EditorTool() {
   const editor = useEditor({
     extensions: [
-      StarterKit,
+    StarterKit,
+      Document,
+      Text,
       Underline,
-      Color,
+      BulletList,
+      ListItem,
+      OrderedList,
       TextStyle,
+       Color,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
     content: '<p> 내용을 입력하세요 </p>',
@@ -55,8 +64,8 @@ function EditorTool() {
 
   return (
     <div>
-      <ToolBar editor={editor} />
-      <EditorContent editor={editor} />
+       <ToolBar editor={editor} />
+      <EditorContent editor={editor} className={styles.editorContent} />
     </div>
   );
 }
