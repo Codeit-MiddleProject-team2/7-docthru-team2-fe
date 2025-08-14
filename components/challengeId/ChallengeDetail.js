@@ -22,12 +22,12 @@ export default function ChallengeDetail({ challenge }) {
         <div className={styles.linkBtn}>
           <CustomBtnMini
             text="링크 열기↗"
-            onClick={() => router.push(challenge.link)}
+            onClick={() => window.open(challenge.url, "_blank", "noopener,noreferrer")}
             color="white"
           />
         </div>
         <iframe
-          src={challenge.link}
+          src={challenge.url}
           width="100%"
           height="400px"
           title="문서 미리보기"
