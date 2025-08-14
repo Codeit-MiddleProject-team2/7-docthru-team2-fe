@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+
 import TranslationDetail from "@/components/translation/TranslationDetail";
 import FeedbackList from "@/components/translation/FeedbackList";
 import FeedbackForm from "@/components/translation/FeedbackForm";
@@ -75,3 +76,4 @@ export default function TranslationDetailPage() {
     </div>
   );
 }
+$;
