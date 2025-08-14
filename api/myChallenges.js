@@ -6,14 +6,21 @@ export const getMyChallengesApply = async ({
   page,
   limit,
 }) => {
+  const query = new URLSearchParams({
+    ...(status && { status }),
+    ...(keyword && { keyword }),
+    ...(page && { page }),
+    ...(limit && { limit }),
+  });
   try {
-    const response = await fetch(`${API_URL}/mychallenge/apply`);
+    console.log(`Final API URL: ${API_URL}/mychallenge/apply?${query}`);
+    const response = await fetch(`${API_URL}/mychallenge/apply?${query}`);
     if (!response.ok) {
       throw new Error("Failed to fetch myChallenges");
     }
     return await response.json();
   } catch (error) {
     console.error("getMyChallengesApply 에러:", error);
-    return [];
+    return { page: 1, limit: 10, total: 0, challenges: [] };
   }
 };
