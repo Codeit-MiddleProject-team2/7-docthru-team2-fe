@@ -1,6 +1,6 @@
 import styles from './originSidbar.module.css';
 
-const Sidebar = ({ isOpen, onClose }) => {
+const OriginSidebar = ({ isOpen, onClose }) => {
   return (
     <div className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
       <button className={styles.closeButton} onClick={onClose}>
@@ -13,4 +13,4 @@ const Sidebar = ({ isOpen, onClose }) => {
   );
 };
 
-export default Sidebar;
+export default OriginSidebar;

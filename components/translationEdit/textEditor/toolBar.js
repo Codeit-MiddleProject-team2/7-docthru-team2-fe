@@ -21,7 +21,8 @@ function ToolBar({ editor }) {
         <button onClick={() => editor.chain().focus().setTextAlign('center').run()}>중</button>
         <button onClick={() => editor.chain().focus().setTextAlign('right').run()}>우</button>
         <button onClick={() => editor.chain().focus().toggleOrderedList().run()}>123</button>
-        <button onClick={() => editor.chain().focus().toggleBulletList().run()}>•목록</button>
+        <button onClick={() => editor.chain().focus().toggleBulletList().run()}
+          className={editor.isActive('bulletList') ? 'is-active' : ''}>•목록</button>
         <button onClick={togglePalette}>🎨</button>
             </div>
             {showPalette && <TextPalette editor={editor} onClose={() => setShowPalette(false)} />}
