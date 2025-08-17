@@ -30,17 +30,19 @@ export default function ChallengesIdPage() {
     return <div>챌린지가 없습니다.</div>;
   }
 
+  const challengeState = challenge.challengeState;
+  console.log("challengeState:", challengeState);
+  console.log("challenge:", challenge);
+
   const date =
-    challenge.isAdmitted === "deleted"
-      ? challenge.deletedAt
-      : challenge.isAdmitted === "rejected"
-      ? challenge.rejectedAt
+    challengeState === "DELETED"
+      ? challenge.updatedAt
+      : challengeState === "REJECTED"
+      ? challenge.updatedAt
       : undefined;
 
-  console.log(challenge.isAdmitted);
-
   // 진행 중인 챌린지일 때의 페이지 렌더링
-  if (challenge.isAdmitted === "accepted") {
+  if (challengeState === "ACCEPTED") {
     return (
       <div className={styles.background}>
         <div className={styles.content}>
@@ -55,7 +57,7 @@ export default function ChallengesIdPage() {
   return (
     <div className={styles.PageWrapper}>
       <ChallengeNotice
-        type={challenge.isAdmitted}
+        type={challengeState}
         date={date}
       />
       <ChallengeDetail challenge={challenge} />
