@@ -14,13 +14,35 @@ import { useState } from "react";
 // title에 href="#" 용도가 뭔가요
 
 export default function ChallengeCard({ data, type = "default" }) {
+  // 챌린지 취소 핸들러 함수 추가
+  const handleCancelChallenge = async () => {
+    try {
+      await fetch(`/a/challenge/${data.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ challengeState: "DELETED" }),
+      });
+      setShowCancelModal(false);
+      // 필요하다면 상태 업데이트(리렌더링 등)
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  // 챌린지 상태값을 challengeState로 선언
+  const challengeState = data.challengeState;
   const [showCancelModal, setShowCancelModal] = useState(false);
   const handleCancelClick = () => {
     setShowCancelModal(true);
   };
+
   return (
     <>
-      {showCancelModal && <CheckModal onClose={() => setShowCancelModal(false)} />}{" "}
+      {showCancelModal && (
+        <CheckModal
+          onClose={() => setShowCancelModal(false)}
+          onConfirm={handleCancelChallenge}
+        />
+      )}{" "}
       <div className={`${styles.item} ${type === "detail" ? styles.itemDetail : ""}`}>
         <div className={styles.itemTopArea}>
           <div className={``}>
@@ -40,7 +62,7 @@ export default function ChallengeCard({ data, type = "default" }) {
               <a href="#">{data.title}</a>
             </p>
             {/* ChallengeDetail.js 적용 */}
-            {(type !== "detail" || (type === "detail" && data.isAdmitted === "pending")) && <BtnOptions />}
+            {(type !== "detail" || (type === "detail" && challengeState === "PENDING")) && <BtnOptions />}
           </div>
           <div className={styles.docTypeInfoArea}>
             <div className={styles.docTypeInfo}>
@@ -48,7 +70,7 @@ export default function ChallengeCard({ data, type = "default" }) {
               <span className={`${styles.chip} ${styles.category}`}>{data.type}</span>
             </div>
             {/* ChallengeDetail.js 적용 */}
-            {type === "detail" && data.isAdmitted === "pending" && (
+            {type === "detail" && challengeState === "PENDING" && (
               <CustomBtnMini
                 text="취소하기"
                 onClick={handleCancelClick}
