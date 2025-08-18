@@ -1,46 +1,57 @@
-import { useState } from 'react';
-import dynamic from 'next/dynamic';
-import Header from "../components/translationEdit/header";
-import OriginSidebar from '../components/translationEdit/originSidebar'
-const EditorTool = dynamic(() => import('@/components/translationEdit/textEditor/EditorTool'), {
-  ssr: false, 
-});
+import Image from "next/image";
+import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
+import styles from "@/styles/translationEdit.module.css";
+import Header from "../components/translationEdit/TranslationEditHeader";
+import OriginSidebar from "@/components/translationEdit/originSidebar";
 
-/* 사이드바를 열고 닫는 함수를 변수에 저장*/
-function TranslationEditPage() {
-  const [isOriginSidebarOpen, setIsOriginSidebarOpen] = useState(false);
-  const openOriginSidebar = () => {
-    setIsOriginSidebarOpen(true);
+const TinymceEditor = dynamic(
+  () => import("../components/translationEdit/Editor/TinymceEditor"),
+  {
+    ssr: false, // 이 컴포넌트를 서버에서 렌더링하지 않도록 설정
   }
-  const closeOriginSidebar = () => {
-    setIsOriginSidebarOpen(false);
+);
+function TranslationEditPage() {
+  const [isOpenSidebar, setIsOpenSidebar] = useState(false);
+  const handleOpenSidebar = () => {
+    setIsOpenSidebar(true);
+  };
+
+  const [content, setContent] = useState("");
+
+  const handleEditorChange = (newContent) => {
+    setContent(newContent);
   };
   return (
-    <>
-    <div><Header/></div>
-<div style={{ paddingTop: '60px' }}>
-  <EditorTool />
-</div>
-    
-     <div>
-        {/* 구조화 시 컴포먼트끼리 서로를 가려 임시로 간단한 css 적용 */}
-        <button onClick={openOriginSidebar}
-        style={{
-          position: 'fixed',   
-          top: '80px',         
-          right: '0px',     
-          zIndex: 2000,        
-          background: '#fff',  
-          padding: '8px 12px',
-          border: '1px solid #ccc',
-          borderRadius: '4px',
-          cursor: 'pointer'
-      }}>
-          원문 보기
-        </button>
+    <div className={styles.translationEditLayout}>
+      <div className={styles.leftArea}>
+        <form>
+          <Header />
+          <div className={styles.editorArea}>
+            <TinymceEditor
+              initialValue="초기값"
+              onEditorChange={handleEditorChange}
+            />
+          </div>
+        </form>
       </div>
-     <OriginSidebar isOpen={isOriginSidebarOpen} onClose={closeOriginSidebar} />
-    </>
+      {isOpenSidebar ? (
+        <OriginSidebar
+          isOpen={isOpenSidebar}
+          setIsOpenSidebar={setIsOpenSidebar}
+        />
+      ) : (
+        <button onClick={handleOpenSidebar} className={styles.btnOpenSidebar}>
+          <Image
+            src={"/icons/ic_list.svg"}
+            width={24}
+            height={24}
+            alt="아이콘"
+          />
+          원문
+        </button>
+      )}
+    </div>
   );
 }
 

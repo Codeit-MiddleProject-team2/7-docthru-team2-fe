@@ -1,25 +1,56 @@
 .sidebar {
-  position: fixed; /* 화면에 고정 */
-  top: 0;
-  right: -300px; /* 초기에는 화면 바깥에 숨겨둡니다. */
-  width: 300px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 0;
   height: 100%;
-  background-color: #f0f0f0;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
-  transition: right 0.3s ease-in-out; /* 부드러운 트랜지션 효과 */
+  transition: all 0.3s ease-in-out;
   z-index: 1000;
 }
-
-.open {
-  right: 0; /* 'open' 클래스가 추가되면 화면 안으로 들어옵니다. */
+.opened {
+  width: 640px;
 }
-
-.closeButton {
+.sidebar nav {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  background: none;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 56px;
+  padding: 0 16px;
+  background: #f6f8fa80;
+  box-sizing: border-box;
+}
+.linkButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  height: 32px;
+  border-radius: 8px;
   border: none;
-  font-size: 1.5rem;
+  background: #f6f8fa80;
+  font-size: 14px;
+  font-weight: 500;
+}
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
   cursor: pointer;
+}
+.originArea {
+  flex: 1;
+}
+.originArea iframe {
+  height: 100vh;
+  border: none;
 }
