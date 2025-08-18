@@ -33,8 +33,7 @@ function LoginPage() {
           <CustomBtnLong
             text="로그인"
             onClick={onLogin}
-            valid={true}
-            // valid={emailObject.checkValid() && passwordObject.checkValid()}
+            valid={emailObject.checkValid() && passwordObject.checkValid()}
           />
           <div className={styles.toSignup}>
             회원이 아니신가요?

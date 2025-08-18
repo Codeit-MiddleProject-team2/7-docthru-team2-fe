@@ -1,32 +1,39 @@
+import { useState } from "react";
+import Pagenation from "./Pagenation";
 import ParticipationList from "./ParticipationList";
-import userImg from "@/public/icons/ic_profile.svg";
 import styles from "./ParticipationSection.module.css";
-import { useEffect, useState } from "react";
 import { getAllTranslations } from "@/api/translation.js";
-import { useRouter } from "next/router";
+import { useGetData } from "@/lib/useGetData";
+import BestTranslation from "./BestTranslation";
 
-export default function ParticipationSection({ challengeId }) {
-  const [translations, setTranslations] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
+export default function ParticipationSection({ challengeId, count }) {
+  const [page, setPage] = useState(1);
+  const maxPage = parseInt(count / 5) + 1;
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await getAllTranslations(challengeId);
-        setTranslations(res);
-      } catch (e) {
-        console.error(e);
-      }
-    };
+  const { data, isLoading, setData } = useGetData(
+    () => {
+      return getAllTranslations(challengeId, page);
+    },
+    [],
+    [page]
+  );
 
-    getData();
-  }, []);
+  if (isLoading) {
+    return <div></div>;
+  }
 
   return (
-    <div className={styles.box}>
-      <div className={styles.current}>참여 현황</div>
-      <ParticipationList data={translations} />
+    <div>
+      <BestTranslation />
+      <div className={styles.box}>
+        <div>
+          <div className={styles.current}>참여 현황</div>
+          {maxPage >= 2 && (
+            <Pagenation page={page} maxPage={maxPage} setPage={setPage} />
+          )}
+        </div>
+        <ParticipationList data={data} />
+      </div>
     </div>
   );
 }

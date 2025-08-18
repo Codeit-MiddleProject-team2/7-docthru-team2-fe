@@ -60,8 +60,11 @@ export default function ChallengesIdPage() {
     return (
       <div className={styles.background}>
         <div className={styles.content}>
-          <ChallengeAcceptedSection data={challenge} />
-          <ParticipationSection challengeId={challengeId} />
+          <ChallengeAcceptedSection data={challenge} user={user} />
+          <ParticipationSection
+            challengeId={challengeId}
+            count={challenge._count.Translation}
+          />
         </div>
       </div>
     );
