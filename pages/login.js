@@ -6,9 +6,10 @@ import CustomBtnLong from "@/components/CustomBtnLong";
 import Link from "next/link";
 // import axios from "axios";
 import { useRouter } from "next/router";
-import useAuth from "@/lib/useAuth";
+import useAuth, { userLogin } from "@/lib/useAuth";
 import { useEmail, usePassword } from "@/lib/useEmailPassword";
 import BigLogo from "@/components/login/BigLogo";
+import { postLogin } from "@/api/login";
 
 function LoginPage() {
   const emailObject = useEmail();
@@ -19,7 +20,9 @@ function LoginPage() {
   //로그인 post 함수
 
   const onLogin = async () => {
-    alert("로그인 버튼 클릭됨");
+    const data = await postLogin(emailObject.element, passwordObject.element);
+    userLogin(data);
+    router.push("/challenges");
   };
 
   return (

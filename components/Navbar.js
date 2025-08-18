@@ -4,14 +4,11 @@ import { useRouter } from "next/router";
 import { userLogin, userLogout, userSetting } from "@/lib/useAuth";
 import { useState, useEffect } from "react";
 import CustomBtnMini from "./CustomBtnMini";
+import { userImgSetting } from "@/utils/userImgDefault";
 
 // 임의의 로그인, 로그아웃 버튼 navbar에 추가
 // 로그인 버튼을 클릭하면 다음과 같은 유저로 로그인 한 것과 같은 기능을 한다
 // id: test123, nickname: yewon, userLevel: "일반", isAdmin: false
-
-const exampleUser = {
-  user: { id: "test123", nickname: "yewon", userLevel: "일반", isAdmin: false },
-};
 
 export default function Navbar() {
   const router = useRouter();
@@ -50,9 +47,7 @@ export default function Navbar() {
           <CustomBtnMini
             text={"로그인"}
             onClick={() => {
-              userLogin(exampleUser);
-              setIsLogin(true);
-              router.push("/challenges");
+              router.push("/login");
             }}
           />
         )}
@@ -65,7 +60,7 @@ export default function Navbar() {
               alt="알림 아이콘"
             />
             <Image
-              src={"/icons/ic_profile.svg"}
+              src={userImgSetting(user.img)}
               width={32}
               height={32}
               alt="프로필 아이콘"

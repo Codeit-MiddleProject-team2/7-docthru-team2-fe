@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import styles from "./ParticipationList.module.css";
+import { userImgSetting } from "@/utils/userImgDefault";
 
 function ParticipationListItem({ participation, rank }) {
   const router = useRouter();
@@ -9,17 +10,17 @@ function ParticipationListItem({ participation, rank }) {
       <div>순위: {rank} </div>
       <div>
         <Image
-          src={participation.user.img}
+          src={userImgSetting(participation.img)}
           width={24}
           height={24}
           alt="유저 이미지"
         />
         <div>
-          <div>{participation.user.nickname} </div>
-          <div>{participation.user.userLevel} </div>
+          <div>{participation.nickname} </div>
+          <div>{participation.userLevel} </div>
         </div>
       </div>
-      <div>{participation._count.hearts}</div>
+      <div>{participation.hearts_count}</div>
       <div
         onClick={() => {
           router.push(`/translation/${participation.id}`);

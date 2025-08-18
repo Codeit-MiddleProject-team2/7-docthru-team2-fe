@@ -6,8 +6,13 @@ import { useEffect, useState } from "react";
 import ChallengeAcceptedSection from "@/components/challengeId/ChallengeAcceptedSection";
 import ParticipationSection from "@/components/challengeId/ParticipationSection";
 import { getChallengeView } from "@/api/challengeId";
+import { userSetting } from "@/lib/useAuth";
 
 export default function ChallengesIdPage() {
+  // 해당 두 줄 참고
+  const [user, setUser] = useState({});
+  const [accessTk, setAccessTk] = useState("");
+
   const router = useRouter();
   const { id: challengeId } = router.query;
   const [challenge, setChallenge] = useState({});
@@ -21,6 +26,15 @@ export default function ChallengesIdPage() {
   };
 
   useEffect(() => {
+    // 해당 3줄 참고
+    const { user: userData, accessToken: accessTk } = userSetting();
+    setUser(userData);
+    setAccessTk(accessTk);
+
+    if (!accessTk) {
+      router.push("/");
+    }
+
     if (!challengeId) return;
     getChallengeById(challengeId);
   }, [challengeId]);
@@ -47,7 +61,7 @@ export default function ChallengesIdPage() {
       <div className={styles.background}>
         <div className={styles.content}>
           <ChallengeAcceptedSection data={challenge} />
-          <ParticipationSection />
+          <ParticipationSection challengeId={challengeId} />
         </div>
       </div>
     );
