@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import ChallengeAcceptedSection from "@/components/challengeId/ChallengeAcceptedSection";
 import ParticipationSection from "@/components/challengeId/ParticipationSection";
 import { getChallengeView } from "@/api/challengeId";
+import { userSetting } from "@/lib/useAuth";
 
 export default function ChallengesIdPage() {
   const router = useRouter();
@@ -21,6 +22,11 @@ export default function ChallengesIdPage() {
   };
 
   useEffect(() => {
+    const { user, accessToken } = userSetting();
+    if (!accessToken) {
+      router.push("/");
+    }
+
     if (!challengeId) return;
     getChallengeById(challengeId);
   }, [challengeId]);
@@ -47,7 +53,7 @@ export default function ChallengesIdPage() {
       <div className={styles.background}>
         <div className={styles.content}>
           <ChallengeAcceptedSection data={challenge} />
-          <ParticipationSection />
+          <ParticipationSection challengeId={challengeId} />
         </div>
       </div>
     );

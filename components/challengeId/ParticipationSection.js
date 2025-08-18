@@ -1,51 +1,31 @@
 import ParticipationList from "./ParticipationList";
 import userImg from "@/public/icons/ic_profile.svg";
 import styles from "./ParticipationSection.module.css";
+import { useEffect, useState } from "react";
+import { getAllTranslations } from "@/api/translation.js";
+import { useRouter } from "next/router";
 
-const data = [
-  {
-    id: 1,
-    challengeId: 500,
-    user: {
-      nickname: "코딩왕",
-      userLevel: "전문가",
-      img: userImg,
-    },
-    _count: {
-      hearts: 999,
-    },
-  },
-  {
-    id: 2,
-    challengeId: 500,
-    user: {
-      nickname: "초보",
-      userLevel: "일반",
-      img: userImg,
-    },
-    _count: {
-      hearts: 888,
-    },
-  },
-  {
-    id: 3,
-    challengeId: 500,
-    user: {
-      nickname: "코테준비중",
-      userLevel: "전문가",
-      img: userImg,
-    },
-    _count: {
-      hearts: 777,
-    },
-  },
-];
+export default function ParticipationSection({ challengeId }) {
+  const [translations, setTranslations] = useState([]);
+  const router = useRouter();
 
-export default function ParticipationSection() {
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await getAllTranslations(challengeId);
+        setTranslations(res);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    getData();
+  }, []);
+
   return (
     <div className={styles.box}>
       <div className={styles.current}>참여 현황</div>
-      <ParticipationList data={[]} />
+      <ParticipationList data={translations} />
     </div>
   );
 }
