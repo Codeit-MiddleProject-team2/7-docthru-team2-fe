@@ -51,9 +51,7 @@ export default function ChallengeAcceptedSection({ data }) {
             height={24}
             alt="마감 날짜"
           />
-          <div className={styles.infoText}>
-            {formatDateDeadline(data.dueDate)}
-          </div>
+          <div className={styles.infoText}>{formatDateDeadline(data.dueDate)}</div>
           <Image
             className={styles.IcChallenger}
             src={"/icons/ic_challenger.svg"}
@@ -61,9 +59,7 @@ export default function ChallengeAcceptedSection({ data }) {
             height={24}
             alt="참여 인원"
           />
-          <div className={styles.infoText}>
-            {`${data._count.translation}/${data.maximum}`}
-          </div>
+          <div className={styles.infoText}>{`${data._count.translation}/${data.maximum}`}</div>
         </div>
         <div className={styles.btns}>
           <CustomBtnLong
@@ -75,7 +71,11 @@ export default function ChallengeAcceptedSection({ data }) {
             size="small"
             valid={true}
           />
-          <CustomBtnLong text={toTranslation} size={"small"} valid={isValid} />
+          <CustomBtnLong
+            text={toTranslation}
+            size={"small"}
+            valid={isValid}
+          />
         </div>
       </div>
     </div>
