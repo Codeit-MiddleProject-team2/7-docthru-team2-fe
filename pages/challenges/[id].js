@@ -56,10 +56,7 @@ export default function ChallengesIdPage() {
   // 거절, 삭제, 승인 대기 중인 챌린지 일 때의 페이지 렌더링
   return (
     <div className={styles.PageWrapper}>
-      <ChallengeNotice
-        type={challengeState}
-        date={date}
-      />
+      <ChallengeNotice type={challengeState} date={date} />
       <ChallengeDetail challenge={challenge} />
     </div>
   );
