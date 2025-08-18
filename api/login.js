@@ -8,8 +8,6 @@ export const postLogin = async (email, password) => {
       email: email,
       password: password,
     });
-    console.log("함수 실행 완료");
-    console.log(res.data);
     return res.data;
   } catch (e) {
     console.error(e);
