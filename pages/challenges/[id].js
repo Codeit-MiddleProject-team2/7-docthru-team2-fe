@@ -9,6 +9,10 @@ import { getChallengeView } from "@/api/challengeId";
 import { userSetting } from "@/lib/useAuth";
 
 export default function ChallengesIdPage() {
+  // 해당 두 줄 참고
+  const [user, setUser] = useState({});
+  const [accessTk, setAccessTk] = useState("");
+
   const router = useRouter();
   const { id: challengeId } = router.query;
   const [challenge, setChallenge] = useState({});
@@ -22,8 +26,12 @@ export default function ChallengesIdPage() {
   };
 
   useEffect(() => {
-    const { user, accessToken } = userSetting();
-    if (!accessToken) {
+    // 해당 3줄 참고
+    const { user: userData, accessToken: accessTk } = userSetting();
+    setUser(userData);
+    setAccessTk(accessTk);
+
+    if (!accessTk) {
       router.push("/");
     }
 
