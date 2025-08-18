@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 
 export default function ParticipationSection({ challengeId }) {
   const [translations, setTranslations] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {

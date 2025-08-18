@@ -38,6 +38,8 @@ function ParticipationListItem({ participation, rank }) {
 // 당장은 임시로 id를 표기 중. 이후 수정 예정.
 
 export default function ParticipationList({ data }) {
+  console.log(data);
+
   if (data.length === 0) {
     return (
       <div className={styles.noParticipation}>

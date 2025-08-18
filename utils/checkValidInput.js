@@ -30,7 +30,7 @@ export function checkEmail(value) {
 }
 
 // n글자 이상인지 확인 (n글자 이상이면 true. n은 기본값 8.)
-export function checkLength(value, n = 8) {
+export function checkLength(value, n = 6) {
   return value.trim().length >= n;
 }
 
