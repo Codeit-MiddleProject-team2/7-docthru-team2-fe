@@ -1,25 +1,31 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { challenges as mockChallenges } from '@/mock/mockChallenges';
-import Category from "@/components/challengeApply/category";
-import Sort from '@/components/challenges/sort';     
-import SearchBar from '@/components/challenges/searchBar'; 
+import Category from '@/components/challengeApply/category';
+import Sort from '@/components/challenges/sort';
+import SearchBar from '@/components/challenges/searchBar';
 import ChallengeCard from '@/components/challenges/card';
-import { Pagination } from "@/components/challenges/pagination";
-import styles from '@/styles/challenges.module.css'; 
+import { Pagination } from '@/components/challenges/pagination';
+import styles from '@/styles/challenges.module.css';
+import { challenges as mockChallenges } from '@/mock/mockChallenges';
+
+
+async function getChallenges() {
+  const url = `${API_BASE}/api/challenges?limit=200&offset=0`;
+  console.log('[getChallenges] API_BASE=', API_BASE, 'URL=', url);
+  const res = await fetch(url, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`챌린지를 가져오는데 실패했습니다. HTTP ${res.status}`);
+  const { items } = await res.json();
+  return items;
+}
 
 export async function getStaticProps() {
-    const challenges = mockChallenges; 
-    // 최신순으로 정렬
-    const sortedChallenges = challenges.sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    );
+  const challenges = await getChallenges();
+  const sortedChallenges = challenges.sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
 
-    return {
-      props: { 
-        challenges: sortedChallenges } };
-  }
+  return { props: { challenges: sortedChallenges } };
+}
   
   // 챌린지보기 메인페이지 5개씩 보기
   export default function ChallengesPage({ challenges }) {
@@ -27,7 +33,7 @@ export async function getStaticProps() {
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
 
-    //serchQuerry가 비어있으면 모든 challenge가 그대로 반환됨
+    //serchQuerry가 빈 문자열일때
     const filteredChallenges = challenges.filter((challenge) =>
       challenge.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
