@@ -1,11 +1,7 @@
 import styles from "./checkModal.module.css";
 import Image from "next/image";
 
-export default function CheckModal({ onClose }) {
-  const handleCancel = () => {
-    console.log("취소 확인");
-  };
-
+export default function CheckModal({ onClose, onConfirm }) {
   return (
     <>
       <div className={styles.pageArea}>
@@ -30,7 +26,7 @@ export default function CheckModal({ onClose }) {
             <button
               className={styles.checkYes}
               type="button"
-              onClick={handleCancel}
+              onClick={onConfirm}
             >
               네
             </button>
