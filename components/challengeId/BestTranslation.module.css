@@ -1,0 +1,120 @@
+.background {
+  border-radius: 16px;
+  border: 2px solid var(--gray-gray100, #f5f5f5);
+  background: var(--gray-gray50, #fafafa);
+
+  padding: 10px 24px 40px;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bestTag {
+  width: 132px;
+  height: 34px;
+
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px 0;
+  background: var(--brand-black, #262626);
+
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.btns {
+  text-align: right;
+}
+
+.btns > * {
+  border: 2px solid var(--gray-gray100, #f5f5f5);
+  background: var(--gray-gray50, #fff);
+  border-radius: 12px;
+}
+
+.bestText {
+  color: #fff;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  padding-bottom: 12px;
+
+  border-bottom: solid 1px #e5e5e5;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+}
+
+.user {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: center;
+}
+
+.nickname {
+  color: var(--gray-gray800, #262626);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.userLevel {
+  color: var(--gray-gray500, #737373);
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.heartsCount {
+  color: var(--gray-gray800, #262626);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.date {
+  color: var(--gray-gray400, #a3a3a3);
+  text-align: right;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.content {
+  color: var(--gray-gray800, #262626);
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%; /* 25.6px */
+}
