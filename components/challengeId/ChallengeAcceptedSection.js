@@ -8,12 +8,7 @@ import { userSetting } from "@/lib/useAuth";
 import { userImgSetting } from "@/utils/userImgDefault";
 import ConditionCard from "./ConditionCard";
 
-export default function ChallengeAcceptedSection({ data, user }) {
-  // 종료되었는가? (boolean)
-  const now = new Date();
-  const dueDate = new Date(data.dueDate);
-  const isFinished = now.getTime() > dueDate.getTime();
-
+export default function ChallengeAcceptedSection({ data, user, isFinished }) {
   // 마감되었는가? (boolean)
   const isFull = data.maximum <= data._count.Translation;
 

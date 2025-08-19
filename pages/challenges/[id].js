@@ -45,8 +45,6 @@ export default function ChallengesIdPage() {
   }
 
   const challengeState = challenge.challengeState;
-  console.log("challengeState:", challengeState);
-  console.log("challenge:", challenge);
 
   const date =
     challengeState === "DELETED"
@@ -55,15 +53,25 @@ export default function ChallengesIdPage() {
       ? challenge.updatedAt
       : undefined;
 
+  // 종료되었는가? (boolean)
+  const now = new Date();
+  const dueDate = new Date(challenge.dueDate);
+  const isFinished = now.getTime() > dueDate.getTime();
+
   // 진행 중인 챌린지일 때의 페이지 렌더링
   if (challengeState === "ACCEPTED") {
     return (
       <div className={styles.background}>
         <div className={styles.content}>
-          <ChallengeAcceptedSection data={challenge} user={user} />
+          <ChallengeAcceptedSection
+            data={challenge}
+            user={user}
+            isFinished={isFinished}
+          />
           <ParticipationSection
             challengeId={challengeId}
             count={challenge._count.Translation}
+            isFinished={isFinished}
           />
         </div>
       </div>
