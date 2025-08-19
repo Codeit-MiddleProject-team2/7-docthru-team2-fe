@@ -27,11 +27,11 @@ export default function ChallengesIdPage() {
 
   useEffect(() => {
     // 해당 3줄 참고
-    const { user: userData, accessToken: accessTk } = userSetting();
+    const { user: userData, accessToken } = userSetting();
     setUser(userData);
-    setAccessTk(accessTk);
+    setAccessTk(accessToken);
 
-    if (!accessTk) {
+    if (!accessToken) {
       router.push("/");
     }
 

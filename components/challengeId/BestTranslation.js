@@ -5,18 +5,20 @@ import Image from "next/image";
 import styles from "./BestTranslation.module.css";
 import { userLevelKor } from "@/utils/userLevelKor";
 import { formatDate } from "@/utils/formatDate";
+import { useEffect, useState } from "react";
 
 export default function BestTranslation({ challengeId }) {
+  const [num, setNum] = useState(0);
   const { data: BestTranslation, isLoading } = useGetData(() => {
     return getBestTranslations(challengeId);
-  }, []);
+  }, [num]);
 
   if (isLoading) {
     return <div>로딩 중</div>;
   }
 
-  const data = BestTranslation[0];
-  console.log(data);
+  const data = BestTranslation[num];
+  const maxNum = BestTranslation.length - 1;
 
   return (
     <div className={styles.background}>
@@ -28,6 +30,30 @@ export default function BestTranslation({ challengeId }) {
           alt="최다 추천작"
         />
         <div className={styles.bestText}>최다 추천 번역</div>
+      </div>
+      <div className={styles.btns}>
+        <Image
+          onClick={() => {
+            if (num > 0) {
+              setNum((prev) => prev - 1);
+            }
+          }}
+          src="/icons/ic_pagenaiton_arrow_left.svg"
+          width={32}
+          height={32}
+          alt="페이지 왼쪽 이동"
+        />
+        <Image
+          onClick={() => {
+            if (num < maxNum) {
+              setNum((prev) => prev + 1);
+            }
+          }}
+          src="/icons/ic_pagenaiton_arrow_right.svg"
+          width={32}
+          height={32}
+          alt="페이지 오른쪽 이동"
+        />
       </div>
       <div className={styles.header}>
         <div className={styles.info}>
