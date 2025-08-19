@@ -14,16 +14,17 @@ import { useState } from "react";
 // title에 href="#" 용도가 뭔가요
 
 export default function ChallengeCard({ data, type = "default" }) {
-  // 챌린지 취소 핸들러 함수 추가
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  // 챌린지 취소 핸들러 함수 수정: 환경변수 적용
   const handleCancelChallenge = async () => {
     try {
-      await fetch(`/a/challenge/${data.id}`, {
+      await fetch(`${API_URL}/challenge/${data.id}/view`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ challengeState: "DELETED" }),
+        body: JSON.stringify({ ChallengeState: "DELETED", reason: "챌린지 개설을 취소하였습니다." }),
       });
       setShowCancelModal(false);
-      // 필요하다면 상태 업데이트(리렌더링 등)
+      window.location.reload(); // 취소 후 페이지 자동 새로고침
     } catch (e) {
       console.error(e);
     }

@@ -11,7 +11,10 @@
   "dependencies": {
     "@tanstack/react-query": "^5.84.1",
     "@tanstack/react-query-devtools": "^5.84.1",
+<<<<<<< HEAD
     "@tinymce/tinymce-react": "^6.3.0",
+=======
+>>>>>>> bb35c78 (feat: 챌린지 대기 상태, 취소하기 버튼 구현 #63)
     "@tiptap/extension-color": "^3.0.7",
     "@tiptap/extension-list": "^3.1.0",
     "@tiptap/extension-text-align": "^3.0.7",
