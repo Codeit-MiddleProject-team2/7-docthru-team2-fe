@@ -10,10 +10,10 @@ import { formatDateDeadline } from "@/utils/formatDate";
 import CustomBtnMini from "../CustomBtnMini";
 import CheckModal from "../modals/checkModal";
 import { useState } from "react";
-
-// title에 href="#" 용도가 뭔가요
+import { Router, useRouter } from "next/router";
 
 export default function ChallengeCard({ data, type = "default" }) {
+  const router = useRouter();
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
   // 챌린지 취소 핸들러 함수 수정: 환경변수 적용
   const handleCancelChallenge = async () => {
@@ -21,7 +21,10 @@ export default function ChallengeCard({ data, type = "default" }) {
       await fetch(`${API_URL}/challenge/${data.id}/view`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ChallengeState: "DELETED", reason: "챌린지 개설을 취소하였습니다." }),
+        body: JSON.stringify({
+          ChallengeState: "DELETED",
+          reason: "챌린지 개설을 취소하였습니다.",
+        }),
       });
       setShowCancelModal(false);
       window.location.reload(); // 취소 후 페이지 자동 새로고침
@@ -43,8 +46,15 @@ export default function ChallengeCard({ data, type = "default" }) {
           onClose={() => setShowCancelModal(false)}
           onConfirm={handleCancelChallenge}
         />
-      )}{" "}
-      <div className={`${styles.item} ${type === "detail" ? styles.itemDetail : ""}`}>
+      )}
+      <div
+        className={`${styles.item} ${
+          type === "detail" ? styles.itemDetail : ""
+        }`}
+        onClick={() => {
+          router.push(`/challenges/${data.id}`);
+        }}
+      >
         <div className={styles.itemTopArea}>
           <div className={``}>
             {/* ChallengeDetail.js 적용 */}
@@ -63,25 +73,35 @@ export default function ChallengeCard({ data, type = "default" }) {
               <a href="#">{data.title}</a>
             </p>
             {/* ChallengeDetail.js 적용 */}
-            {(type !== "detail" || (type === "detail" && challengeState === "PENDING")) && <BtnOptions />}
+            {(type !== "detail" ||
+              (type === "detail" && challengeState === "PENDING")) && (
+              <BtnOptions />
+            )}
           </div>
           <div className={styles.docTypeInfoArea}>
             <div className={styles.docTypeInfo}>
-              <span className={`${styles.chip} ${styles.type}`}>{data.category}</span>
-              <span className={`${styles.chip} ${styles.category}`}>{data.type}</span>
+              <span className={`${styles.chip} ${styles.type}`}>
+                {data.category}
+              </span>
+              <span className={`${styles.chip} ${styles.category}`}>
+                {data.type}
+              </span>
             </div>
             {/* ChallengeDetail.js 적용 */}
             {type === "detail" && challengeState === "PENDING" && (
-              <CustomBtnMini
-                text="취소하기"
-                onClick={handleCancelClick}
-              />
+              <CustomBtnMini text="취소하기" onClick={handleCancelClick} />
             )}
           </div>
         </div>
         {/* ChallengeDetail.js 적용 */}
-        {type === "detail" && data.description && <div className={styles.description}>{data.description}</div>}
-        <div className={`${styles.itemBottomArea} ${type === "detail" ? styles.itemBtnAreaDetail : ""}`}>
+        {type === "detail" && data.description && (
+          <div className={styles.description}>{data.description}</div>
+        )}
+        <div
+          className={`${styles.itemBottomArea} ${
+            type === "detail" ? styles.itemBtnAreaDetail : ""
+          }`}
+        >
           <div className={styles.challengeInfo}>
             <p>
               <Image
@@ -105,10 +125,7 @@ export default function ChallengeCard({ data, type = "default" }) {
           {/* ChallengeDetail.js 적용 제외 */}
           {type !== "detail" && (
             <div>
-              <Link
-                href="#"
-                className={``}
-              >
+              <Link href="#" className={``}>
                 도전 계속하기{" "}
                 <Image
                   src={iconArrowRight}

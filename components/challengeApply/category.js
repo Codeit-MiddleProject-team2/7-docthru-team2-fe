@@ -67,8 +67,6 @@ export default function Category({ category, setCategory }) {
     searchByValue();
   }, [value]);
 
-  console.log(category);
-
   //상황이 1. 선택한 카테고리가 있을 때.
   // 2. 선택한 카테고리가 없고, 입력했을 때 선택할 수 있는 검색 결과가 있을 때
   // 3. 선택한 카테고리가 없고, 입력했을 때 선택할 수 있는 검색 결과가 없을 때
