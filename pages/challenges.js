@@ -1,113 +1,136 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { challenges as mockChallenges } from '@/mock/mockChallenges';
-import Category from "@/components/challengeApply/category";
-import Sort from '@/components/challenges/sort';     
-import SearchBar from '@/components/challenges/searchBar'; 
+import Category from '@/components/challengeApply/category';
+import Sort from '@/components/challenges/sort';
+import SearchBar from '@/components/challenges/searchBar';
 import ChallengeCard from '@/components/challenges/card';
-import { Pagination } from "@/components/challenges/pagination";
-import styles from '@/styles/challenges.module.css'; 
+import { Pagination } from '@/components/challenges/pagination';
+import styles from '@/styles/challenges.module.css';
 
-export async function getStaticProps() {
-    const challenges = mockChallenges; 
-    // 최신순으로 정렬
-    const sortedChallenges = challenges.sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    );
 
-    return {
-      props: { 
-        challenges: sortedChallenges } };
-  }
-  
-  // 챌린지보기 메인페이지 5개씩 보기
-  export default function ChallengesPage({ challenges }) {
-    //페이지 상태 결정
-    const [searchQuery, setSearchQuery] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
+export default function ChallengesPage() {
+  // 컴포넌트 상태 관리: challenges 목록, 로딩 상태, 페이지네이션 정보를 관리.
+  const [challenges, setChallenges] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [sortOption, setSortOption] = useState('latest'); 
+  const challengeSortOptions = [
+    { value: 'latest', label: '최신순' },
+    { value: 'deadline', label: '마감일순' },
+    { value: 'popular', label: '인기순' }, ];
+  const [paginationInfo, setPaginationInfo] = useState({ totalCount: 0 });
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5; // 페이지당 아이템 수는 프론트/백엔드가 동일하게 알고 있어야 함
 
-    //serchQuerry가 비어있으면 모든 challenge가 그대로 반환됨
-    const filteredChallenges = challenges.filter((challenge) =>
-      challenge.title.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+  //currentPage나 searchQuery가 바뀔 때마다 API를 호출.
+  useEffect(() => {
+    const fetchChallenges = async () => {
+      setIsLoading(true);
+      try {
+        const params = new URLSearchParams({
+          page: currentPage,
+          pageSize: itemsPerPage,
+          sort: sortOption,
+        });
+        if (searchQuery) {
+          params.append('q', searchQuery);
+        }
 
-    //필터링 결과 기준 페이지네이션 계산
-    const itemsPerPage = 5; //5개씩
-    const totalPages = Math.ceil(challenges.length / itemsPerPage); //전체 페이지 수
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentChallenges = challenges.slice(indexOfFirstItem, indexOfLastItem);
+        // 백엔드 API에 데이터를 요청
+        const response = await fetch(`/api/challenges?${params.toString()}`);
+        if (!response.ok) {
+          throw new Error('챌린지 데이터를 불러오는 데 실패했습니다.');
+        }
+        const responseData = await response.json();
+        
+        // 백엔드에서 받은 데이터로 상태 업데이트
+        setChallenges(responseData.data.challenges);
+        setPaginationInfo(responseData.data);
 
-    //검색 핸들러 : 검색어 상태 업데이트, 페이지는 1로 리셋
-    const handleSearch = (querry) => {
-      setSearchQuery(querry);
-      setCurrentPage(1);
-    }
-    
-    //페이지 번호 목록을 배열로 생성
-    const pageNumber = Array.from({length:totalPages}, (_, i) => i +1);
-
-    //페이지 번호 클릭시 currentPage 상태 변경
-    const handlePageClick = (page) => {
-      setCurrentPage(page);
+      } catch (error) {
+        console.error(error);
+        setChallenges([]); // 에러 발생 시 목록을 비웁니다.
+      } finally {
+        setIsLoading(false);
+      }
     };
 
+    fetchChallenges();
+  }, [currentPage, searchQuery, sortOption]); // currentPage나 searchQuery가 변경될 때마다 이 useEffect 다시 실행
 
-    return (
-      <div className={styles.container}>
-        <header className={styles.header}>
-          <span className={styles.title}>챌린지 목록</span>
-          <div className={styles.headerControls}>
-            <SearchBar onSearch={handleSearch} />
-            <Link href="/challengeApply">
-              <button className={styles.applyButton}>
-                신규 챌린지 신청
-              </button>
-            </Link>
-          </div>
-        </header>
-  
-        <div className={styles.controls}>
-          <Category />
-          <Sort />
-          <SearchBar />
+  // 핸들러 함수들: 상태 변경시 데이터를 다시 불러옴
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    setCurrentPage(1); // 검색 시 항상 첫 페이지부터
+  };
+
+  const handlePageClick = (page) => {
+    setCurrentPage(page);
+  };
+    
+  const handleSortChange = (selectedValue) => {
+    setSortOption(selectedValue);
+    setCurrentPage(1); // 정렬 변경 시 항상 첫 페이지부터
+
+  };
+
+  return (
+    <div className={styles.container}>
+      <header className={styles.header}>
+        <span className={styles.title}>챌린지 목록</span>
+        <div className={styles.headerControls}>
+          <Link href="/challengeApply">
+            <button className={styles.applyButton}>신규 챌린지 신청</button>
+          </Link>
         </div>
+      </header>
   
-        {/* 현재 페이지에 해당하는 챌린지 카드만 보여줌 */}
-
-        <main className={styles.mainContent}>
-        
-        {/*검색 결과 유무 */}
-        {filteredChallenges.length > 0 ? (
-          <div className={styles.cardGrid}>
-          {currentChallenges.map((challenge) => (
-            <ChallengeCard key={challenge.id} challenge={challenge} />
-            ))}
-          </div>
-           ) : (
-            <div className={styles.emptyContainer}>
-            <p>
-              {searchQuery
-                ? `'${searchQuery}'에 대한 검색 결과가 없습니다.`
-                : "아직 챌린지가 없어요. 지금 바로 챌린지를 신청해보세요!"}
-            </p>
-          </div>
-        )}
-        </main>
-
-        {/* 페이지네이션 컴포넌트 배치 */}
-        <footer className={styles.footer}>
-          {filteredChallenges.length > 0 && (
-            <Pagination 
-              limit={itemsPerPage}
-              currentPage={currentPage}
-              onPageChange={handlePageClick}
-              total={challenges.length }
-         
-            />
-          )}
-        </footer>
+    <div className={styles.controls}>
+      <div className={styles.topControls}>
+        <Sort options={challengeSortOptions} onSortChange={handleSortChange} />
+        <SearchBar value={searchQuery} onChange={handleSearch} /> 
       </div>
-    );
-  }
+        <Category />
+    </div>
+  
+      <main className={styles.mainContent}>
+        {/* 로딩 중일 때와 아닐 때를 구분 */}
+        {isLoading ? (
+          <div className={styles.loadingContainer}>
+            <p>챌린지를 불러오는 중입니다...</p>
+          </div>
+        ) : (
+          <>
+            {challenges.length > 0 ? (
+              <div className={styles.cardGrid}>
+                {challenges.map((challenge) => (
+                  <ChallengeCard key={challenge.id} challenge={challenge} />
+                ))}
+              </div>
+            ) : (
+              <div className={styles.emptyContainer}>
+                <p>
+                  {searchQuery
+                    ? `'${searchQuery}'에 대한 검색 결과가 없습니다.`
+                    : "아직 챌린지가 없어요. 지금 바로 챌린지를 신청해보세요!"}
+                </p>
+              </div>
+            )}
+          </>
+        )}
+      </main>
+
+      <footer className={styles.footer}>
+        {/* Pagination 컴포넌트에 백엔드에서 받은 전체 아이템 개수를 전달 */}
+        {!isLoading && challenges.length > 0 && (
+          <Pagination 
+            limit={itemsPerPage}
+            currentPage={currentPage}
+            onPageChange={handlePageClick}
+            total={paginationInfo.totalCount}
+          />
+        )}
+      </footer>
+    </div>
+  );
+}

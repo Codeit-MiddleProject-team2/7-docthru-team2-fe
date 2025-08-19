@@ -41,9 +41,15 @@
 /* 컨트롤 영역 (필터, 정렬, 검색) */
 .controls {
   display: flex;
-  align-items: center;
-  gap: 1rem; /* 컨트롤 사이의 간격 */
+  flex-direction: column; /* 자식 요소들을 세로로 정렬 */
+  gap: 1.5rem; /* 위아래 컨트롤 그룹 사이의 간격 */
   margin-bottom: 2.5rem;
+}
+/* sort와 SearchBar 사이의 간격을 조정 */
+.topControls {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Sort와 SearchBar 사이의 간격 */
 }
 
 /* 카드 */
