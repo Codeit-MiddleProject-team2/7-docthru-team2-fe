@@ -1,10 +1,6 @@
 import styles from "./CustomBtnMini.module.css";
 
-export default function CustomBtnMini({
-  text,
-  color = "white",
-  onClick = () => {},
-}) {
+export default function CustomBtnMini({ text, color = "white", onClick = () => {}, className }) {
   const handleClick = (e) => {
     e.preventDefault();
     console.log("customBtnMini 클릭됨");
@@ -14,7 +10,10 @@ export default function CustomBtnMini({
   const customStyle = color === "white" ? styles.whiteBtn : styles.blackBtn;
 
   return (
-    <div className={customStyle} onClick={handleClick}>
+    <div
+      className={`${customStyle} ${className || ""}`}
+      onClick={handleClick}
+    >
       {text}
     </div>
   );
