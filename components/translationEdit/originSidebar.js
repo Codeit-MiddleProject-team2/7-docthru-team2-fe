@@ -2,7 +2,7 @@ import Image from "next/image";
 import styles from "./originSidbar.module.css";
 import Link from "next/link";
 
-const OriginSidebar = ({ isOpen, setIsOpenSidebar }) => {
+const OriginSidebar = ({ isOpen, setIsOpenSidebar, challengeUrl }) => {
   return (
     <div className={`${styles.sidebar} ${isOpen ? styles.opened : ""}`}>
       <nav>
@@ -32,7 +32,7 @@ const OriginSidebar = ({ isOpen, setIsOpenSidebar }) => {
 
       <div className={styles.originArea}>
         <iframe
-          src={"https://nextjs.org/docs/app/getting-started/layouts-and-pages"}
+          src={challengeUrl}
           width="100%"
           height="auto"
           title="문서 미리보기"
