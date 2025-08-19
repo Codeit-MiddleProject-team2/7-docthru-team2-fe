@@ -3,7 +3,13 @@ import styles from "./sort.module.css";
 import iconSortArrow from "../../public/icons/ic_toggle_down.svg";
 import { useState } from "react";
 
-export default function Sort({ options = [], selected, onChange }) {
+export default function Sort({ selected, onChange }) {
+  const options = [
+    { value: "latest", label: "최신순" },
+    { value: "deadline", label: "마감일순" },
+    { value: "popular", label: "인기순" },
+  ];
+
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => {
     setIsOpen((prev) => !prev);
@@ -18,12 +24,8 @@ export default function Sort({ options = [], selected, onChange }) {
     <>
       <div className={styles.sortEl}>
         <div className={styles.sortButton} onClick={handleOpen}>
-          <span>
-            {selected
-              ? options.find((o) => o.value === selected)?.label
-              : "전체"}
-          </span>
-          <Image src={iconSortArrow} width={24} height={24} />
+          <span>{options.find((o) => o.value === selected).label}</span>
+          <Image src={iconSortArrow} width={24} height={24} alt="정렬 옵션" />
         </div>
         {isOpen && (
           <div className={styles.sortOptions}>

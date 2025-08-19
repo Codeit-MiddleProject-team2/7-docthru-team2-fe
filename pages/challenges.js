@@ -13,15 +13,11 @@ export default function ChallengesPage() {
   const [challenges, setChallenges] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [sortOption, setSortOption] = useState("latest");
-  const challengeSortOptions = [
-    { value: "latest", label: "최신순" },
-    { value: "deadline", label: "마감일순" },
-    { value: "popular", label: "인기순" },
-  ];
   const [paginationInfo, setPaginationInfo] = useState({ totalCount: 0 });
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5; // 페이지당 아이템 수는 프론트/백엔드가 동일하게 알고 있어야 함
+  const itemsPerPage = 5;
+  const [category, setCategory] = useState("");
 
   //currentPage나 searchQuery가 바뀔 때마다 API를 호출.
   useEffect(() => {
@@ -32,10 +28,9 @@ export default function ChallengesPage() {
           page: currentPage,
           pageSize: itemsPerPage,
           sort: sortOption,
+          category,
+          searchQuery,
         });
-        if (searchQuery) {
-          params.append("q", searchQuery);
-        }
 
         // 백엔드 API에 데이터를 요청
         const res = await axios.get(`http://localhost:5000/challenge`, {
@@ -58,7 +53,7 @@ export default function ChallengesPage() {
     };
 
     fetchChallenges();
-  }, [currentPage, searchQuery, sortOption]); // currentPage나 searchQuery가 변경될 때마다 이 useEffect 다시 실행
+  }, [currentPage, searchQuery, sortOption, category]); // currentPage나 searchQuery가 변경될 때마다 이 useEffect 다시 실행
 
   // 핸들러 함수들: 상태 변경시 데이터를 다시 불러옴
   const handleSearch = (query) => {
@@ -91,13 +86,10 @@ export default function ChallengesPage() {
       </header>
       <div className={styles.controls}>
         <div className={styles.topControls}>
-          <Sort
-            options={challengeSortOptions}
-            onSortChange={handleSortChange}
-          />
+          <Sort selected={sortOption} onChange={handleSortChange} />
           <SearchBar value={searchQuery} onChange={handleSearch} />
         </div>
-        <Category />
+        <Category category={category} setCategory={setCategory} />
       </div>
 
       <main className={styles.mainContent}>

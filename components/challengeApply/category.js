@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { getCategory } from "@/mock/categoryMock";
 import styles from "./category.module.css";
 import Image from "next/image";
+import { getCategorys } from "@/api/challenges";
 
-function CategoryTag({ text, key, onPlus, onDelete, style = "plus" }) {
+function CategoryTag({ text, onPlus, onDelete, style = "plus" }) {
   return (
-    <div className={styles.filteredCategory} key={key} onClick={onPlus}>
+    <div className={styles.filteredCategory} onClick={onPlus}>
       {text}
       <Image
         className={style === "plus" ? styles.plusBtn : styles.deleteBtn}
@@ -54,9 +55,8 @@ export default function Category({ category, setCategory }) {
     const searchByValue = async () => {
       setIsLoading(true);
       try {
-        const res = await getCategory(value);
-        setCategorys(res);
-        return res;
+        const data = await getCategorys(value);
+        setCategorys(data);
       } catch (e) {
         console.error(e);
       } finally {
@@ -79,7 +79,6 @@ export default function Category({ category, setCategory }) {
         <div className={styles.input}>
           <CategoryTag
             text={category}
-            key={"selected"}
             onDelete={handleCategoryDelete}
             style="delete"
           />
@@ -107,11 +106,7 @@ export default function Category({ category, setCategory }) {
               );
             })) ||
             (!categorys.length && (
-              <CategoryTag
-                text={value}
-                key={"new"}
-                onPlus={handleCategoryClick}
-              />
+              <CategoryTag text={value} onPlus={handleCategoryClick} />
             ))}
         </div>
       </div>
