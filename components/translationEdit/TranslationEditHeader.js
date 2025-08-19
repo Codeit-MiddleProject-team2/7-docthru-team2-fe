@@ -2,7 +2,7 @@ import Image from "next/image";
 import styles from "./TranslationEditHeader.module.css";
 import { useRouter } from "next/navigation";
 
-function TranslationEditHeader() {
+function TranslationEditHeader({ onSaveOrSubmit, submitText }) {
   const router = useRouter();
   return (
     <div className={styles.header}>
@@ -31,11 +31,19 @@ function TranslationEditHeader() {
               alt="아이콘"
             />
           </button>
-          <button type="button" className={styles.btnStorage}>
+          <button
+            type="button"
+            className={styles.btnStorage}
+            onClick={() => onSaveOrSubmit(false)}
+          >
             임시저장
           </button>
-          <button type="submit" className={styles.btnSubmit}>
-            제출하기
+          <button
+            type="button"
+            className={styles.btnSubmit}
+            onClick={() => onSaveOrSubmit(true)}
+          >
+            {submitText}
           </button>
         </div>
       </div>

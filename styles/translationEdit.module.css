@@ -8,11 +8,6 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  flex: 1;
-}
-.leftArea form {
-  display: flex;
-  flex-direction: column;
   width: 100%;
   max-width: 922px;
   margin: 0 auto;
@@ -37,4 +32,23 @@
   cursor: "pointer";
   border: 2px solid #f5f5f5;
   box-shadow: 0px 4px 4px 0px #585c820d;
+}
+.draftToast {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  background: #fff;
+  padding: 8px 16px;
+  transform: translateX(-50%);
+  border-radius: 16px;
+  border: 2px solid #262626;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.18);
+}
+.toastBtnArea {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
