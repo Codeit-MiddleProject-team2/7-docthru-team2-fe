@@ -1,13 +1,9 @@
 import Image from "next/image";
 import styles from "./rejectModal.module.css";
 import iconClose from "@/public/icons/ic_close.svg";
-import { rejectChallenge } from "@/mock/myChallengesApply.js";
-import { useRouter } from "next/router";
 import { useState } from "react";
 
-export default function RejectModal() {
-  const router = useRouter();
-  const { id } = router.query;
+export default function RejectModal({ onClose, onReject }) {
   const [reason, setReason] = useState("");
   const [error, setError] = useState("");
 
@@ -19,12 +15,8 @@ export default function RejectModal() {
       return;
     }
 
-    try {
-      const response = await rejectChallenge(id, reason);
-      console.log("거절 완료", response);
-    } catch (error) {
-      console.error("거절 실패", error.message);
-    }
+    onReject(reason);
+    onClose();
   };
 
   return (
@@ -33,7 +25,7 @@ export default function RejectModal() {
       <div className={styles.modalBox}>
         <div className={styles.header}>
           <h3>거절 사유</h3>
-          <button type="button" className={styles.btnIcClose}>
+          <button type="button" className={styles.btnIcClose} onClick={onClose}>
             <Image src={iconClose} width={24} height={24} />
           </button>
         </div>

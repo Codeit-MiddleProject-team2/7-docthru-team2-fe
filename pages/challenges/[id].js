@@ -5,9 +5,11 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ChallengeAcceptedSection from "@/components/challengeId/ChallengeAcceptedSection";
 import ParticipationSection from "@/components/challengeId/ParticipationSection";
-import { getChallengeView } from "@/api/challengeId";
+import { getChallengeView, createChallengeStatus } from "@/api/challengeId";
 import { userSetting } from "@/lib/useAuth";
 import BestTranslation from "@/components/challengeId/BestTranslation";
+import AdminArea from "@/components/challengeId/AdminArea";
+import RejectModal from "@/components/modals/rejectModal";
 
 export default function ChallengesIdPage() {
   // 해당 두 줄 참고
@@ -26,12 +28,35 @@ export default function ChallengesIdPage() {
     }
   };
 
+  const handleChallengeStatus = async (state, reason) => {
+    try {
+      await createChallengeStatus(challengeId, state, reason);
+      alert(
+        `챌린지가 성공적으로 ${
+          state === "ACCEPTED" ? "승인" : "거절"
+        }되었습니다.`
+      );
+      refreshChallengeData();
+    } catch (error) {
+      alert(`상태 변경 실패: ${error.message}`);
+    }
+  };
+
+  // 상태 변경 후 페이지 데이터 새로고침
+  const refreshChallengeData = () => {
+    if (challengeId) {
+      getChallengeById(challengeId);
+    }
+  };
+
+  // 거절 사유 모달
+  const [isOpen, setIsOpen] = useState(false);
+
   useEffect(() => {
     // 해당 3줄 참고
     const { user: userData, accessToken } = userSetting();
     setUser(userData);
     setAccessTk(accessToken);
-
     if (!accessToken) {
       router.push("/");
     }
@@ -89,6 +114,19 @@ export default function ChallengesIdPage() {
         reason={challenge.reason}
       />
       <ChallengeDetail challenge={challenge} />
+      {challengeState === "PENDING" && user.isAdmin && (
+        <AdminArea
+          setIsOpen={setIsOpen}
+          challengeId={challengeId}
+          onAccept={() => handleChallengeStatus("ACCEPTED")}
+        />
+      )}
+      {isOpen && (
+        <RejectModal
+          onClose={() => setIsOpen(false)}
+          onReject={(reason) => handleChallengeStatus("REJECTED", reason)}
+        />
+      )}
     </div>
   );
 }
