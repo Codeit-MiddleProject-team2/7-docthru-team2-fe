@@ -29,6 +29,7 @@ function TranslationEditPage() {
   const router = useRouter();
   const { challengeId } = router.query;
   const [content, setContent] = useState("");
+  const [initialEditorContent, setInitialEditorContent] = useState("");
   const [translationId, setTranslationId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showDraftToast, setShowDraftToast] = useState(false);
@@ -42,6 +43,7 @@ function TranslationEditPage() {
 
   const handleLoadDraft = () => {
     setContent(draftContent);
+    setInitialEditorContent(draftContent);
     setShowDraftToast(false);
   };
 
@@ -94,6 +96,7 @@ function TranslationEditPage() {
 
           if (data.isSubmitted) {
             setContent(data.content);
+            setInitialEditorContent(data.content);
             setTranslationId(data.id);
           } else {
             // 임시 저장 데이터
@@ -129,7 +132,7 @@ function TranslationEditPage() {
         />
         <div className={styles.editorArea}>
           <TinymceEditor
-            initialValue={content}
+            initialValue={initialEditorContent}
             onEditorChange={handleEditorChange}
           />
         </div>
