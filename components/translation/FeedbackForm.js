@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import { createFeedback } from "@/api/feedback";
 import styles from "./FeedbackForm.module.css";
 
 /**
  * props:
  * - translationId
- * - currentUser
- * - onSubmitted?: (payload) => void
+ * - currentUser: { id, tier?: "pro"|"basic", isAdmin? }
+ * - onSubmitted?: () => void  // 성공 후 리스트 리로드용 신호
  */
 export default function FeedbackForm({
   translationId,
@@ -28,18 +29,16 @@ export default function FeedbackForm({
 
     try {
       setSubmitting(true);
-      // TODO: 실제 API 연동
-      // await api.post(`/translations/${translationId}/feedbacks`, { content: value.trim() });
-
-      onSubmitted?.({
+      await createFeedback({
         translationId,
         userId: currentUser?.id,
         content: value.trim(),
       });
       setValue("");
+      onSubmitted?.(); // 상위에 리로드 신호
     } catch (err) {
       console.error(err);
-      alert("피드백 등록에 실패했습니다. 잠시 후 다시 시도해 주세요.");
+      alert(err.message || "피드백 등록 실패");
     } finally {
       setSubmitting(false);
     }
@@ -47,7 +46,6 @@ export default function FeedbackForm({
 
   return (
     <form className={styles.ff} onSubmit={handleSubmit}>
-      {/* 입력창 박스 */}
       <div className={styles.box}>
         <textarea
           className={styles.ta}
@@ -58,7 +56,6 @@ export default function FeedbackForm({
         />
       </div>
 
-      {/* 등록 버튼  */}
       <button
         type="submit"
         className={styles.btn}

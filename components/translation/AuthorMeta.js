@@ -8,11 +8,11 @@ export default function AuthorMeta({
   onToggleHeart,
   className = "",
 }) {
-  const level = author?.userLevel === "전문가" ? "expert" : "general";
+  // 어드민 여부만으로 배지 결정
+  const isAdmin = !!author?.isAdmin;
 
-  const badgeSrc =
-    level === "expert" ? "/icons/ic_admin.svg" : "/icons/ic_member.svg";
-  const badgeAlt = level === "expert" ? "전문가 배지" : "일반 유저 배지";
+  const badgeSrc = isAdmin ? "/icons/ic_admin.svg" : "/icons/ic_member.svg";
+  const badgeAlt = isAdmin ? "관리자 배지" : "일반 유저 배지";
 
   return (
     <div className={`${styles.am} ${className}`}>

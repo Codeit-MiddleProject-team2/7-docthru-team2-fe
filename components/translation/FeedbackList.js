@@ -1,69 +1,53 @@
+"use client";
+
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import DeleteReasonModal from "./DeleteReasonModal";
+import { listFeedbacks, updateFeedback, deleteFeedback } from "@/api/feedback";
 import styles from "./FeedbackList.module.css";
 
 /**
  * props:
- * - feedbacks: Array<{
- *     id: number|string,
- *     content: string,
- *     userId: number|string,
- *     nickname: string,
- *     userLevel?: "일반" | "전문가",
- *     createdAt: string
- *   }>
- * - currentUser: { id: number|string, isAdmin?: boolean }
- * - onUpdate?: ({ id, content }) => Promise<void> | void
- * - onDelete?: ({ id, reason?: string }) => Promise<void> | void
+ * - translationId: string
+ * - currentUser: { id, isAdmin, nickname, tier } | null
+ * - refreshSignal?: number
  */
 export default function FeedbackList({
-  feedbacks = [],
+  translationId,
   currentUser,
-  onUpdate,
-  onDelete,
+  refreshSignal = 0,
 }) {
   const isAdmin = !!currentUser?.isAdmin;
-
-  /* 피드백 리스트 더보기 */
   const PAGE = 3;
-  const [visibleCount, setVisibleCount] = useState(PAGE);
-  useEffect(() => {
-    setVisibleCount((prev) => Math.min(Math.max(PAGE, prev), feedbacks.length));
-  }, [feedbacks.length]);
-  const visibleItems = useMemo(
-    () => feedbacks.slice(0, visibleCount),
-    [feedbacks, visibleCount]
-  );
-  const hasMore = visibleCount < feedbacks.length;
-  const handleLoadMore = () =>
-    setVisibleCount((c) => Math.min(c + PAGE, feedbacks.length));
 
-  /* ─ Editing ─ */
+  const [items, setItems] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
+  const [nextOffset, setNextOffset] = useState(0);
+
   const [editingId, setEditingId] = useState(null);
   const [editValue, setEditValue] = useState("");
-  const isEditing = (id) => editingId === id;
-
-  const startEdit = (fb) => {
-    setEditingId(fb.id);
-    setEditValue(fb.content || "");
-  };
-  const cancelEdit = () => {
-    setEditingId(null);
-    setEditValue("");
-  };
-  const submitEdit = async () => {
-    if (!editingId) return;
-    const trimmed = editValue.trim();
-    if (!trimmed) return;
-    await onUpdate?.({ id: editingId, content: trimmed });
-    setEditingId(null);
-    setEditValue("");
-  };
-
-  /*  더보기 메뉴  */
   const [openMenuForId, setOpenMenuForId] = useState(null);
   const menusRef = useRef(new Map());
+
+  // 관리자 삭제 모달용 상태 (관리자 전용 + 관리자 본인도 포함)
+  const [adminDeleteTarget, setAdminDeleteTarget] = useState(null);
+
+  // 최초/새로고침 로딩
+  useEffect(() => {
+    (async () => {
+      const data = await listFeedbacks(String(translationId), 0, PAGE);
+      setItems(data.items ?? []);
+      setTotal(data.total ?? 0);
+      setHasMore(!!data.hasMore);
+      setNextOffset(data.nextOffset ?? data.items?.length ?? 0);
+    })().catch((e) => {
+      console.error(e);
+      alert(e.message || "피드백 로딩 실패");
+    });
+  }, [translationId, refreshSignal]);
+
+  // 외부 클릭 시 메뉴 닫기
   useEffect(() => {
     const onDocClick = (e) => {
       for (const el of menusRef.current.values()) {
@@ -75,17 +59,87 @@ export default function FeedbackList({
     return () => document.removeEventListener("mousedown", onDocClick);
   }, []);
 
-  /* ─ Admin delete modal ─ */
-  const [adminDeleteTarget, setAdminDeleteTarget] = useState(null);
-  const openAdminDeleteModal = (fb) => setAdminDeleteTarget(fb);
-  const closeAdminDeleteModal = () => setAdminDeleteTarget(null);
-  const confirmAdminDelete = async (reason) => {
-    if (!adminDeleteTarget) return;
-    await onDelete?.({ id: adminDeleteTarget.id, reason: reason?.trim() });
-    setAdminDeleteTarget(null);
+  const loadMore = async () => {
+    const data = await listFeedbacks(String(translationId), nextOffset, PAGE);
+    setItems((prev) => [...prev, ...(data.items ?? [])]);
+    setTotal(data.total ?? total);
+    setHasMore(!!data.hasMore);
+    setNextOffset(data.nextOffset ?? nextOffset);
   };
 
-  /* ─ Utils ─ */
+  const isEditing = (id) => editingId === id;
+  const startEdit = (fb) => {
+    setEditingId(fb.id);
+    setEditValue(fb.content || "");
+  };
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditValue("");
+  };
+
+  const submitEdit = async () => {
+    if (!editingId) return;
+    const trimmed = editValue.trim();
+    if (!trimmed) return;
+    try {
+      const updated = await updateFeedback(editingId, trimmed);
+      setItems((prev) =>
+        prev.map((f) =>
+          f.id === editingId
+            ? { ...f, content: updated.content, updatedAt: updated.updatedAt }
+            : f
+        )
+      );
+      cancelEdit();
+    } catch (err) {
+      console.error(err);
+      alert(err.message || "수정 실패");
+    }
+  };
+
+  /**
+   * ⛳️ 작성자 삭제 흐름:
+   * - 일반 유저가 자기 글 삭제 → confirm만 물어보고 빈 reason으로 보냄
+   * - (중요) 관리자이지만 자기 글을 지우는 경우: 서버가 "관리자 삭제는 reason 필수" 정책이므로
+   *   관리자도 자기 글을 지울 땐 모달을 띄워 reason을 받아서 보낸다.
+   */
+  const askOwnerDelete = async (id) => {
+    const ok = window.confirm("피드백을 삭제하시겠어요?");
+    if (!ok) return;
+    try {
+      await deleteFeedback(id, ""); // owner delete (reason 없음)
+      setItems((prev) => prev.filter((f) => f.id !== id));
+      setTotal((t) => Math.max(0, t - 1));
+    } catch (err) {
+      console.error(err);
+      alert(err.message || "삭제 실패");
+    }
+  };
+
+  /**
+   * 관리자 삭제(타인 글 + 관리자 본인 글 모두 포함)
+   * - 항상 모달에서 받은 reason을 포함해 전송
+   */
+  const confirmAdminDelete = async (reason) => {
+    if (!adminDeleteTarget) return;
+    try {
+      await deleteFeedback(adminDeleteTarget.id, reason);
+      setItems((prev) => prev.filter((f) => f.id !== adminDeleteTarget.id));
+      setTotal((t) => Math.max(0, t - 1));
+    } catch (err) {
+      console.error(err);
+      alert(err.message || "삭제 실패");
+    } finally {
+      setAdminDeleteTarget(null);
+    }
+  };
+
+  // === 배지(아이콘) ===
+  const badgeSrc = (fb) =>
+    fb?.user?.isAdmin ? "/icons/ic_admin.svg" : "/icons/ic_member.svg";
+  const badgeAlt = (fb) =>
+    fb?.user?.isAdmin ? "관리자 배지" : "일반 유저 배지";
+
   const fmt = (ds) => {
     if (!ds) return "";
     const d = new Date(ds);
@@ -97,17 +151,16 @@ export default function FeedbackList({
     const MM = String(d.getMinutes()).padStart(2, "0");
     return `${yy}/${mm}/${dd} ${HH}:${MM}`;
   };
-  const badgeSrc = (level) =>
-    level === "전문가" ? "/icons/ic_admin.svg" : "/icons/ic_member.svg";
-  const badgeAlt = (level) =>
-    level === "전문가" ? "전문가 배지" : "일반 유저 배지";
 
   return (
     <section className={styles.section}>
       <div className={styles.list}>
-        {visibleItems.map((fb) => {
-          const isOwner = currentUser?.id === fb.userId;
-          const showMenu = isOwner || isAdmin;
+        {items.map((fb) => {
+          // 문자열 비교로 소유자 판단 (타입 불일치 방지)
+          const isOwner =
+            String(currentUser?.id ?? "") ===
+            String(fb.userId ?? fb.user?.id ?? "");
+          const showMenu = (isOwner || isAdmin) && !isEditing(fb.id);
 
           return (
             <article
@@ -116,7 +169,7 @@ export default function FeedbackList({
                 isEditing(fb.id) ? styles["card--editing"] : ""
               }`}
             >
-              {/* 피드백 카드 우상단: 편집 컨트롤 (편집 중일 때만) */}
+              {/* 편집 컨트롤 */}
               {isEditing(fb.id) && (
                 <div className={styles.cardControls}>
                   <button
@@ -141,13 +194,15 @@ export default function FeedbackList({
               <div className={styles.header}>
                 <span className={styles.badge}>
                   <Image
-                    src={badgeSrc(fb.userLevel)}
-                    alt={badgeAlt(fb.userLevel)}
+                    src={badgeSrc(fb)}
+                    alt={badgeAlt(fb)}
                     width={28}
                     height={28}
                   />
                 </span>
-                <span className={styles.name}>{fb.nickname}</span>
+                <span className={styles.name}>
+                  {fb.user?.nickname ?? fb.nickname ?? `user#${fb.userId}`}
+                </span>
                 <span className={styles.dot} aria-hidden>
                   •
                 </span>
@@ -170,8 +225,8 @@ export default function FeedbackList({
                 />
               )}
 
-              {/* 피드백 수정하기/더보기 */}
-              {showMenu && !isEditing(fb.id) && (
+              {/* 더보기 메뉴 */}
+              {showMenu && (
                 <div
                   className={styles.moreWrap}
                   ref={(el) => menusRef.current.set(fb.id, el)}
@@ -210,17 +265,23 @@ export default function FeedbackList({
                         </button>
                       )}
 
+                      {/* 🔑 삭제 분기
+                           - 관리자이면서 내 글이면: 모달 열어 reason 받기(관리자 삭제 경로)
+                           - 일반 유저의 내 글: confirm 후 owner-delete(이유 없이)
+                           - 관리자이고 남의 글: 모달 열기(관리자 삭제 경로)
+                      */}
                       {isOwner && (
                         <button
                           type="button"
                           role="menuitem"
                           className={`${styles.menuItem} ${styles["menuItem--danger"]}`}
-                          onClick={async () => {
+                          onClick={() => {
                             setOpenMenuForId(null);
-                            const ok =
-                              window.confirm("피드백을 삭제하시겠어요?");
-                            if (!ok) return;
-                            await onDelete?.({ id: fb.id });
+                            if (isAdmin) {
+                              setAdminDeleteTarget(fb); // 관리자=작성자 케이스 → 모달
+                            } else {
+                              askOwnerDelete(fb.id); // 일반 작성자 삭제
+                            }
                           }}
                         >
                           삭제하기
@@ -234,7 +295,7 @@ export default function FeedbackList({
                           className={`${styles.menuItem} ${styles["menuItem--danger"]}`}
                           onClick={() => {
                             setOpenMenuForId(null);
-                            openAdminDeleteModal(fb);
+                            setAdminDeleteTarget(fb); // 관리자(타인 글) → 모달
                           }}
                         >
                           삭제하기
@@ -248,25 +309,27 @@ export default function FeedbackList({
           );
         })}
 
-        {/* 피드백 리스트 더보기 */}
         {hasMore && (
           <div className={styles.moreListWrap}>
             <button
               type="button"
               className={styles.moreListBtn}
-              onClick={handleLoadMore}
+              onClick={loadMore}
             >
-              더 보기
+              더 보기 ({items.length}/{total})
             </button>
           </div>
         )}
       </div>
 
-      {/* 어드민 삭제 모달 */}
+      {/* 관리자 삭제 모달 (관리자 본인/타인 모두 공통) */}
       <DeleteReasonModal
         isOpen={!!adminDeleteTarget}
-        onClose={closeAdminDeleteModal}
-        onConfirm={confirmAdminDelete}
+        onClose={() => setAdminDeleteTarget(null)}
+        onConfirm={(reason) => {
+          if (!reason?.trim()) return;
+          confirmAdminDelete(reason.trim());
+        }}
       />
     </section>
   );
