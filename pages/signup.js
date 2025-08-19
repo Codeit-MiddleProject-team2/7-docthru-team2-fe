@@ -6,7 +6,7 @@ import CustomInput from "@/components/login/CustomInput";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/router";
-import useAuth from "@/lib/useAuth";
+import useAuth, { userLogin } from "@/lib/useAuth";
 import {
   useEmail,
   useNickname,
@@ -15,6 +15,7 @@ import {
 } from "@/lib/useEmailPassword";
 import CustomBtnLong from "@/components/CustomBtnLong";
 import BigLogo from "@/components/login/BigLogo";
+import { postSignup } from "@/api/login";
 
 function SignupPage() {
   const emailObject = useEmail();
@@ -26,7 +27,14 @@ function SignupPage() {
 
   // 회원가입 함수
   const onSignup = async () => {
-    alert("회원가입 버튼 클릭");
+    const data = await postSignup({
+      email: emailObject.element,
+      password: passwordObject.element,
+      nickname: nicknameObject.element,
+      userLevel: "basic",
+    });
+    userLogin(data);
+    router.push("/challenges");
   };
 
   return (
