@@ -27,7 +27,7 @@ export default function ParticipationSection({
   }
 
   return (
-    <div>
+    <div className={styles.background}>
       {isFinished && <BestTranslation challengeId={challengeId} />}
       <div className={styles.box}>
         <div>
