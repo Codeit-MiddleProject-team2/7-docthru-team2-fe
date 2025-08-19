@@ -4,9 +4,8 @@ import CustomInput from "@/components/login/CustomInput";
 import { useEffect, useState } from "react";
 import CustomBtnLong from "@/components/CustomBtnLong";
 import Link from "next/link";
-// import axios from "axios";
 import { useRouter } from "next/router";
-import useAuth, { userLogin } from "@/lib/useAuth";
+import { userLogin } from "@/lib/useAuth";
 import { useEmail, usePassword } from "@/lib/useEmailPassword";
 import BigLogo from "@/components/login/BigLogo";
 import { postLogin } from "@/api/login";
@@ -14,7 +13,6 @@ import { postLogin } from "@/api/login";
 function LoginPage() {
   const emailObject = useEmail();
   const passwordObject = usePassword();
-  // const { userLogin, userSetting } = useAuth();
   const router = useRouter();
 
   //로그인 post 함수

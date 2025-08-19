@@ -6,27 +6,44 @@ import { userImgSetting } from "@/utils/userImgDefault";
 function ParticipationListItem({ participation, rank }) {
   const router = useRouter();
   return (
-    <div>
-      <div>순위: {rank} </div>
-      <div>
+    <div className={styles.participation}>
+      <div className={styles.ranking}>
         <Image
+          className={styles.crown}
+          src="/icons/ic_crown.svg"
+          width={16}
+          height={16}
+          alt="왕관"
+        />
+        <div className={styles.rankingText}>{rank}</div>
+      </div>
+      <div className={styles.user}>
+        <Image
+          className={styles.userImg}
           src={userImgSetting(participation.img)}
           width={24}
           height={24}
           alt="유저 이미지"
         />
-        <div>
-          <div>{participation.nickname} </div>
-          <div>{participation.userLevel} </div>
+        <div className={styles.userInfo}>
+          <div className={styles.nickname}>{participation.nickname} </div>
+          <div className={styles.userLevel}>{participation.userLevel} </div>
         </div>
       </div>
-      <div>{participation.hearts_count}</div>
-      <div
-        onClick={() => {
-          router.push(`/translation/${participation.id}`);
-        }}
-      >
-        작업물 보기
+      <div className={styles.left}>
+        <div className={styles.hearts}>{participation.hearts_count}</div>
+        <div className={styles.goWork}>
+          <div className={styles.goWorkText}>작업물 보기</div>
+          <Image
+            src="/icons/ic_pagenaiton_arrow_right.svg"
+            width={16}
+            height={16}
+            alt="작업물 보기"
+            onClick={() => {
+              router.push(`/translation/${participation.id}`);
+            }}
+          />
+        </div>
       </div>
     </div>
   );
