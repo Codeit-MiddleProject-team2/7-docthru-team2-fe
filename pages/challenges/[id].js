@@ -7,6 +7,7 @@ import ChallengeAcceptedSection from "@/components/challengeId/ChallengeAccepted
 import ParticipationSection from "@/components/challengeId/ParticipationSection";
 import { getChallengeView } from "@/api/challengeId";
 import { userSetting } from "@/lib/useAuth";
+import BestTranslation from "@/components/challengeId/BestTranslation";
 
 export default function ChallengesIdPage() {
   // 해당 두 줄 참고
@@ -68,6 +69,7 @@ export default function ChallengesIdPage() {
             user={user}
             isFinished={isFinished}
           />
+          {isFinished && <BestTranslation challengeId={challengeId} />}
           <ParticipationSection
             challengeId={challengeId}
             count={challenge._count.Translation}

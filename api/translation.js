@@ -11,10 +11,23 @@ const getAuthHeaders = () => {
   };
 };
 
+// 특정 챌린지의 모든 작업물 가져오기
 export const getAllTranslations = async (challengeId, page = 1) => {
   try {
     const res = await axios.get(`${API_URL}/translation/temporary`, {
       params: { challengeId, page },
+    });
+    return res.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 특정 챌린지의 최다 추천작 가져오기
+export const getBestTranslations = async (challengeId) => {
+  try {
+    const res = await axios.get(`${API_URL}/translation/best`, {
+      params: { challengeId },
     });
     return res.data;
   } catch (e) {
