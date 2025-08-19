@@ -7,7 +7,6 @@ export default function Sort({ selected, onChange }) {
   const options = [
     { value: "latest", label: "최신순" },
     { value: "deadline", label: "마감일순" },
-    { value: "popular", label: "인기순" },
   ];
 
   const [isOpen, setIsOpen] = useState(false);
