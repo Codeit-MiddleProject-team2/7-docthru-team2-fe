@@ -20,6 +20,20 @@ export const getAllTranslations = async (challengeId, page = 1) => {
     return res.data;
   } catch (e) {
     console.error(e);
+    throw e;
+  }
+};
+
+/**
+ * 상세: GET {API_URL}/translation/:id
+ */
+export const getTranslationDetail = async (id) => {
+  try {
+    const res = await axios.get(`${API_URL}/translation/${id}`);
+    return res.data;
+  } catch (e) {
+    console.error(e);
+    throw e;
   }
 };
 

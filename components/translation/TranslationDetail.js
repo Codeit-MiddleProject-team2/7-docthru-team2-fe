@@ -1,105 +1,99 @@
-import React, { useState } from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import TranslationInfo from "./TranslationInfo";
 import FeedbackForm from "./FeedbackForm";
 import FeedbackList from "./FeedbackList";
+import { getTranslationDetail } from "@/api/translation";
+import { userSetting } from "@/lib/useAuth"; // ← 팀원 util 그대로 사용
 import styles from "./TranslationDetail.module.css";
 
-export default function TranslationDetail() {
-  // 로그인 사용자 mock  (99=일반, 2=작성자, 999=어드민)
-  const currentUser = { id: 999, isAdmin: true };
+function normalizeTier(rawTier, isAdmin = false) {
+  const v = (rawTier ?? "").toString().toLowerCase();
+  if (v === "pro" || v === "basic") return v;
+  if (v === "전문가") return "pro";
+  if (v === "일반" || v === "basic") return "basic";
+  return isAdmin ? "pro" : "basic";
+}
 
-  // 번역 데이터 mock
-  const translation = {
-    id: 1,
-    title: "React란?",
-    field: "next.js",
-    documentType: "공식문서",
-    userId: 2,
-    nickname: "독스루",
-    userLevel: "전문가",
-    likeCount: 5,
-    createdAt: "2025-08-01",
-    content: `
-일반적으로 개발자는 일련의 하드 스킬을 가지고 있어야 커리어에서 경력과 전문성을 쌓을 수 있습니다. 하지만 이에 못지 않게 개인 브랜드 구축도 만족스럽고 성취감 있는 경력을 쌓기 위해 중요하며 이를 쌓기는 더 어려울 수 있습니다.
+// API 응답을 화면 모델로 정규화
+function adaptTranslation(dto = {}) {
+  const author = dto.user || dto.author || {};
+  const rawTier =
+    author.tier ??
+    dto.tier ??
+    author.userLevel ?? // 한글 값 대응
+    dto.userLevel ??
+    author.level ??
+    dto.level;
 
-- 다른 사람들과의 차별화
-- 신뢰감을 줄 수 있음
-- 인맥을 쌓을 수 있는 기회
-- 이름을 알릴 수 있음
+  const tier = normalizeTier(rawTier, !!author.isAdmin);
+  const userLevel = tier === "pro" ? "전문가" : "일반"; // TranslationInfo가 한글을 쓰더라도 대응
 
-이렇게 개인 브랜드는 경력을 결정짓는 수많은 중요한 방법으로 여러분을 도울 수 있습니다. 하지만 본인의 실력을 뽐내는 데 익숙하지 않거나 마케팅 개념에 한 번도 접근해보지 않은 사람은 브랜드 구축을 부담스럽거나 어렵게 느낄 수 있습니다. 이 가이드에서는 브랜드 구축을 위한 몇 가지 실용적인 전략을 소개합니다!
-    `,
+  return {
+    id: String(dto.id ?? dto.translationId ?? dto._id ?? ""),
+    title: dto.title ?? dto.name ?? "(제목 없음)",
+    field: dto.field ?? "",
+    documentType: dto.documentType ?? dto.type ?? "",
+    userId: String(dto.userId ?? author.id ?? ""),
+    nickname:
+      author.nickname ??
+      author.name ??
+      dto.nickname ??
+      `user#${dto.userId ?? ""}`,
+    tier, // ← "pro" | "basic"
+    userLevel, // ← "전문가" | "일반"  (기존 컴포넌트 호환용)
+    likeCount: dto.likeCount ?? dto.likes ?? 0,
+    createdAt: dto.createdAt ?? dto.submittedAt ?? "",
+    content: dto.content ?? dto.body ?? "",
   };
+}
 
-  const [feedbacks, setFeedbacks] = useState([
-    {
-      id: 101,
-      content: "좋은 번역 감사합니다!",
-      userId: 99,
-      nickname: "일반유저",
-      userLevel: "일반",
-      createdAt: "2025-08-02 15:38",
-    },
-    {
-      id: 102,
-      content: "여기 오타 있어요.",
-      userId: 2,
-      nickname: "작성자닉네임",
-      userLevel: "전문가",
-      createdAt: "2025-08-03 12:20",
-    },
-    {
-      id: 103,
-      content: "이 부분은 좀 더 자세히 설명해 주세요.",
-      userId: 999,
-      nickname: "관리자",
-      userLevel: "전문가",
-      createdAt: "2025-08-04 09:10",
-    },
-    {
-      id: 104,
-      content: "피드백 감사합니다!",
-      userId: 99,
-      nickname: "일반유저",
-      userLevel: "일반",
-      createdAt: "2025-08-05 10:00",
-    },
-  ]);
+// 로컬스토리지 user를 화면에서 쓸 형태로 정규화
+function normalizeUser(raw) {
+  if (!raw) return null;
+  const id = String(raw.id ?? raw.userId ?? "");
+  const nickname = raw.nickname ?? raw.name ?? `user#${id}`;
+  const tier = normalizeTier(raw.tier ?? raw.userLevel, !!raw.isAdmin);
+  return { id, nickname, isAdmin: !!raw.isAdmin, tier };
+}
 
-  // 현재 유저 닉네임(데모용)
-  const currentNickname =
-    currentUser.id === 999
-      ? "관리자"
-      : currentUser.id === translation.userId
-      ? "작성자닉네임"
-      : "일반유저";
+export default function TranslationDetail({ translationId }) {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [translation, setTranslation] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [refreshTick, setRefreshTick] = useState(0);
 
-  // 폼 등록 콜백
-  const handleFeedbackSubmitted = ({ translationId, userId, content }) => {
-    const next = {
-      id: Date.now(),
-      content: content.trim(),
-      userId,
-      nickname: currentNickname,
-      userLevel: currentUser.isAdmin ? "전문가" : "일반",
-      createdAt: new Date().toISOString(),
-    };
-    setFeedbacks((prev) => [next, ...prev]);
-  };
+  // 로그인 사용자 읽기 (팀원 util 활용)
+  useEffect(() => {
+    const { user } = userSetting();
+    setCurrentUser(normalizeUser(user));
+  }, []);
 
-  // 수정/삭제 콜백 (서버 연동 자리 표시)
-  const handleUpdate = async ({ id, content }) => {
-    setFeedbacks((prev) =>
-      prev.map((f) => (f.id === id ? { ...f, content } : f))
-    );
-  };
-  const handleDelete = async ({ id /*, reason*/ }) => {
-    setFeedbacks((prev) => prev.filter((f) => f.id !== id));
-  };
+  // 번역 상세 불러오기
+  useEffect(() => {
+    if (!translationId) return;
+    (async () => {
+      try {
+        setLoading(true);
+        const dto = await getTranslationDetail(String(translationId));
+        setTranslation(adaptTranslation(dto));
+      } catch (err) {
+        console.error("[translation detail] error:", err);
+        alert(err.message || "번역 상세 조회 실패");
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [translationId]);
+
+  if (loading) return <div className={styles.container}>로딩 중…</div>;
+  if (!translation)
+    return <div className={styles.container}>데이터가 없습니다.</div>;
 
   return (
     <div className={styles.container}>
-      <div className={styles.translationDetail__container}>
+      <div className={styles["translationDetail__container"]}>
         <TranslationInfo translation={translation} currentUser={currentUser} />
 
         <div className={styles.paper}>
@@ -112,16 +106,15 @@ export default function TranslationDetail() {
           <FeedbackForm
             translationId={translation.id}
             currentUser={currentUser}
-            onSubmitted={handleFeedbackSubmitted}
+            onSubmitted={() => setRefreshTick((t) => t + 1)}
           />
         </div>
 
         <div className={styles.sectionSmall}>
           <FeedbackList
-            feedbacks={feedbacks}
+            translationId={translation.id}
             currentUser={currentUser}
-            onUpdate={handleUpdate}
-            onDelete={handleDelete}
+            refreshSignal={refreshTick}
           />
         </div>
       </div>

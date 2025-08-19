@@ -16,10 +16,26 @@ function formatDate(dateString) {
 }
 
 export default function TranslationInfo({ translation, currentUser }) {
-  // 등급: "전문가"면 admin 아이콘, 그 외는 member
-  const isExpert = translation?.userLevel === "전문가";
-  const badgeSrc = isExpert ? "/icons/ic_admin.svg" : "/icons/ic_member.svg";
-  const badgeAlt = isExpert ? "전문가 배지" : "일반 유저 배지";
+  // 작성자 객체: /translation/:id 응답에 user가 있으면 우선 사용
+  const author = translation?.user ?? {
+    id: translation?.userId,
+    nickname: translation?.nickname,
+    isAdmin: translation?.isAdmin,
+    userLevel: translation?.userLevel,
+  };
+
+  // 배지 규칙: 어드민만 다른 아이콘
+  const isAdmin = author?.isAdmin === true || author?.userLevel === "전문가";
+  const badgeSrc = isAdmin ? "/icons/ic_admin.svg" : "/icons/ic_member.svg";
+  const badgeAlt = isAdmin ? "관리자 배지" : "일반 유저 배지";
+
+  // (있는 경우에만) 초기 표시 값. 실제 값은 LikeBtn에서 서버로 재동기화함
+  const initialLiked =
+    translation?.likedByMe ?? translation?.isLiked ?? undefined;
+  const initialCount =
+    typeof translation?.likeCount === "number"
+      ? translation.likeCount
+      : undefined;
 
   return (
     <div className={styles.wrap}>
@@ -37,6 +53,7 @@ export default function TranslationInfo({ translation, currentUser }) {
       <div className={styles.badges}>
         <ChipBadge
           kind="type"
+          category={undefined}
           value={translation.field}
           alt={translation.field}
         />
@@ -55,13 +72,17 @@ export default function TranslationInfo({ translation, currentUser }) {
           <span className={styles.badge}>
             <Image src={badgeSrc} alt={badgeAlt} width={28} height={28} />
           </span>
-          <span className={styles.name}>{translation.nickname}</span>
 
+          <span className={styles.name}>
+            {author?.nickname ?? "알 수 없음"}
+          </span>
+
+          {/* 초기값이 있으면 넘기되, LikeBtn이 서버에서 다시 동기화함 */}
           <LikeBtn
             translationId={translation.id}
-            initialLiked={false} /* TODO: 서버 데이터로 교체 */
-            initialCount={translation.likeCount || 0}
             currentUserId={currentUser?.id}
+            initialLiked={initialLiked}
+            initialCount={initialCount}
           />
         </div>
 
