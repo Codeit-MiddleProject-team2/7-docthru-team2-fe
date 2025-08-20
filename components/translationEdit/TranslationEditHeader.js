@@ -2,7 +2,7 @@ import Image from "next/image";
 import styles from "./TranslationEditHeader.module.css";
 import { useRouter } from "next/navigation";
 
-function TranslationEditHeader({ onSaveOrSubmit, submitText }) {
+function TranslationEditHeader({ onSaveOrSubmit, onGiveUp, submitText }) {
   const router = useRouter();
   return (
     <div className={styles.header}>
@@ -22,7 +22,7 @@ function TranslationEditHeader({ onSaveOrSubmit, submitText }) {
           <div className={styles.title}>Docthru</div>
         </div>
         <div className={styles.utils}>
-          <button type="button" className={styles.btnCancel}>
+          <button type="button" className={styles.btnCancel} onClick={onGiveUp}>
             포기
             <Image
               src={"/icons/ic_cancel.svg"}

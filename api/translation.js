@@ -105,3 +105,38 @@ export const getTranslationByChallengeId = async (challengeId) => {
     throw error;
   }
 };
+
+export const getDraftsByChallengeId = async (challengeId) => {
+  try {
+    const response = await fetch(
+      `${API_URL}/translation/${challengeId}/drafts`,
+      {
+        method: "GET",
+        headers: getAuthHeaders(),
+      }
+    );
+    return await response.json();
+  } catch (error) {
+    console.error("getDraftsByChallengeId API 오류:", error);
+    throw error;
+  }
+};
+
+export const deleteTranslationsByChallengeId = async (challengeId) => {
+  try {
+    const response = await fetch(`${API_URL}/translation/${challengeId}`, {
+      method: "DELETE",
+      headers: getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "번역물 삭제에 실패했습니다.");
+    }
+
+    return true;
+  } catch (error) {
+    console.error("deleteTranslationsByChallengeId API 오류:", error);
+    throw error;
+  }
+};
