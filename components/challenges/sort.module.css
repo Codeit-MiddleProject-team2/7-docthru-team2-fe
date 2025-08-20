@@ -1,6 +1,6 @@
 .sortEl {
   position: relative;
-  width: 140px;
+  width: 160px;
   z-index: 5;
 }
 .sortButton {
@@ -14,6 +14,7 @@
   border-radius: 20px;
   box-sizing: border-box;
   cursor: pointer;
+  font-size: 15px;
 }
 .sortOptions {
   position: absolute;
@@ -32,4 +33,5 @@
   align-items: center;
   color: #737373;
   cursor: pointer;
+  font-size: 14px;
 }

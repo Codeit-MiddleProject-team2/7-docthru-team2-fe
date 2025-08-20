@@ -11,6 +11,11 @@ import { userSetting } from "@/lib/useAuth";
 import { useRouter } from "next/router";
 import { getChallenges } from "@/api/challenges";
 
+const options = [
+  { value: "latest", label: "최신순" },
+  { value: "deadline", label: "마감일순" },
+];
+
 export default function ChallengesPage() {
   // 컴포넌트 상태 관리: challenges 목록, 로딩 상태, 페이지네이션 정보를 관리.
   const [challenges, setChallenges] = useState([]);
@@ -99,7 +104,11 @@ export default function ChallengesPage() {
       </header>
       <div className={styles.controls}>
         <div className={styles.topControls}>
-          <Sort selected={sortOption} onChange={handleSortChange} />
+          <Sort
+            options={options}
+            selected={sortOption}
+            onChange={handleSortChange}
+          />
           <SearchBar value={searchQuery} onChange={handleSearch} />
         </div>
         <Category category={category} setCategory={setCategory} />
