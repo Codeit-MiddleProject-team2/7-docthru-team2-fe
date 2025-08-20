@@ -3,11 +3,7 @@ import styles from "./sort.module.css";
 import iconSortArrow from "../../public/icons/ic_toggle_down.svg";
 import { useState } from "react";
 
-<<<<<<< HEAD
 export default function Sort({ options, selected, onChange }) {
-=======
-export default function Sort({ options = [], selected = "", onChange }) {
->>>>>>> 2ffdc44 (자잘하게 수정)
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => {
     setIsOpen((prev) => !prev);
@@ -24,7 +20,6 @@ export default function Sort({ options = [], selected = "", onChange }) {
   return (
     <>
       <div className={styles.sortEl}>
-<<<<<<< HEAD
         <div
           className={styles.sortButton}
           onClick={handleOpen}
@@ -36,11 +31,6 @@ export default function Sort({ options = [], selected = "", onChange }) {
             height={24}
             alt="정렬 옵션"
           />
-=======
-        <div className={styles.sortButton} onClick={handleOpen}>
-          <span>{options.find((o) => o.value === selected).label}</span>
-          <Image src={iconSortArrow} width={24} height={24} alt="정렬 옵션" />
->>>>>>> 2ffdc44 (자잘하게 수정)
         </div>
         {isOpen && (
           <div className={styles.sortOptions}>
