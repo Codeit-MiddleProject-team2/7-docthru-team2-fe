@@ -12,8 +12,15 @@ import CheckModal from "../modals/checkModal";
 import { useState } from "react";
 import { Router, useRouter } from "next/router";
 
-export default function ChallengeCard({ data, type = "default" }) {
+export default function ChallengeCard({
+  data,
+  userId,
+  accessToken,
+  type = "default",
+}) {
   const router = useRouter();
+  const isOwn = data.userId === userId;
+
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
   // 챌린지 취소 핸들러 함수 수정: 환경변수 적용
   const handleCancelChallenge = async () => {
@@ -74,9 +81,8 @@ export default function ChallengeCard({ data, type = "default" }) {
             </p>
             {/* ChallengeDetail.js 적용 */}
             {(type !== "detail" ||
-              (type === "detail" && challengeState === "PENDING")) && (
-              <BtnOptions />
-            )}
+              (type === "detail" && challengeState === "PENDING")) &&
+              isOwn && <BtnOptions />}
           </div>
           <div className={styles.docTypeInfoArea}>
             <div className={styles.docTypeInfo}>

@@ -7,6 +7,9 @@ import ChallengeCard from "@/components/challenges/card";
 import { Pagination } from "@/components/challenges/pagination";
 import styles from "@/styles/challenges.module.css";
 import axios from "axios";
+import { userSetting } from "@/lib/useAuth";
+import { useRouter } from "next/router";
+import { getChallenges } from "@/api/challenges";
 
 export default function ChallengesPage() {
   // 컴포넌트 상태 관리: challenges 목록, 로딩 상태, 페이지네이션 정보를 관리.
@@ -18,9 +21,22 @@ export default function ChallengesPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const [category, setCategory] = useState("");
+  const [user, setUser] = useState([]);
+  const [access, setAccess] = useState("");
+
+  const router = useRouter();
 
   //currentPage나 searchQuery가 바뀔 때마다 API를 호출.
   useEffect(() => {
+    const { user, accessToken } = userSetting();
+
+    if (!accessToken) {
+      router.push("/");
+    }
+
+    setUser(user);
+    setAccess(accessToken);
+
     const fetchChallenges = async () => {
       setIsLoading(true);
       try {
@@ -33,10 +49,7 @@ export default function ChallengesPage() {
         });
 
         // 백엔드 API에 데이터를 요청
-        const res = await axios.get(`http://localhost:5000/challenge`, {
-          params,
-        });
-        console.log(res);
+        const res = await getChallenges(params);
         if (res.statusText !== "OK") {
           throw new Error("챌린지 데이터를 불러오는 데 실패했습니다.");
         }
@@ -96,7 +109,12 @@ export default function ChallengesPage() {
         {challenges.length > 0 ? (
           <div className={styles.cardGrid}>
             {challenges.map((challenge) => (
-              <ChallengeCard key={challenge.id} data={challenge} />
+              <ChallengeCard
+                key={challenge.id}
+                userId={user.id}
+                accessToken={access}
+                data={challenge}
+              />
             ))}
           </div>
         ) : (

@@ -11,3 +11,12 @@
   flex-direction: column;
   gap: 24px;
 }
+
+.title {
+  color: var(--gray-gray800, #262626);
+  font-family: Pretendard;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}

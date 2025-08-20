@@ -39,7 +39,6 @@ export default function Category({ category, setCategory }) {
 
   //검색 결과 중 하나를 선택할 때
   const handleCategoryClick = (e) => {
-    console.log(e);
     const value = e.target.innerText;
     setCategory(value);
   };
