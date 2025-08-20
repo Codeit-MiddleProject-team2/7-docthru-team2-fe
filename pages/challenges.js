@@ -109,9 +109,15 @@ export default function ChallengesPage() {
             selected={sortOption}
             onChange={handleSortChange}
           />
-          <SearchBar value={searchQuery} onChange={handleSearch} />
+          <SearchBar
+            value={searchQuery}
+            onChange={handleSearch}
+          />
         </div>
-        <Category category={category} setCategory={setCategory} />
+        <Category
+          category={category}
+          setCategory={setCategory}
+        />
       </div>
 
       <main className={styles.mainContent}>
