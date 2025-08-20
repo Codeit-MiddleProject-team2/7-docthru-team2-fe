@@ -18,7 +18,7 @@ export default function SearchBar({ value, onChange }) {
     <>
       <form className={styles.searchBar} onSubmit={handleSubmit}>
         <div className={`${styles.searchBox}`}>
-          <Image src={iconSearch} width={24} height={24} />
+          <Image src={iconSearch} width={24} height={24} alt="검색창" />
           <input
             type="text"
             id="keyword"

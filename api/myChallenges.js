@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
 
 export const getMyChallengesApply = async ({
@@ -24,3 +26,14 @@ export const getMyChallengesApply = async ({
     return { page: 1, limit: 10, total: 0, challenges: [] };
   }
 };
+
+export async function getMyChallenges(params, token) {
+  const res = await axios.get(`http://localhost:5000/myChallenge`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params,
+  });
+
+  return res;
+}

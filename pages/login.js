@@ -19,6 +19,7 @@ function LoginPage() {
 
   const onLogin = async () => {
     const data = await postLogin(emailObject.element, passwordObject.element);
+    console.log(data);
     userLogin(data);
     router.push("/challenges");
   };

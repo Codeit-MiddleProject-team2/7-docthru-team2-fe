@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { getCategory } from "@/mock/categoryMock";
 import styles from "./category.module.css";
 import Image from "next/image";
+import { getCategorys } from "@/api/challenges";
 
-function CategoryTag({ text, key, onPlus, onDelete, style = "plus" }) {
+function CategoryTag({ text, onPlus, onDelete, style = "plus" }) {
   return (
-    <div className={styles.filteredCategory} key={key} onClick={onPlus}>
+    <div className={styles.filteredCategory} onClick={onPlus}>
       {text}
       <Image
         className={style === "plus" ? styles.plusBtn : styles.deleteBtn}
@@ -38,7 +38,6 @@ export default function Category({ category, setCategory }) {
 
   //검색 결과 중 하나를 선택할 때
   const handleCategoryClick = (e) => {
-    console.log(e);
     const value = e.target.innerText;
     setCategory(value);
   };
@@ -54,9 +53,8 @@ export default function Category({ category, setCategory }) {
     const searchByValue = async () => {
       setIsLoading(true);
       try {
-        const res = await getCategory(value);
-        setCategorys(res);
-        return res;
+        const data = await getCategorys(value);
+        setCategorys(data);
       } catch (e) {
         console.error(e);
       } finally {
@@ -66,8 +64,6 @@ export default function Category({ category, setCategory }) {
 
     searchByValue();
   }, [value]);
-
-  console.log(category);
 
   //상황이 1. 선택한 카테고리가 있을 때.
   // 2. 선택한 카테고리가 없고, 입력했을 때 선택할 수 있는 검색 결과가 있을 때
@@ -81,7 +77,6 @@ export default function Category({ category, setCategory }) {
         <div className={styles.input}>
           <CategoryTag
             text={category}
-            key={"selected"}
             onDelete={handleCategoryDelete}
             style="delete"
           />
@@ -109,11 +104,7 @@ export default function Category({ category, setCategory }) {
               );
             })) ||
             (!categorys.length && (
-              <CategoryTag
-                text={value}
-                key={"new"}
-                onPlus={handleCategoryClick}
-              />
+              <CategoryTag text={value} onPlus={handleCategoryClick} />
             ))}
         </div>
       </div>
