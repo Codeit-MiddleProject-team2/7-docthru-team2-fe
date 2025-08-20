@@ -28,14 +28,19 @@ export default function ChallengesPage() {
 
   //currentPage나 searchQuery가 바뀔 때마다 API를 호출.
   useEffect(() => {
-    const { user, accessToken } = userSetting();
 
-    if (!accessToken) {
-      router.push("/");
+    const handleAuth = () => {
+      const { user, accessToken } = userSetting();
+      if (!accessToken) {
+       router.push("/");
+       return false;
     }
-
     setUser(user);
     setAccess(accessToken);
+    return true;
+    };
+
+    if (!handleAuth()) return;
 
     const fetchChallenges = async () => {
       setIsLoading(true);
@@ -47,6 +52,13 @@ export default function ChallengesPage() {
           category,
           searchQuery,
         });
+        if (searchQuery) {
+          params.append("query", searchQuery);
+        }
+        if (category) {
+          params.append("category", category);
+        } 
+
 
         // 백엔드 API에 데이터를 요청
         const res = await getChallenges(params);
