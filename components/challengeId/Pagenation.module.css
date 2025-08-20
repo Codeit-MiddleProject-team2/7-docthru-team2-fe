@@ -3,6 +3,7 @@
   flex-direction: row;
   height: fit-content;
 
+  justify-content: flex-end;
   align-items: center;
 
   gap: 8px;

@@ -29,13 +29,13 @@ export default function ParticipationSection({
   return (
     <div className={styles.background}>
       <div className={styles.box}>
-        <div>
+        <div className={styles.header}>
           <div className={styles.current}>참여 현황</div>
           {maxPage >= 2 && (
             <Pagenation page={page} maxPage={maxPage} setPage={setPage} />
           )}
         </div>
-        <ParticipationList data={data} />
+        <ParticipationList data={data} page={page} />
       </div>
     </div>
   );

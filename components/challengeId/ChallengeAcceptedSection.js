@@ -17,22 +17,12 @@ export default function ChallengeAcceptedSection({ data, isFinished }) {
   // 마감되었는가? (boolean)
   const isFull = data.maximum <= data._count.Translation;
 
-  // const {
-  //   data: myTranslation,
-  //   isLoading,
-  //   setData: setMyTranslation,
-  // } = useGetData(
-  //   async () => {
-  //     return await getTranslationByChallengeId(data.id);
-  //   },
-  //   [],
-  //   [data]
-  // );
-
-  // console.log(myTranslation);
+  const { data: myTranslation } = useGetData(async () => {
+    return await getTranslationByChallengeId(data.id);
+  }, [data]);
 
   // 이 사용자가 이 챌린지에 참여한 적 있는지?
-  const isParticipater = false;
+  const isParticipater = Boolean(myTranslation);
 
   // 참가자이거나 혹은 맥시멈 인원을 다 채우지 못 했을 때 도전하기 버튼이 유효함
   const isValid = !isFinished && (isParticipater || !isFull);

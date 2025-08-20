@@ -20,6 +20,15 @@ export default function BestTranslation({ challengeId }) {
   const data = BestTranslation[num];
   const maxNum = BestTranslation.length - 1;
 
+  const leftArrow =
+    num > 0
+      ? "/icons/ic_pagenaiton_arrow_left.svg"
+      : "/icons/ic_arrow_left_blur.svg";
+  const rightArrow =
+    num < maxNum
+      ? "/icons/ic_pagenaiton_arrow_right.svg"
+      : "/icons/ic_arrow_right_blur.svg";
+
   return (
     <div className={styles.background}>
       <div className={styles.bestTag}>
@@ -38,7 +47,7 @@ export default function BestTranslation({ challengeId }) {
               setNum((prev) => prev - 1);
             }
           }}
-          src="/icons/ic_pagenaiton_arrow_left.svg"
+          src={leftArrow}
           width={32}
           height={32}
           alt="페이지 왼쪽 이동"
@@ -49,7 +58,7 @@ export default function BestTranslation({ challengeId }) {
               setNum((prev) => prev + 1);
             }
           }}
-          src="/icons/ic_pagenaiton_arrow_right.svg"
+          src={rightArrow}
           width={32}
           height={32}
           alt="페이지 오른쪽 이동"
