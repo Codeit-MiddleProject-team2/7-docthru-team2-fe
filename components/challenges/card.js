@@ -12,12 +12,18 @@ import CheckModal from "../modals/checkModal";
 import { useState } from "react";
 import { Router, useRouter } from "next/router";
 
-export default function ChallengeCard({
-  data,
-  userId,
-  accessToken,
-  type = "default",
-}) {
+export default function ChallengeCard({ data, userId, accessToken, type = "default" }) {
+  // localStorage에서 직접 user 정보 가져와서 취소 버튼 조건에만 사용
+  let isOwnerLocal = false;
+  let isAdminLocal = false;
+  try {
+    const userStr = localStorage.getItem("user");
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      isOwnerLocal = data.userId === user.id;
+      isAdminLocal = user.isAdmin;
+    }
+  } catch {}
   const router = useRouter();
   const isOwn = data.userId === userId;
 
@@ -25,16 +31,17 @@ export default function ChallengeCard({
   // 챌린지 취소 핸들러 함수 수정: 환경변수 적용
   const handleCancelChallenge = async () => {
     try {
-      await fetch(`${API_URL}/challenge/${data.id}/view`, {
+      await fetch(`${API_URL}/challenge/${data.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ChallengeState: "DELETED",
+          state: "DELETED",
           reason: "챌린지 개설을 취소하였습니다.",
         }),
       });
       setShowCancelModal(false);
-      window.location.reload(); // 취소 후 페이지 자동 새로고침
+      // 취소 후 페이지 자동 새로고침
+      window.location.reload();
     } catch (e) {
       console.error(e);
     }
@@ -55,9 +62,7 @@ export default function ChallengeCard({
         />
       )}
       <div
-        className={`${styles.item} ${
-          type === "detail" ? styles.itemDetail : ""
-        }`}
+        className={`${styles.item} ${type === "detail" ? styles.itemDetail : ""}`}
         onClick={() => {
           router.push(`/challenges/${data.id}`);
         }}
@@ -80,34 +85,25 @@ export default function ChallengeCard({
               <a href="#">{data.title}</a>
             </p>
             {/* ChallengeDetail.js 적용 */}
-            {(type !== "detail" ||
-              (type === "detail" && challengeState === "PENDING")) &&
-              isOwn && <BtnOptions />}
+            {(type !== "detail" || (type === "detail" && challengeState === "PENDING")) && isOwn && <BtnOptions />}
           </div>
           <div className={styles.docTypeInfoArea}>
             <div className={styles.docTypeInfo}>
-              <span className={`${styles.chip} ${styles.type}`}>
-                {data.category}
-              </span>
-              <span className={`${styles.chip} ${styles.category}`}>
-                {data.type}
-              </span>
+              <span className={`${styles.chip} ${styles.type}`}>{data.category}</span>
+              <span className={`${styles.chip} ${styles.category}`}>{data.type}</span>
             </div>
             {/* ChallengeDetail.js 적용 */}
-            {type === "detail" && challengeState === "PENDING" && (
-              <CustomBtnMini text="취소하기" onClick={handleCancelClick} />
+            {type === "detail" && challengeState === "PENDING" && (isOwnerLocal || isAdminLocal) && (
+              <CustomBtnMini
+                text="취소하기"
+                onClick={handleCancelClick}
+              />
             )}
           </div>
         </div>
         {/* ChallengeDetail.js 적용 */}
-        {type === "detail" && data.description && (
-          <div className={styles.description}>{data.description}</div>
-        )}
-        <div
-          className={`${styles.itemBottomArea} ${
-            type === "detail" ? styles.itemBtnAreaDetail : ""
-          }`}
-        >
+        {type === "detail" && data.description && <div className={styles.description}>{data.description}</div>}
+        <div className={`${styles.itemBottomArea} ${type === "detail" ? styles.itemBtnAreaDetail : ""}`}>
           <div className={styles.challengeInfo}>
             <p>
               <Image
@@ -131,7 +127,10 @@ export default function ChallengeCard({
           {/* ChallengeDetail.js 적용 제외 */}
           {type !== "detail" && (
             <div>
-              <Link href="#" className={``}>
+              <Link
+                href="#"
+                className={``}
+              >
                 도전 계속하기{" "}
                 <Image
                   src={iconArrowRight}
