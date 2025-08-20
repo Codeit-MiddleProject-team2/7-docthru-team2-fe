@@ -1,0 +1,71 @@
+.pageArea {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.modalArea {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border: 1px solid black;
+  background: white;
+  width: 327px;
+  height: 187px;
+  border-radius: 12px;
+  padding: 24px 24px;
+}
+
+.checkIcon {
+  display: flex;
+  align-items: center;
+  background: black;
+  padding: 6px;
+  max-width: 24px;
+  max-height: 24px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.checkText {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 32px;
+}
+
+.btArea {
+  display: flex;
+  gap: 8px;
+}
+
+.checkNo,
+.checkYes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 40px;
+  padding: 10.5px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.checkNo {
+  background: white;
+  border: 1px solid black;
+}
+
+.checkYes {
+  color: white;
+  background: black;
+}

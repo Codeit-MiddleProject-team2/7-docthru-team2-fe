@@ -1,0 +1,39 @@
+.finished {
+  display: flex;
+  flex-direction: row;
+  padding: 8px 12px;
+  gap: 4px;
+  align-items: center;
+
+  border-radius: 24px;
+  background: var(--gray-gray800, #262626);
+}
+
+.text {
+  color: #fff;
+  font-family: Pretendard;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.full {
+  display: flex;
+  flex-direction: row;
+  padding: 8px 12px;
+  gap: 4px;
+  align-items: center;
+
+  border-radius: 24px;
+  background: var(--gray-gray200, #e5e5e5);
+}
+
+.fullText {
+  color: var(--gray-gray800, #262626);
+  font-family: Pretendard;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}

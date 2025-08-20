@@ -1,0 +1,18 @@
+.palette {
+  position: fixed;
+  z-index: 9999;
+  background: #fff;
+  border: 1px solid;
+  padding: 8px;
+  display: flex;
+  gap: 4px;
+  width: 200px;
+  margin: 0px 20px;
+}
+
+.colorButton {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}

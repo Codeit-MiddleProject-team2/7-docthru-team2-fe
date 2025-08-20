@@ -1,0 +1,73 @@
+.deletedNotice,
+.pendingNotice,
+.rejectedNotice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  width: 100%;
+  height: 35px;
+  border-radius: 17.5px;
+  margin-bottom: 16px;
+}
+
+.deletedNotice {
+  color: #fafafa;
+  background-color: #737373;
+}
+
+.pendingNotice {
+  color: #f2bc00;
+  background-color: #fffde7;
+}
+
+.rejectedNotice {
+  color: #e54946;
+  background-color: #fff0f0;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.reasonBox {
+  display: flex;
+  flex-direction: column;
+  background-color: #fafafa;
+  border: 1px solid #e5e5e5;
+  width: 100%;
+  height: 117px;
+  border-radius: 16px;
+  padding: 18px 16px 17px;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.reasonMain {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.reason {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  width: 100%;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.notiDate {
+  margin-top: 17px;
+  text-align: right;
+  color: #737373;
+  font-size: 14px;
+  font-weight: 400;
+}

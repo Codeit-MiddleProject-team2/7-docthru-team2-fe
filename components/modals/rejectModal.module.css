@@ -1,0 +1,93 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+}
+.modalBg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #00000080;
+}
+.modalBox {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 92%;
+  max-width: 496px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+  border-radius: 8px;
+  background: #fff;
+  border: 2px solid #262626;
+  box-sizing: border-box;
+}
+.btnIcClose {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 24px;
+  background: none;
+  border: none;
+}
+.btnIcClose {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 24px;
+  background: none;
+  border: none;
+}
+.btnArea {
+  display: flex;
+}
+.btnArea .btn {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
+  color: #fff;
+  font-weight: 600;
+  background: #262626;
+  border-radius: 12px;
+  border: none;
+}
+.body form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.body form dl {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.textArea {
+  display: flex;
+  flex-direction: column;
+}
+.textArea textarea {
+  height: 219px;
+  padding: 16px;
+  border: 1px solid #d4d4d4;
+  border-radius: 6px;
+  box-sizing: border-box;
+  resize: none;
+}
+.errorTextArea textarea {
+  border-color: #f74747;
+}
+.errorText {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #f74747;
+}

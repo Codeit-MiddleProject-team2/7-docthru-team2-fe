@@ -1,0 +1,22 @@
+.background {
+  display: flex;
+  justify-content: center;
+}
+
+.main {
+  margin-top: 84px;
+  width: 590px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.title {
+  color: var(--gray-gray800, #262626);
+  font-family: Pretendard;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}

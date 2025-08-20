@@ -1,0 +1,38 @@
+.btnEl {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 24px;
+  z-index: 5;
+}
+.btnShowoptions {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.btnOptions {
+  position: absolute;
+  top: 32px;
+  right: 0;
+  width: 139px;
+}
+.btnOptions ul {
+  border: 1px solid #d4d4d4;
+  border-radius: 8px;
+  background: #fff;
+}
+.btnOptions li {
+  height: 42px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #737373;
+  cursor: pointer;
+}

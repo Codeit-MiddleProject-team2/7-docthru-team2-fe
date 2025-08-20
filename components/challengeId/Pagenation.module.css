@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  height: fit-content;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+.pageBox {
+  width: 62px;
+  height: 24px;
+  display: flex;
+  border-radius: 13px;
+  background: var(--gray-gray50, #fafafa);
+
+  color: var(--gray-gray800, #262626);
+  font-family: Pretendard;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.textBox {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+}
+
+.page {
+  color: var(--brand-yellow, #ffc117);
+}
+
+.arrows {
+  height: 32px;
+}

@@ -1,0 +1,103 @@
+.noParticipation {
+  color: var(--gray-gray500, #737373);
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  padding-top: 16px;
+  padding-bottom: 40px;
+}
+
+.participation {
+  display: flex;
+  flex-direction: row;
+  height: 35px;
+  margin-top: 12px;
+
+  align-items: center;
+}
+
+.ranking {
+  display: flex;
+  width: 51px;
+  height: 21px;
+  padding: 2px 11px 2px 7px;
+  align-items: center;
+  flex-shrink: 0;
+  margin-right: 24px;
+
+  border-radius: 16px;
+  background: var(--gray-gray800, #262626);
+}
+
+.rankingText {
+  color: var(--brand-yellow, #ffc117);
+  text-align: justify;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.user {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nickname {
+  color: var(--gray-gray800, #262626);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.userLevel {
+  color: var(--gray-gray500, #737373);
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.left {
+  margin-left: auto;
+
+  width: 184px;
+  display: flex;
+  flex-direction: row;
+
+  justify-content: space-between;
+}
+
+.goWork {
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+  align-items: center;
+  justify-self: flex-end;
+}
+
+.goWorkText {
+  color: var(--gray-gray800, #262626);
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}

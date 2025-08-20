@@ -1,0 +1,35 @@
+.sortEl {
+  position: relative;
+  width: 140px;
+  z-index: 5;
+}
+.sortButton {
+  display: flex;
+  flex: 1;
+  height: 40px;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #d4d4d4;
+  padding: 0 8px 0 12px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.sortOptions {
+  position: absolute;
+  top: 44px;
+  width: 100%;
+}
+.sortOptions ul {
+  border: 1px solid #d4d4d4;
+  border-radius: 8px;
+  background: #fff;
+}
+.sortOptions li {
+  height: 42px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  color: #737373;
+  cursor: pointer;
+}

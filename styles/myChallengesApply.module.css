@@ -1,0 +1,45 @@
+.contaniner {
+  padding: 92px 0 34px;
+  width: 100%;
+  max-width: 996px;
+  margin: 0 auto;
+}
+.pageTopArea {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.titleArea {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+}
+.titleArea .btn {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 40px;
+  color: #fff;
+  background: #262626;
+  gap: 8px;
+}
+.dataOptionsArea {
+  margin-bottom: 24px;
+  display: flex;
+  width: 100%;
+  gap: 8px;
+}
+.challengeTable {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.nodata {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 440px;
+}

@@ -1,0 +1,21 @@
+.title {
+  display: flex;
+  width: 320px;
+  height: 72px;
+  padding: 0 15.399px 0 14.398px;
+  justify-content: center;
+  align-items: center;
+  gap: 14.4px;
+}
+
+.titleText {
+  color: var(--gray-gray600, #525252);
+  text-align: justify;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: Quantico;
+  font-size: 57.6px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 1.04px;
+}
