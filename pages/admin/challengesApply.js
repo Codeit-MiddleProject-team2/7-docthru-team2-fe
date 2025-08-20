@@ -1,9 +1,11 @@
 import styles from "@/styles/myChallengesApply.module.css";
+import Image from "next/image";
+import iconPlus from "@/public/icons/ic_plus.svg";
 import { Pagination } from "@/components/challenges/pagination";
 import SearchBar from "@/components/challenges/searchBar";
 import Sort from "@/components/challenges/sort";
 import TableRow from "@/components/challenges/tableRow";
-import { getMyChallengesApply } from "@/api/myChallenges";
+import { getMyChallengesApply } from "@/api/myChallenges.js";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import TableHead from "@/components/challenges/tableHead";
@@ -30,7 +32,12 @@ export default function AdminChallengesApplyPage() {
   const [accessTk, setAccessTk] = useState("");
 
   const router = useRouter();
-  const { status = "", keyword = "", page: pageNum = 1, orderBy = "" } = router.query;
+  const {
+    status = "",
+    keyword = "",
+    page: pageNum = 1,
+    orderBy = "",
+  } = router.query;
   const page = Number(pageNum);
 
   const [challenges, setChallenges] = useState([]);
@@ -110,10 +117,7 @@ export default function AdminChallengesApplyPage() {
                 <div className={styles.tableBody}>
                   {challenges.map((challenge) => {
                     return (
-                      <TableRow
-                        key={challenge.id}
-                        challenge={challenge}
-                      />
+                      <TableRow key={challenge.id} challenge={challenge} />
                     );
                   })}
                 </div>
