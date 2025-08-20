@@ -21,7 +21,7 @@ export default function ChallengeCard({
   const router = useRouter();
   const isOwn = data.userId === userId;
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
   // 챌린지 취소 핸들러 함수 수정: 환경변수 적용
   const handleCancelChallenge = async () => {
     try {

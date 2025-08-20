@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import MyChallengeTabs from "@/components/challenges/myChallengeTabs";
 import TableHead from "@/components/challenges/tableHead";
+import { userSetting } from "@/lib/useAuth";
 
 const statusOptions = [
   { value: "", label: "전체" },

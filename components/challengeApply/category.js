@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { getCategory } from "@/mock/categoryMock";
 import styles from "./category.module.css";
 import Image from "next/image";
 import { getCategorys } from "@/api/challenges";
