@@ -3,7 +3,7 @@ import styles from "./sort.module.css";
 import iconSortArrow from "../../public/icons/ic_toggle_down.svg";
 import { useState } from "react";
 
-export default function Sort({ options = [], selected, onChange }) {
+export default function Sort({ options = [], selected = "", onChange }) {
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => {
     setIsOpen((prev) => !prev);
