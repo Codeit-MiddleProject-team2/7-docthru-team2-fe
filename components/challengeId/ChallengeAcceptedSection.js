@@ -11,6 +11,8 @@ import { getTranslationByChallengeId } from "@/api/translation";
 import { useEffect, useState } from "react";
 import { useGetData } from "@/lib/useGetData";
 import { useRouter } from "next/router";
+import BtnOptions from "../challenges/btnOptions";
+import DropOptions from "./DropOptions";
 
 export default function ChallengeAcceptedSection({ data, isFinished }) {
   const router = useRouter();
@@ -35,7 +37,10 @@ export default function ChallengeAcceptedSection({ data, isFinished }) {
       <div className={styles.challenge}>
         <div className={styles.header}>
           <ConditionCard isFinished={isFinished} isFull={isFull} />
-          <div className={styles.title}>{data.title} </div>
+          <div className={styles.title}>
+            <div>{data.title} </div>
+            <DropOptions />
+          </div>
           <div className={styles.tags}>
             <div className={styles.category}>{data.category} </div>
             <div className={styles.type}>{formatDoctype(data.type)} </div>
