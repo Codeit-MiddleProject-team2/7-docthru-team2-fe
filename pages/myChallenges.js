@@ -8,6 +8,7 @@ import Link from "next/link";
 import MyChallengeTabs from "@/components/challenges/myChallengeTabs";
 import { userSetting } from "@/lib/useAuth";
 import { getMyChallenges } from "@/api/myChallenges";
+import { useRouter } from "next/router";
 
 export default function MyChallengesPage() {
   const [activeTab, setActiveTab] = useState("ongoing");
@@ -17,6 +18,7 @@ export default function MyChallengesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [user, setUser] = useState([]);
   const [access, setAccess] = useState("");
+  const router = useRouter();
 
   const fetchChallenges = async (accessToken) => {
     setIsLoading(true);
