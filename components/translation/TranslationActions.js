@@ -3,8 +3,11 @@ import DeleteReasonModal from "./DeleteReasonModal";
 import Image from "next/image";
 import moreIcon from "@/public/icons/ic_more.svg";
 import styles from "./TranslationActions.module.css";
+import Link from "next/link";
 
 export default function TranslationActions({ translation, currentUser }) {
+  const { challengeId } = translation || {};
+  console.log(challengeId, translation);
   const isOwner = currentUser?.id === translation?.userId;
   const isAdmin = !!currentUser?.isAdmin;
 
@@ -68,17 +71,14 @@ export default function TranslationActions({ translation, currentUser }) {
           aria-label="번역 작업 액션 메뉴"
         >
           {isOwner && (
-            <button
-              type="button"
+            <Link
+              href={`/translationEdit/${challengeId}`}
               role="menuitem"
               className={styles.ta__item}
-              onClick={() => {
-                setMenuOpen(false);
-                alert("수정하기 클릭");
-              }}
+              onClick={() => setMenuOpen(false)} // 메뉴 닫기
             >
               수정하기
-            </button>
+            </Link>
           )}
 
           <button

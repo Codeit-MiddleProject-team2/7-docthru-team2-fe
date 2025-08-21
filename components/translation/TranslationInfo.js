@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import LikeBtn from "./LikeBtn";
 import ChipBadge from "./ChipBadge";
@@ -37,6 +37,9 @@ export default function TranslationInfo({ translation, currentUser }) {
       ? translation.likeCount
       : undefined;
 
+  useEffect(() => {
+    console.log(translation);
+  }, [translation]);
   return (
     <div className={styles.wrap}>
       <div className={styles.line} />
