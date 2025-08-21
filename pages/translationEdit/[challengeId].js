@@ -77,7 +77,8 @@ function TranslationEditPage() {
   };
 
   const handleSaveOrSubmit = async (isSubmitted) => {
-    if (!title.trim() || !content.trim()) {
+    console.log("Current translationId:", translationId);
+    if (!content.trim()) {
       return;
     }
     try {
@@ -117,7 +118,11 @@ function TranslationEditPage() {
   };
 
   const handleGiveUp = async () => {
-    if (window.confirm("정말 포기하시겠습니까? 모든 작업물이 삭제됩니다.")) {
+    if (
+      window.confirm(
+        "정말 포기하시겠습니까?\n해당 챌린지의 모든 작업물이 삭제됩니다."
+      )
+    ) {
       try {
         await deleteTranslationsByChallengeId(challengeId);
         alert("모든 번역물이 삭제되었습니다.");
@@ -182,10 +187,11 @@ function TranslationEditPage() {
           submitText={
             translationId
               ? isSubmitted
-                ? "수정하기"
-                : "수정/제출하기"
-              : "제출하기"
+                ? "수정본 제출하기"
+                : "제출하기"
+              : "바로 제출하기"
           }
+          isSubmitted={isSubmitted}
         />
         <div className={styles.editorArea}>
           <div className={styles.title}>

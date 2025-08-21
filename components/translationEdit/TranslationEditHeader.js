@@ -2,7 +2,12 @@ import Image from "next/image";
 import styles from "./TranslationEditHeader.module.css";
 import { useRouter } from "next/navigation";
 
-function TranslationEditHeader({ onSaveOrSubmit, onGiveUp, submitText }) {
+function TranslationEditHeader({
+  onSaveOrSubmit,
+  onGiveUp,
+  submitText,
+  isSubmitted,
+}) {
   const router = useRouter();
   return (
     <div className={styles.header}>
@@ -31,13 +36,15 @@ function TranslationEditHeader({ onSaveOrSubmit, onGiveUp, submitText }) {
               alt="아이콘"
             />
           </button>
-          <button
-            type="button"
-            className={styles.btnStorage}
-            onClick={() => onSaveOrSubmit(false)}
-          >
-            임시저장
-          </button>
+          {!isSubmitted && (
+            <button
+              type="button"
+              className={styles.btnStorage}
+              onClick={() => onSaveOrSubmit(false)}
+            >
+              임시저장
+            </button>
+          )}
           <button
             type="button"
             className={styles.btnSubmit}
