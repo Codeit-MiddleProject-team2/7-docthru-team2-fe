@@ -30,12 +30,7 @@ export default function AdminChallengesApplyPage() {
   const [accessTk, setAccessTk] = useState("");
 
   const router = useRouter();
-  const {
-    status = "",
-    keyword = "",
-    page: pageNum = 1,
-    orderBy = "",
-  } = router.query;
+  const { status = "", keyword = "", page: pageNum = 1, orderBy = "" } = router.query;
   const page = Number(pageNum);
 
   const [challenges, setChallenges] = useState([]);
@@ -115,7 +110,10 @@ export default function AdminChallengesApplyPage() {
                 <div className={styles.tableBody}>
                   {challenges.map((challenge) => {
                     return (
-                      <TableRow key={challenge.id} challenge={challenge} />
+                      <TableRow
+                        key={challenge.id}
+                        challenge={challenge}
+                      />
                     );
                   })}
                 </div>
