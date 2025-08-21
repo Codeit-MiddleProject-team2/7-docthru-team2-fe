@@ -32,7 +32,7 @@ function norm(raw) {
     .replace(/\.js$/, "js");
 }
 
-export default function ChipBadge({ kind = "type", value, alt }) {
+export default function ChipBadge({ kind = "type", value }) {
   if (!value) return null;
 
   const n = norm(value);
@@ -47,9 +47,11 @@ export default function ChipBadge({ kind = "type", value, alt }) {
   const size = 26; // 세로 고정
   const width = Math.round(size * 2.2); // 비율 유지
 
+  const chipStyle = kind !== "type" ? styles.type : styles.category;
+
   return (
-    <span className={styles.chip} data-kind={kind}>
-      <Image src={src} alt={alt ?? String(value)} width={width} height={size} />
+    <span className={chipStyle} data-kind={kind}>
+      <div>{value}</div>
     </span>
   );
 }

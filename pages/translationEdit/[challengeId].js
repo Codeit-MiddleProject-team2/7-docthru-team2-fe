@@ -146,22 +146,23 @@ function TranslationEditPage() {
 
         if (data) {
           setChallengeUrl(data.challenge.url);
-          setIsSubmitted(data.translation.isSubmitted);
+          setIsSubmitted(data.translation?.isSubmitted);
 
-          if (data.translation.isSubmitted) {
+          if (data.translation?.isSubmitted) {
             setContent(data.translation.content);
             setInitialEditorContent(data.translation.content);
+            setTitle(data.challenge.title);
             setTranslationId(data.translation.id);
           } else {
             // 임시 저장 데이터 유무 확인
             setShowDraftToast(true);
           }
         } else {
-          setTitle(challenge.title);
+          setTitle(data.challenge.title);
         }
         // url은 어떤경우라도 보여주기
-        setChallengeUrl(challenge.url);
-        console.log("title set:", challenge.title);
+        setChallengeUrl(data.challenge.url);
+        console.log("title set:", data.challenge.title);
       } catch (error) {
         console.error("데이터 로딩 오류:", error);
       } finally {

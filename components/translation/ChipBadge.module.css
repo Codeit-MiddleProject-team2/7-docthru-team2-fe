@@ -1,8 +1,51 @@
-.chip {
+.category {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   vertical-align: middle;
   line-height: 1;
   user-select: none;
+
+  display: flex;
+  padding: 3px 12px;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 8px;
+  background: #78f867;
+
+  color: var(--gray-gray600, #525252);
+  text-align: justify;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: Quantico;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.type {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  line-height: 1;
+  user-select: none;
+
+  display: flex;
+  padding: 3px 12px;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--gray-gray300, #d4d4d4);
+  background: #fff;
+
+  color: var(--gray-gray600, #525252);
+  font-family: Pretendard;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }

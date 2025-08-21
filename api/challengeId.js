@@ -18,7 +18,7 @@ export const createChallengeStatus = async (
 
   try {
     const response = await fetch(`${API_URL}/challenge/${challengeId}/status`, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
