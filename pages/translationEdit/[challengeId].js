@@ -90,6 +90,9 @@ function TranslationEditPage() {
         isSubmitted,
       };
 
+      console.log(dataToSave);
+      console.log(translationId);
+
       const response = await creatOrUpdateTranslation(
         dataToSave,
         translationId
@@ -107,9 +110,7 @@ function TranslationEditPage() {
       );
       console.log("처리 결과:", response);
 
-      if (isSubmitted) {
-        router.push(`/translation/${response.id}`);
-      }
+      router.push(`/translation/${translationId}`);
     } catch (error) {
       const action = isSubmitted ? "제출" : "임시 저장";
       alert(`${action} 실패: ${error.message}`);
@@ -138,18 +139,17 @@ function TranslationEditPage() {
 
     const fetchInitialData = async () => {
       try {
-        const { translation, challenge } = await getTranslationByChallengeId(
-          challengeId
-        );
+        const data = await getTranslationByChallengeId(challengeId);
+        console.log(data);
 
-        if (translation) {
-          setIsSubmitted(translation.isSubmitted);
-          setTitle(translation.title);
+        if (data) {
+          setChallengeUrl(data.challenge.url);
+          setIsSubmitted(data.translation.isSubmitted);
 
-          if (translation.isSubmitted) {
-            setContent(translation.content);
-            setInitialEditorContent(translation.content);
-            setTranslationId(translation.id);
+          if (data.translation.isSubmitted) {
+            setContent(data.translation.content);
+            setInitialEditorContent(data.translation.content);
+            setTranslationId(data.translation.id);
           } else {
             // 임시 저장 데이터 유무 확인
             setShowDraftToast(true);

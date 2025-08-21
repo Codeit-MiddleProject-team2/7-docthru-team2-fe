@@ -4,6 +4,7 @@ import Image from "next/image";
 import moreIcon from "@/public/icons/ic_more.svg";
 import styles from "./TranslationActions.module.css";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function TranslationActions({ translation, currentUser }) {
   console.log(translation);
@@ -11,6 +12,7 @@ export default function TranslationActions({ translation, currentUser }) {
   const isOwner = currentUser?.id === translation?.userId;
   const isAdmin = !!currentUser?.isAdmin;
 
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -71,14 +73,20 @@ export default function TranslationActions({ translation, currentUser }) {
           aria-label="번역 작업 액션 메뉴"
         >
           {isOwner && (
-            <Link
-              href={`/translationEdit/${challengeId}`}
+            <div
               role="menuitem"
               className={styles.ta__item}
-              onClick={() => setMenuOpen(false)} // 메뉴 닫기
+              onClick={() => {
+                setMenuOpen(false);
+                window.sessionStorage.setItem(
+                  "translation",
+                  JSON.stringify(translation)
+                );
+                router.push(`/translationEdit/${challengeId}`);
+              }}
             >
               수정하기
-            </Link>
+            </div>
           )}
 
           <button
