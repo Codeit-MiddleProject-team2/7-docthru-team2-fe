@@ -31,7 +31,6 @@ export default function TableRow({ challenge }) {
             : ""
         }`}
       >
-        <div className={`${styles.column} ${styles.no}`}>{challenge.id}</div>
         <div className={`${styles.column} ${styles.category}`}>
           {challenge.category}
         </div>

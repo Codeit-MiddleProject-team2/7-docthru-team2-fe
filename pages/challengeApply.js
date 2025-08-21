@@ -38,6 +38,7 @@ export default function ChallengesApplyPage() {
   const router = useRouter();
 
   const postNewChallenge = async () => {
+    // 신청하기와 수정하기 일 때 구분해야 함
     const result = await postChallenge({
       title: titleObject.element,
       url: urlObject.element,
@@ -66,6 +67,8 @@ export default function ChallengesApplyPage() {
 
     // 수정하기를 통해서 들어온 경우, 초기값 세팅
     const origin = JSON.parse(window.sessionStorage.getItem("challenge"));
+    window.sessionStorage.removeItem("challenge");
+
     if (origin) {
       titleObject.setElement(origin.title);
       urlObject.setElement(origin.url);
