@@ -151,6 +151,7 @@ function TranslationEditPage() {
           if (data.translation?.isSubmitted) {
             setContent(data.translation.content);
             setInitialEditorContent(data.translation.content);
+            setTitle(data.challenge.title);
             setTranslationId(data.translation.id);
           } else {
             // 임시 저장 데이터 유무 확인
