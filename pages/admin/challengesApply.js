@@ -1,35 +1,45 @@
 import styles from "@/styles/myChallengesApply.module.css";
-import Image from "next/image";
-import iconPlus from "@/public/icons/ic_plus.svg";
-import { Pagination } from "@/components/challenges/pagiation";
+import { Pagination } from "@/components/challenges/pagination";
 import SearchBar from "@/components/challenges/searchBar";
 import Sort from "@/components/challenges/sort";
-import Link from "next/link";
 import TableRow from "@/components/challenges/tableRow";
-import { getMyChallengesApply } from "@/mock/myChallengesApply.js";
+import { getMyChallengesApply } from "@/api/myChallenges";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import MyChallengeTabs from "@/components/challenges/myChallengeTabs";
 import TableHead from "@/components/challenges/tableHead";
+import { userSetting } from "@/lib/useAuth";
 
-const statusOptions = [
+const statusFilterOptions = [
   { value: "", label: "전체" },
-  { value: "pending", label: "승인 대기" },
-  { value: "approved", label: "신청 승인" },
-  { value: "rejected", label: "신청 거절" },
-  { value: "deleted", label: "챌린지 삭제" },
+  { value: "PENDING", label: "승인 대기" },
+  { value: "ACCEPTED", label: "신청 승인" },
+  { value: "REJECTED", label: "신청 거절" },
+  { value: "DELETED", label: "챌린지 삭제" },
+];
+
+const orderByOptions = [
+  { value: "latest", label: "신청기한 최신순" },
+  { value: "oldest", label: "신청기한 오래된순" },
+  { value: "deadlineLatest", label: "마감기한 최신순" },
+  { value: "deadlineOldest", label: "마감기한 오래된순" },
 ];
 
 export default function AdminChallengesApplyPage() {
+  // 해당 두 줄 참고
+  const [user, setUser] = useState({});
+  const [accessTk, setAccessTk] = useState("");
+
   const router = useRouter();
-  const { status = "", keyword = "", page: pageNum = 1 } = router.query;
+  const {
+    status = "",
+    keyword = "",
+    page: pageNum = 1,
+    orderBy = "",
+  } = router.query;
   const page = Number(pageNum);
 
   const [challenges, setChallenges] = useState([]);
   const [total, setTotal] = useState(0);
-  //const [status, setStatus] = useState("");
-  //const [keyword, setKeyword] = useState("");
-  //const [page, setPage] = useState(1);
   const limit = 10;
 
   const handleMyChallenges = async () => {
@@ -38,9 +48,11 @@ export default function AdminChallengesApplyPage() {
       keyword,
       page,
       limit,
+      orderBy,
+      isAdmin: true,
     });
 
-    setChallenges(res.data);
+    setChallenges(res.challenges);
     setTotal(res.total);
   };
 
@@ -56,8 +68,21 @@ export default function AdminChallengesApplyPage() {
   };
 
   useEffect(() => {
+    // 해당 3줄 참고
+    const { user: userData, accessToken } = userSetting();
+    setUser(userData);
+    setAccessTk(accessToken);
+
+    if (!accessToken) {
+      router.push("/login");
+    }
+    if (!userData.isAdmin) {
+      alert("해당 페이지는 어드민만 접근만 가능합니다.");
+      router.push("/");
+    }
+
     handleMyChallenges({ status, keyword, page, limit });
-  }, [status, keyword, page]);
+  }, [status, keyword, page, orderBy]);
   return (
     <>
       <div className={styles.contaniner}>
@@ -73,19 +98,24 @@ export default function AdminChallengesApplyPage() {
               onChange={(value) => updateQuery({ keyword: value, page: 1 })}
             />
             <Sort
-              options={statusOptions}
+              options={statusFilterOptions}
               selected={status}
               onChange={(value) => updateQuery({ status: value, page: 1 })}
             />
+            <Sort
+              options={orderByOptions}
+              selected={orderBy}
+              onChange={(value) => updateQuery({ orderBy: value, page: 1 })}
+            />
           </div>
-          {challenges.length > 0 ? (
+          {total > 0 ? (
             <>
               <div className={styles.challengeTable}>
                 <TableHead />
                 <div className={styles.tableBody}>
                   {challenges.map((challenge) => {
                     return (
-                      <TableRow key={challenge.no} challenge={challenge} />
+                      <TableRow key={challenge.id} challenge={challenge} />
                     );
                   })}
                 </div>

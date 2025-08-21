@@ -26,7 +26,9 @@ export default function TableRow({ challenge }) {
     <>
       <div
         className={`${styles.row} ${
-          challenge.isAdmitted === "deleted" ? styles.deleted : ""
+          challenge.ChallengeStatusManage.state === "DELETED"
+            ? styles.deleted
+            : ""
         }`}
       >
         <div className={`${styles.column} ${styles.no}`}>{challenge.id}</div>

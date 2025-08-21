@@ -22,15 +22,16 @@ const statusOptions = [
 ];
 
 export default function MyChallengesApplyPage() {
+  // 해당 두 줄 참고
+  const [user, setUser] = useState({});
+  const [accessTk, setAccessTk] = useState("");
+
   const router = useRouter();
   const { status = "", keyword = "", page: pageNum = 1 } = router.query;
   const page = Number(pageNum);
 
   const [challenges, setChallenges] = useState([]);
   const [total, setTotal] = useState(0);
-  //const [status, setStatus] = useState("");
-  //const [keyword, setKeyword] = useState("");
-  //const [page, setPage] = useState(1);
   const limit = 10;
 
   const handleMyChallenges = async () => {
@@ -72,6 +73,15 @@ export default function MyChallengesApplyPage() {
   };
 
   useEffect(() => {
+    // 해당 3줄 참고
+    const { user: userData, accessToken } = userSetting();
+    setUser(userData);
+    setAccessTk(accessToken);
+
+    if (!accessToken) {
+      router.push("/login");
+    }
+
     handleMyChallenges();
   }, [status, keyword, page]);
   return (
