@@ -103,6 +103,10 @@ function TranslationEditPage() {
           : "임시저장이 완료되었습니다!"
       );
       console.log("처리 결과:", response);
+
+      if (isSubmitted) {
+        router.push(`/translation/${response.id}`);
+      }
     } catch (error) {
       const action = isSubmitted ? "제출" : "임시 저장";
       alert(`${action} 실패: ${error.message}`);

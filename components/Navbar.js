@@ -5,6 +5,7 @@ import { userLogin, userLogout, userSetting } from "@/lib/useAuth";
 import { useState, useEffect } from "react";
 import CustomBtnMini from "./CustomBtnMini";
 import { userImgSetting } from "@/utils/userImgDefault";
+import Link from "next/link";
 
 // 임의의 로그인, 로그아웃 버튼 navbar에 추가
 // 로그인 버튼을 클릭하면 다음과 같은 유저로 로그인 한 것과 같은 기능을 한다
@@ -42,6 +43,27 @@ export default function Navbar() {
             alt="독스루 아이콘"
           />
           <div className={styles.title}>Docthru</div>
+        </div>
+        <div
+          onClick={() => {
+            router.push("/challengeApply");
+          }}
+        >
+          신규 챌린지 작성하기
+        </div>
+        <div
+          onClick={() => {
+            router.push("/myChallenges");
+          }}
+        >
+          나의 챌린지
+        </div>
+        <div
+          onClick={() => {
+            router.push("/challenges/1");
+          }}
+        >
+          예시
         </div>
         {!isLogin && (
           <CustomBtnMini

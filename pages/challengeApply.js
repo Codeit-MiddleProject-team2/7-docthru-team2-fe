@@ -14,6 +14,7 @@ import styles from "@/styles/challengeApply.module.css";
 import { useEffect, useState } from "react";
 import { userSetting } from "@/lib/useAuth";
 import { useRouter } from "next/router";
+import { formatDoctype } from "@/utils/formatDoctype";
 
 export default function ChallengesApplyPage() {
   const titleObject = useTitle();
@@ -43,7 +44,7 @@ export default function ChallengesApplyPage() {
       dueDate: dueDateObject.element + `T23:59:59.000Z`,
       description: descriptionObject.element,
       category,
-      type: "official",
+      type: formatDoctype(type),
       userId: user.id,
     });
     if (result) {
@@ -51,23 +52,23 @@ export default function ChallengesApplyPage() {
     }
   };
 
-  useEffect(
-    () => {
-      const { user, accessToken } = userSetting();
+  useEffect(() => {
+    const { user, accessToken } = userSetting();
 
-      if (!accessToken) {
-        router.push("/");
-      }
+    if (!accessToken) {
+      router.push("/");
+    }
 
-      setUser(user);
-      setAccess(accessToken);
-      if (objectList.every((obj) => obj.checkValid())) {
-        setIsValid(true);
-      }
-      console.log(category);
-    },
-    objectList.map((obj) => obj.element)
-  );
+    setUser(user);
+    setAccess(accessToken);
+    if (
+      objectList.every((obj) => obj.checkValid()) &&
+      formatDoctype(type) &&
+      Boolean(category)
+    ) {
+      setIsValid(true);
+    }
+  }, [...objectList.map((obj) => obj.element), type, category]);
 
   return (
     <div className={styles.background}>

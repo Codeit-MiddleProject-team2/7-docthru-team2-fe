@@ -72,12 +72,9 @@ export default function ChallengesIdPage() {
 
   const challengeState = challenge.challengeState;
 
-  const date =
-    challengeState === "DELETED"
-      ? challenge.updatedAt
-      : challengeState === "REJECTED"
-      ? challenge.updatedAt
-      : undefined;
+  const date = ["DELETED", "REJECTED"].includes(challengeState)
+    ? challenge.updatedAt
+    : undefined;
 
   // 종료되었는가? (boolean)
   const now = new Date();
@@ -89,11 +86,7 @@ export default function ChallengesIdPage() {
     return (
       <div className={styles.background}>
         <div className={styles.content}>
-          <ChallengeAcceptedSection
-            data={challenge}
-            user={user}
-            isFinished={isFinished}
-          />
+          <ChallengeAcceptedSection data={challenge} isFinished={isFinished} />
           {isFinished && <BestTranslation challengeId={challengeId} />}
           <ParticipationSection
             challengeId={challengeId}
