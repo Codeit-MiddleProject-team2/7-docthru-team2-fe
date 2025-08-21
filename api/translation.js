@@ -86,13 +86,8 @@ export const getTranslationByChallengeId = async (challengeId) => {
   try {
     const response = await fetch(`${API_URL}/translation/${challengeId}/edit`, {
       method: "GET",
-      // ⭐️ 인증 헤더 추가
       headers: getAuthHeaders(),
     });
-
-    if (response.status === 404) {
-      return null;
-    }
 
     if (!response.ok) {
       const errorData = await response.json();

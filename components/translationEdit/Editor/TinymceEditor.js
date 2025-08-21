@@ -14,7 +14,7 @@ const TinymceEditor = ({ initialValue, onEditorChange }) => {
         menubar: false,
         skin: "oxide",
         content_css: "default",
-        height: "calc(100vh - 130px)",
+        height: "calc(100vh - 166px)",
         style_formats: [
           { title: "헤딩 1", block: "h1" },
           { title: "헤딩 2", block: "h2" },
