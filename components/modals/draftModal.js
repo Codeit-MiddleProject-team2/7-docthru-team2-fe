@@ -24,7 +24,7 @@ export default function DraftModal({ drafts, onSelect, onClose }) {
                 key={draft.id}
                 onClick={() => onSelect(draft)}
               >
-                <p>{draft.content.substring(0, 20)}...</p>
+                <p>{draft.title.substring(0, 30)}...</p>
                 <span>{new Date(draft.updatedAt).toLocaleString()}</span>
               </li>
             ))}

@@ -33,6 +33,7 @@ function TranslationEditPage() {
   const { challengeId } = router.query;
 
   const [isLoading, setIsLoading] = useState(true);
+  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [initialEditorContent, setInitialEditorContent] = useState("");
   const [translationId, setTranslationId] = useState(null);
@@ -76,13 +77,14 @@ function TranslationEditPage() {
   };
 
   const handleSaveOrSubmit = async (isSubmitted) => {
-    if (!content.trim()) {
+    if (!title.trim() || !content.trim()) {
       return;
     }
     try {
       const dataToSave = {
         challengeId,
         userId,
+        title,
         content,
         isSubmitted,
       };
@@ -131,23 +133,28 @@ function TranslationEditPage() {
 
     const fetchInitialData = async () => {
       try {
-        const data = await getTranslationByChallengeId(challengeId);
+        const { translation, challenge } = await getTranslationByChallengeId(
+          challengeId
+        );
 
-        if (data) {
-          setChallengeUrl(data.challenge.url);
-          setIsSubmitted(data.isSubmitted);
+        if (translation) {
+          setIsSubmitted(translation.isSubmitted);
+          setTitle(translation.title);
 
-          if (data.isSubmitted) {
-            setContent(data.content);
-            setInitialEditorContent(data.content);
-            setTranslationId(data.id);
+          if (translation.isSubmitted) {
+            setContent(translation.content);
+            setInitialEditorContent(translation.content);
+            setTranslationId(translation.id);
           } else {
             // 임시 저장 데이터 유무 확인
-            //setDraftContent(data.content);
-            //setTranslationId(data.id);
             setShowDraftToast(true);
           }
+        } else {
+          setTitle(challenge.title);
         }
+        // url은 어떤경우라도 보여주기
+        setChallengeUrl(challenge.url);
+        console.log("title set:", challenge.title);
       } catch (error) {
         console.error("데이터 로딩 오류:", error);
       } finally {
@@ -159,7 +166,7 @@ function TranslationEditPage() {
     const { user: userData, accessToken: accessTk } = userSetting();
     setUser(userData);
     setAccessTk(accessTk);
-    setUserId(user.id);
+    setUserId(userData.id);
   }, [challengeId]);
 
   if (isLoading) {
@@ -181,6 +188,17 @@ function TranslationEditPage() {
           }
         />
         <div className={styles.editorArea}>
+          <div className={styles.title}>
+            <input
+              type="text"
+              name="title"
+              placeholder="제목을 입력해주세요."
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+            />
+          </div>
           <TinymceEditor
             initialValue={initialEditorContent}
             onEditorChange={handleEditorChange}
@@ -206,11 +224,20 @@ function TranslationEditPage() {
       )}
       {showDraftToast && (
         <div className={styles.draftToast}>
-          <div>임시 저장된 작업물이 있습니다. 불러오시겠어요?</div>
-          <div className={styles.toastBtnArea}>
-            <button onClick={handleLoadDrafts}>불러오기</button>
-            <button onClick={handleCancelLoad}>취소</button>
+          <div className={styles.textBox}>
+            <button onClick={handleCancelLoad} className={styles.btnClose}>
+              <Image
+                src={"/icons/ic_close.svg"}
+                width={24}
+                height={24}
+                alt="아이콘"
+              />
+            </button>
+            <p>임시 저장된 작업물이 있습니다. 불러오시겠어요?</p>
           </div>
+          <button onClick={handleLoadDrafts} className={styles.btnDraftList}>
+            불러오기
+          </button>
         </div>
       )}
       {isDraftModalOpen && (
