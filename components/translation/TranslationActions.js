@@ -3,11 +3,16 @@ import DeleteReasonModal from "./DeleteReasonModal";
 import Image from "next/image";
 import moreIcon from "@/public/icons/ic_more.svg";
 import styles from "./TranslationActions.module.css";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function TranslationActions({ translation, currentUser }) {
+  console.log(translation);
+  const challengeId = translation.challenge.id || ``;
   const isOwner = currentUser?.id === translation?.userId;
   const isAdmin = !!currentUser?.isAdmin;
 
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -68,17 +73,20 @@ export default function TranslationActions({ translation, currentUser }) {
           aria-label="번역 작업 액션 메뉴"
         >
           {isOwner && (
-            <button
-              type="button"
+            <div
               role="menuitem"
               className={styles.ta__item}
               onClick={() => {
                 setMenuOpen(false);
-                alert("수정하기 클릭");
+                window.sessionStorage.setItem(
+                  "translation",
+                  JSON.stringify(translation)
+                );
+                router.push(`/translationEdit/${challengeId}`);
               }}
             >
               수정하기
-            </button>
+            </div>
           )}
 
           <button

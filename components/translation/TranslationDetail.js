@@ -7,6 +7,7 @@ import FeedbackList from "./FeedbackList";
 import { getTranslationDetail } from "@/api/translation";
 import { userSetting } from "@/lib/useAuth"; // ← 팀원 util 그대로 사용
 import styles from "./TranslationDetail.module.css";
+import DOMPurify from "dompurify";
 
 function normalizeTier(rawTier, isAdmin = false) {
   const v = (rawTier ?? "").toString().toLowerCase();
@@ -46,6 +47,7 @@ function adaptTranslation(dto = {}) {
     likeCount: dto.likeCount ?? dto.likes ?? 0,
     createdAt: dto.createdAt ?? dto.submittedAt ?? "",
     content: dto.content ?? dto.body ?? "",
+    challenge: dto.challenge,
   };
 }
 
@@ -97,7 +99,12 @@ export default function TranslationDetail({ translationId }) {
         <TranslationInfo translation={translation} currentUser={currentUser} />
 
         <div className={styles.paper}>
-          <p className={styles.content}>{translation.content}</p>
+          <p
+            className="prose prose-lg max-w-none"
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(translation.content),
+            }}
+          ></p>
         </div>
 
         <div className={styles.line} />

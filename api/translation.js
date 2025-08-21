@@ -30,6 +30,19 @@ export const getAllTranslations = async (challengeId, page = 1) => {
 export const getTranslationDetail = async (id) => {
   try {
     const res = await axios.get(`${API_URL}/translation/${id}`);
+    console.log(res.data);
+    return res.data;
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+};
+
+export const getTranslationByIdAuth = async (id) => {
+  try {
+    const res = await axios.get(`${API_URL}/translation/auth/${id}`, {
+      headers: getAuthHeaders(),
+    });
     return res.data;
   } catch (e) {
     console.error(e);
