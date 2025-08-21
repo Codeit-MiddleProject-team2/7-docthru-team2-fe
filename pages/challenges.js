@@ -28,6 +28,10 @@ export default function ChallengesPage() {
   const [category, setCategory] = useState("");
   const [user, setUser] = useState([]);
   const [access, setAccess] = useState("");
+  const sortOptions = [
+    { value: "latest", label: "최신순" },
+    { value: "deadline", label: "마감일순" },
+  ];
 
   const router = useRouter();
 
@@ -109,15 +113,9 @@ export default function ChallengesPage() {
             selected={sortOption}
             onChange={handleSortChange}
           />
-          <SearchBar
-            value={searchQuery}
-            onChange={handleSearch}
-          />
+          <SearchBar value={searchQuery} onChange={handleSearch} />
         </div>
-        <Category
-          category={category}
-          setCategory={setCategory}
-        />
+        <Category category={category} setCategory={setCategory} />
       </div>
 
       <main className={styles.mainContent}>

@@ -8,13 +8,15 @@ function ParticipationListItem({ participation, rank }) {
   return (
     <div className={styles.participation}>
       <div className={styles.ranking}>
-        <Image
-          className={styles.crown}
-          src="/icons/ic_crown.svg"
-          width={16}
-          height={16}
-          alt="왕관"
-        />
+        {rank === 1 && (
+          <Image
+            className={styles.crown}
+            src="/icons/ic_crown.svg"
+            width={16}
+            height={16}
+            alt="왕관"
+          />
+        )}
         <div className={styles.rankingText}>{rank}</div>
       </div>
       <div className={styles.user}>
@@ -31,17 +33,27 @@ function ParticipationListItem({ participation, rank }) {
         </div>
       </div>
       <div className={styles.left}>
-        <div className={styles.hearts}>{participation.hearts_count}</div>
-        <div className={styles.goWork}>
+        <div className={styles.hearts}>
+          <Image
+            src={"/icons/ic_heart_filled.svg"}
+            width={16}
+            height={16}
+            alt="하트 아이콘"
+          />
+          {participation.hearts_count}
+        </div>
+        <div
+          className={styles.goWork}
+          onClick={() => {
+            router.push(`/translation/${participation.id}`);
+          }}
+        >
           <div className={styles.goWorkText}>작업물 보기</div>
           <Image
             src="/icons/ic_pagenaiton_arrow_right.svg"
             width={16}
             height={16}
             alt="작업물 보기"
-            onClick={() => {
-              router.push(`/translation/${participation.id}`);
-            }}
           />
         </div>
       </div>
@@ -49,12 +61,7 @@ function ParticipationListItem({ participation, rank }) {
   );
 }
 
-// 순위는 이후 백엔드까지 api를 작성해야 완성 가능
-// 우선 생각해둔 바는 백엔드에서 5개씩 끊어서 좋아요가 많은 순서로 정렬하여 전달해 준다.
-// 그러면 프론트에서는 (현재 페이지 - 1) * 5 + 현재 순서(1~5 사이)로 rank값을 계산
-// 당장은 임시로 id를 표기 중. 이후 수정 예정.
-
-export default function ParticipationList({ data }) {
+export default function ParticipationList({ data, page }) {
   if (data.length === 0) {
     return (
       <div className={styles.noParticipation}>
@@ -64,12 +71,15 @@ export default function ParticipationList({ data }) {
     );
   }
 
+  let num = 0;
+
   return data.map((participation) => {
+    num += 1;
     return (
       <ParticipationListItem
         key={`${participation.id}participation`}
         participation={participation}
-        rank={participation.id}
+        rank={(page - 1) * 5 + num}
       />
     );
   });

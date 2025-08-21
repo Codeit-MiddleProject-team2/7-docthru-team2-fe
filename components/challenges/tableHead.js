@@ -5,7 +5,6 @@ export default function TableHead({}) {
     <>
       <div className={styles.tableHead}>
         <div className={styles.row}>
-          <div className={`${styles.column} ${styles.no}`}>No.</div>
           <div className={`${styles.column} ${styles.category}`}>분야</div>
           <div className={`${styles.column} ${styles.type}`}>카테고리</div>
           <div className={`${styles.column} ${styles.title}`}>챌린지 제목</div>

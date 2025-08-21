@@ -16,6 +16,7 @@ import {
 import CustomBtnLong from "@/components/CustomBtnLong";
 import BigLogo from "@/components/login/BigLogo";
 import { postSignup } from "@/api/login";
+import { userSetting } from "@/lib/useAuth";
 
 function SignupPage() {
   const emailObject = useEmail();
@@ -36,6 +37,14 @@ function SignupPage() {
     userLogin(data);
     router.push("/challenges");
   };
+
+  useEffect(() => {
+    const { accessToken } = userSetting();
+
+    if (accessToken) {
+      router.push("/challenges");
+    }
+  }, []);
 
   return (
     <div className={styles.signup}>

@@ -2,6 +2,15 @@ import Image from "next/image";
 import styles from "./Pagenation.module.css";
 
 export default function Pagenation({ page, maxPage, setPage }) {
+  const leftArrow =
+    page > 1
+      ? "/icons/ic_pagenaiton_arrow_left.svg"
+      : "/icons/ic_arrow_left_blur.svg";
+  const rightArrow =
+    page < maxPage
+      ? "/icons/ic_pagenaiton_arrow_right.svg"
+      : "/icons/ic_arrow_right_blur.svg";
+
   return (
     <div className={styles.container}>
       <div className={styles.pageBox}>
@@ -17,7 +26,7 @@ export default function Pagenation({ page, maxPage, setPage }) {
               setPage(page - 1);
             }
           }}
-          src="/icons/ic_pagenaiton_arrow_left.svg"
+          src={leftArrow}
           width={32}
           height={32}
           alt="페이지 왼쪽 이동"
@@ -28,7 +37,7 @@ export default function Pagenation({ page, maxPage, setPage }) {
               setPage(page + 1);
             }
           }}
-          src="/icons/ic_pagenaiton_arrow_right.svg"
+          src={rightArrow}
           width={32}
           height={32}
           alt="페이지 오른쪽 이동"

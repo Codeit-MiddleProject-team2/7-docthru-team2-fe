@@ -12,6 +12,12 @@
   padding: 16px 23px 24px 24px;
 }
 
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .current {
   width: fit-content;
   height: fit-content;

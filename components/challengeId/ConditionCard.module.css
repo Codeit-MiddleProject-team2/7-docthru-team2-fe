@@ -1,6 +1,7 @@
 .finished {
   display: flex;
   flex-direction: row;
+  width: fit-content;
   padding: 8px 12px;
   gap: 4px;
   align-items: center;
@@ -21,6 +22,7 @@
 .full {
   display: flex;
   flex-direction: row;
+  width: fit-content;
   padding: 8px 12px;
   gap: 4px;
   align-items: center;
