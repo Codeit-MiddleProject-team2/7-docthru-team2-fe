@@ -16,6 +16,7 @@ function formatDate(dateString) {
 }
 
 export default function TranslationInfo({ translation, currentUser }) {
+  console.log(translation);
   // 작성자 객체: /translation/:id 응답에 user가 있으면 우선 사용
   const author = translation?.user ?? {
     id: translation?.userId,
@@ -54,13 +55,13 @@ export default function TranslationInfo({ translation, currentUser }) {
         <ChipBadge
           kind="type"
           category={undefined}
-          value={translation.field}
-          alt={translation.field}
+          value={translation.challenge.category}
+          alt={translation.challenge.category}
         />
         <ChipBadge
           kind="category"
-          value={translation.documentType}
-          alt={translation.documentType}
+          value={translation.challenge.type}
+          alt={translation.challenge.type}
         />
       </div>
 
