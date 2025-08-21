@@ -46,6 +46,7 @@ function adaptTranslation(dto = {}) {
     likeCount: dto.likeCount ?? dto.likes ?? 0,
     createdAt: dto.createdAt ?? dto.submittedAt ?? "",
     content: dto.content ?? dto.body ?? "",
+    challenge: dto.challenge,
   };
 }
 

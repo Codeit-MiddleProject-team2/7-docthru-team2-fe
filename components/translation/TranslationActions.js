@@ -6,8 +6,8 @@ import styles from "./TranslationActions.module.css";
 import Link from "next/link";
 
 export default function TranslationActions({ translation, currentUser }) {
-  const { challengeId } = translation || {};
-  console.log(challengeId, translation);
+  console.log(translation);
+  const challengeId = translation.challenge.id || ``;
   const isOwner = currentUser?.id === translation?.userId;
   const isAdmin = !!currentUser?.isAdmin;
 

@@ -37,9 +37,6 @@ export default function TranslationInfo({ translation, currentUser }) {
       ? translation.likeCount
       : undefined;
 
-  useEffect(() => {
-    console.log(translation);
-  }, [translation]);
   return (
     <div className={styles.wrap}>
       <div className={styles.line} />
