@@ -39,7 +39,7 @@ export default function ChallengeAcceptedSection({ data, isFinished }) {
           <ConditionCard isFinished={isFinished} isFull={isFull} />
           <div className={styles.title}>
             <div>{data.title} </div>
-            <DropOptions />
+            <DropOptions data={data} />
           </div>
           <div className={styles.tags}>
             <div className={styles.category}>{data.category} </div>

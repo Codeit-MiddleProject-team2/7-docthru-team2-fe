@@ -9,6 +9,7 @@ import { userLogin } from "@/lib/useAuth";
 import { useEmail, usePassword } from "@/lib/useEmailPassword";
 import BigLogo from "@/components/login/BigLogo";
 import { postLogin } from "@/api/login";
+import { userSetting } from "@/lib/useAuth";
 
 function LoginPage() {
   const emailObject = useEmail();
@@ -19,10 +20,17 @@ function LoginPage() {
 
   const onLogin = async () => {
     const data = await postLogin(emailObject.element, passwordObject.element);
-    console.log(data);
     userLogin(data);
     router.push("/challenges");
   };
+
+  useEffect(() => {
+    const { accessToken } = userSetting();
+
+    if (accessToken) {
+      router.push("/challenges");
+    }
+  }, []);
 
   return (
     <div className={styles.login}>

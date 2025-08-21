@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { userSetting } from "@/lib/useAuth";
 import { useRouter } from "next/router";
 import { formatDoctype } from "@/utils/formatDoctype";
+import { formatDate } from "@/utils/formatDate";
 
 export default function ChallengesApplyPage() {
   const titleObject = useTitle();
@@ -53,6 +54,7 @@ export default function ChallengesApplyPage() {
   };
 
   useEffect(() => {
+    // 액세스토큰 검사
     const { user, accessToken } = userSetting();
 
     if (!accessToken) {
@@ -61,12 +63,27 @@ export default function ChallengesApplyPage() {
 
     setUser(user);
     setAccess(accessToken);
+
+    // 수정하기를 통해서 들어온 경우, 초기값 세팅
+    const origin = JSON.parse(window.sessionStorage.getItem("challenge"));
+    if (origin) {
+      titleObject.setElement(origin.title);
+      urlObject.setElement(origin.url);
+      setCategory(origin.category);
+      setType(formatDoctype(origin.type));
+      dueDateObject.setElement(origin.dueDate.split("T")[0]);
+      maximumObject.setElement(origin.maximum);
+      descriptionObject.setElement(origin.description);
+    }
+
     if (
       objectList.every((obj) => obj.checkValid()) &&
       formatDoctype(type) &&
       Boolean(category)
     ) {
       setIsValid(true);
+    } else {
+      setIsValid(false);
     }
   }, [...objectList.map((obj) => obj.element), type, category]);
 

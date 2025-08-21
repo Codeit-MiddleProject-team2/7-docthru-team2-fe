@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from "./DropOptions.module.css";
 import { useRouter } from "next/router";
 
-export default function DropOptions() {
+export default function DropOptions({ data }) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -26,6 +26,7 @@ export default function DropOptions() {
           <div
             className={styles.update}
             onClick={() => {
+              window.sessionStorage.setItem("challenge", JSON.stringify(data));
               router.push(`/challengeApply`);
             }}
           >

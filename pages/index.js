@@ -2,9 +2,19 @@ import Image from "next/image";
 import styles from "@/styles/Home.module.css";
 import CustomBtnMini from "@/components/CustomBtnMini";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { userSetting } from "@/lib/useAuth";
 
 export default function Home() {
   const router = useRouter();
+
+  useEffect(() => {
+    const { accessToken } = userSetting();
+
+    if (accessToken) {
+      router.push("/challenges");
+    }
+  }, []);
 
   return (
     <div className={styles.background}>
